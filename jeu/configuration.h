@@ -1,0 +1,30 @@
+#ifndef CONFIGURATION_H_INCLUDED
+#define CONFIGURATION_H_INCLUDED
+
+
+#define LARGEUR_FENETRE (320*2)
+#define HAUTEUR_FENETRE (240*2)
+
+#define TITRE_APPLICATION "Mon premier jeu vidéo"
+
+#define PRET 0.1
+#define LOIN 1000.0
+#define ANGLE_VISION 70.0
+
+#define RADIANS_PAR_DEGRES 0.0174532925199
+#define HAUTEUR_OEIL_PERSONNAGE 0.8
+
+
+// Fréquence de l'affichage des images de l'animation de l'arme
+#define FREQUENCE_IMAGE_ANIMATION_ARME 50
+
+
+#define HAUTEUR_MURS 1
+
+#define VITESSE_DEPLACEMENT_PERSONNAGE 2.0f
+
+#define VITESSE_DEPLACEMENT_BULLET 2.0f
+
+
+#endif // CONFIGURATION_H_INCLUDED
+
