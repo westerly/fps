@@ -13,7 +13,7 @@ Scene::Scene()
 
     this->skybox = new Objet3DStatique("skybox.o3s.m3s");
     this->carte = new Carte("carte.bmp");
-    this->personnage = new Personnage(0, 0, 0, 0, 0);
+    this->personnage = new Personnage(3, 3, 0, 0, 0);
 
 	this->animationHandler = new animator();
 	this->animationHandler->armePersonnage = this->personnage->gun;

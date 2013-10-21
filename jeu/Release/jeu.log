@@ -1,0 +1,59 @@
+﻿La génération a démarré 21/10/2013 14:23:51.
+     1>Projet "C:\Projets\Jeux\fps\visual studio\jeu\jeu\jeu.vcxproj" sur le nœud 2 (build cible(s)).
+     1>InitializeBuildStatus:
+         Création de "Release\jeu.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MDd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Objet3DDeformable.cpp animator.cpp arme.cpp bullet.cpp carte.cpp conteneurTextures.cpp controleur.cpp gameEventHandler.cpp jeu.cpp main.cpp menu.cpp objet3DStatique.cpp personnage.cpp scene.cpp
+         Objet3DDeformable.cpp
+         animator.cpp
+         arme.cpp
+         bullet.cpp
+         carte.cpp
+     1>carte.cpp(260): warning C4018: '<' : incompatibilité signed/unsigned
+         conteneurTextures.cpp
+         controleur.cpp
+     1>controleur.cpp(46): warning C4018: '<' : incompatibilité signed/unsigned
+         gameEventHandler.cpp
+         jeu.cpp
+         main.cpp
+         menu.cpp
+         objet3DStatique.cpp
+     1>objet3DStatique.cpp(91): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>objet3DStatique.cpp(118): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(325) : voir la déclaration de 'sscanf'
+         personnage.cpp
+         scene.cpp
+       ResourceCompile:
+         Toutes les sorties sont à jour.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projets\Jeux\fps\visual studio\jeu\Release\jeu.exe" /NOLOGO SDL.lib SDLmain.lib glu32.lib glut32.lib opengl32.lib SDL_image.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\jeu.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Projets\Jeux\fps\visual studio\jeu\Release\jeu.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projets\Jeux\fps\visual studio\jeu\Release\jeu.lib" /MACHINE:X86 Release\jeu.res
+         Release\animator.obj
+         Release\arme.obj
+         Release\bullet.obj
+         Release\carte.obj
+         Release\conteneurTextures.obj
+         Release\controleur.obj
+         Release\gameEventHandler.obj
+         Release\init.obj
+         Release\jeu.obj
+         Release\main.obj
+         Release\menu.obj
+         Release\Objet3DDeformable.obj
+         Release\objet3DStatique.obj
+         Release\personnage.obj
+         Release\scene.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: conflit entre la bibliothèque par défaut 'msvcrt.lib' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+         Génération de code en cours
+         Fin de la génération du code
+         jeu.vcxproj -> C:\Projets\Jeux\fps\visual studio\jeu\Release\jeu.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Projets\Jeux\fps\visual studio\jeu\Release\jeu.exe;#1" /manifest Release\jeu.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Suppression du fichier "Release\jeu.unsuccessfulbuild".
+         Mise à jour de l'horodatage "Release\jeu.lastbuildstate".
+     1>Génération du projet "C:\Projets\Jeux\fps\visual studio\jeu\jeu\jeu.vcxproj" terminée (build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:10.96

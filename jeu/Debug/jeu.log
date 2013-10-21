@@ -1,10 +1,26 @@
-﻿La génération a démarré 01/07/2013 23:48:32.
+﻿La génération a démarré 21/10/2013 13:59:13.
      1>Projet "C:\Projets\Jeux\fps\visual studio\jeu\jeu\jeu.vcxproj" sur le nœud 2 (build cible(s)).
      1>InitializeBuildStatus:
          Création de "Debug\jeu.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt bullet.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Objet3DDeformable.cpp animator.cpp arme.cpp bullet.cpp carte.cpp conteneurTextures.cpp controleur.cpp gameEventHandler.cpp jeu.cpp main.cpp menu.cpp objet3DStatique.cpp personnage.cpp scene.cpp
+         carte.cpp
+     1>c:\projets\jeux\fps\visual studio\jeu\jeu\carte.cpp(260): warning C4018: '<' : incompatibilité signed/unsigned
+         Génération de code en cours...
+         Ignoré... (aucune modification pertinente détectée)
+         scene.cpp
+         personnage.cpp
+         objet3DStatique.cpp
+         menu.cpp
+         main.cpp
+         jeu.cpp
+         gameEventHandler.cpp
+         controleur.cpp
+         conteneurTextures.cpp
          bullet.cpp
+         arme.cpp
+         animator.cpp
+         Objet3DDeformable.cpp
        ResourceCompile:
          Toutes les sorties sont à jour.
        Link:
@@ -36,4 +52,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:08.69
+Temps écoulé 00:00:01.65

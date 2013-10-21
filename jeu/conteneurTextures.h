@@ -11,7 +11,7 @@
 #include < GL/glut.h >
 
 
-class ConteneurTextures
+class ConteneurTextures 
 {
     private:
         struct Texture
