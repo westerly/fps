@@ -8,6 +8,7 @@
 #include "types.h"
 
 #include "conteneurTextures.h"
+#include "objloader.h"
 
 class Objet3DStatique
 {
@@ -36,6 +37,7 @@ class Objet3DStatique
         std::string nom;
 
     public:
+		
         Objet3DStatique(std::string nomFichier);
         ~Objet3DStatique();
         void dessiner();

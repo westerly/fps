@@ -1,3 +1,6 @@
+#ifndef OBJET3DDEFORMABLE_H_INCLUDED
+#define OBJET3DDEFORMABLE_H_INCLUDED
+
 #include <string>
 #include <set>
 #include "types.h"
@@ -46,3 +49,4 @@ class Objet3DDeformable
 
 };
 
+#endif

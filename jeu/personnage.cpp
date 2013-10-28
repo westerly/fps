@@ -307,7 +307,6 @@ void Personnage::dessiner()
 {
 	// On mémorise le repère courant avant d'effectuer la RST
     glPushMatrix();
-
 		
         // Positionne l'objet en lieu de dessin
 		//glTranslatef(this->positionX  - this->rayon * cos(-this->angleHorizontal * RADIANS_PAR_DEGRES),

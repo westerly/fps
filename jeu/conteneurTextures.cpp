@@ -57,7 +57,6 @@ void ConteneurTextures::chargerTexture(const char* nomFichier, GLuint* texture, 
     surface = IMG_Load(nomFichier);
 
 
-
 	// créer un flux de sortie
 	std::ostringstream oss;
 	// écrire un nombre dans le flux

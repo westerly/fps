@@ -6,7 +6,9 @@
 #include <map>
 #include <string>
 #include "objet3DStatique.h"
+#include "Objet3DDeformableBlender.h"
 #include "carte.h"
+#include "objloader.h"
 
 #include "types.h"
 #include "configuration.h"
@@ -33,6 +35,7 @@ class Scene
         uint32 tempsDernierPas;
 
         Objet3DStatique* skybox;
+		Objet3DDeformableBlender * table;
         Carte* carte;
 
         void gererEvenements(void);

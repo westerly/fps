@@ -62,12 +62,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL.lib;SDLmain.lib;glu32.lib;glut32.lib;opengl32.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -87,7 +87,9 @@
     <ClInclude Include="jeu.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Objet3DDeformable.h" />
+    <ClInclude Include="Objet3DDeformableBlender.h" />
     <ClInclude Include="objet3DStatique.h" />
+    <ClInclude Include="objloader.h" />
     <ClInclude Include="personnage.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />
@@ -106,7 +108,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Objet3DDeformable.cpp" />
+    <ClCompile Include="Objet3DDeformableBlender.cpp" />
     <ClCompile Include="objet3DStatique.cpp" />
+    <ClCompile Include="objloader.cpp" />
     <ClCompile Include="personnage.cpp" />
     <ClCompile Include="scene.cpp" />
   </ItemGroup>

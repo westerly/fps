@@ -15,6 +15,8 @@ Scene::Scene()
     this->carte = new Carte("carte.bmp");
     this->personnage = new Personnage(3, 3, 0, 0, 0);
 
+	this->table = new Objet3DDeformableBlender("D:/Modeles 3D/table.obj",0,0,0,0,0);
+
 	this->animationHandler = new animator();
 	this->animationHandler->armePersonnage = this->personnage->gun;
 
@@ -41,6 +43,7 @@ Scene::~Scene()
 	delete this->personnage;
 	delete this->eventHandler;
 	delete this->animationHandler;
+	delete this->table;
 }
 
 void Scene::executer()
@@ -166,7 +169,7 @@ void Scene::animer(void)
 void Scene::dessiner(void)
 {
     // Vidage de l'écran
-    glClear(/*GL_COLOR_BUFFER_BIT |*/ GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Place la camera
     glMatrixMode( GL_MODELVIEW );
@@ -174,6 +177,9 @@ void Scene::dessiner(void)
 	
 	//gluLookAt(0,0,3,0,0,1,-1,0,0);
     this->personnage->regarder();
+
+
+	this->table->dessiner();
 
     // Dessin de la skybox
     this->skybox->dessiner();

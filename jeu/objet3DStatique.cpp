@@ -12,6 +12,8 @@ Objet3DStatique::Objet3DStatique(std::string nomFichier)
     bool8 creationListeAffichage = FALSE;
     std::string textureCourante;
 
+	
+	
     // Ouverture du fichier
     std::fstream fichier(nomFichier.c_str(), std::fstream::in);
 

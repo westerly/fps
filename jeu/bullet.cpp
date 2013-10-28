@@ -278,30 +278,28 @@ void Bullet::handleColisionWithWall(float16 & positionCibleX, float16 & position
 
 void Bullet::dessiner()
 {
-
+	glDisable(GL_TEXTURE_2D);
 	//New quadric object
+	//glDisable (GL_LIGHTING);
 	GLUquadric * quadric = gluNewQuadric();
 	//Turn on the texture mode for quadrics
-	gluQuadricTexture(quadric, true);
+	//gluQuadricTexture(quadric, false);
 
 	// On mémorise le repère courant avant d'effectuer la RST
     glPushMatrix();
-
+		
 		glTranslatef(this->positionX,
         this->positionY,
         this->positionZ);
 
-
 		glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
 		glRotatef(this->angleVertical, 0.0, 1.0, 0.0);
-
+		//glColor3f(0.0, 1.0, 1.0);
+		gluQuadricDrawStyle(quadric, GLU_FILL );
 
 		gluSphere(quadric, this->rayon, 20, 20);
 
-		glEnd();
-
-
     // Restoration du repère d'origine
     glPopMatrix();
-
+	
 }

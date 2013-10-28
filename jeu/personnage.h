@@ -13,9 +13,6 @@ class Personnage : public Objet3DDeformable
 
         float16 rayon;
 
-		
-        
-
     public:
 
 		// Pour l'instant qu'une arme pour le perso et c'est un gun
