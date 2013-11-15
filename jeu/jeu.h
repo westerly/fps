@@ -4,7 +4,7 @@
 #include "configuration.h"
 #include "SDL.h"
 
-#include < GL/glut.h >
+#include < glut.h >
 
 // Classe mère du jeu.
 class Jeu

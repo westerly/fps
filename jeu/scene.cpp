@@ -13,9 +13,11 @@ Scene::Scene()
 
     this->skybox = new Objet3DStatique("skybox.o3s.m3s");
     this->carte = new Carte("carte.bmp");
-    this->personnage = new Personnage(3, 3, 0, 0, 0);
+    this->personnage = new Personnage(8, 3, 0, 0, 0);
 
-	this->table = new Objet3DDeformableBlender("D:/Modeles 3D/table.obj",0,0,0,0,0);
+	//this->table = new Objet3DDeformableBlender("D:\Modeles 3D\Colt_anaconda\colt.obj",3,3,4,0,0);
+
+	this->physicHandler = new physicEngine();
 
 	this->animationHandler = new animator();
 	this->animationHandler->armePersonnage = this->personnage->gun;
@@ -31,8 +33,12 @@ Scene::Scene()
 	// Le gestionnaire d'évènements écoute l'objet personnage
 	this->eventHandler->hookEvent(this->personnage);
 
-	
+	this->targetTest = new target(4, 4, 15, 1, 1, 3);
 
+	// Ajouter les objets composants la cible au monde physique
+	this->physicHandler->addRigidBody(this->targetTest);
+	// Ajouter le sol au monde physique
+	this->physicHandler->addRigidBody(this->carte->getBody_Sol());
 
 }
 
@@ -43,7 +49,9 @@ Scene::~Scene()
 	delete this->personnage;
 	delete this->eventHandler;
 	delete this->animationHandler;
-	delete this->table;
+	//delete this->table;
+	delete this->targetTest;
+	delete this->physicHandler;
 }
 
 void Scene::executer()
@@ -139,6 +147,12 @@ void Scene::animer(void)
 
     delete[] touches;
 
+	// Update dynamics
+	if (this->physicHandler->getWorld())
+	{
+		this->physicHandler->getWorld()->stepSimulation(this->tempsDernierPas);
+	}
+
     // Si un deplacement est demande
     if (deplacement)
     {
@@ -179,7 +193,7 @@ void Scene::dessiner(void)
     this->personnage->regarder();
 
 
-	this->table->dessiner();
+	//this->table->dessiner();
 
     // Dessin de la skybox
     this->skybox->dessiner();
@@ -192,6 +206,9 @@ void Scene::dessiner(void)
 
 	//Dessin du personnage
     this->personnage->dessiner();
+
+	// Dessin de la cible test
+	this->targetTest->dessiner();
 
 
 	// Dessin des animations

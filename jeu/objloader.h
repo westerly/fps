@@ -4,7 +4,7 @@
 //so other people can see the tutorial
 //this file is the objloader.h
 #include <SDL.h>
-#include < GL/glut.h >
+#include < glut.h >
 #include <cstdlib>
 #include <vector>
 #include <string>

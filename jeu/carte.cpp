@@ -55,6 +55,25 @@ Carte::Carte(const char* nomFichier)
 
 
         SDL_FreeSurface(imageCarte);
+
+
+		// On déclare la forme du sol et on l'initialise en tant que boite (largeur, hauteur, épaisseur = 1)
+		btCollisionShape* shape = new btBoxShape(btVector3(this->largeurCarte, this->hauteurCarte, 1));
+
+		// Position du sol
+		transform.setIdentity();
+		// On place le sol à z = -1 pour que le dessus de la boite représentant le sol arrive en z = 0 (car l'épaisseur de la boite est à 1)
+		transform.setOrigin(btVector3(0, 0, -1));
+
+		// Le premier paramètre est la masse, il vaut 0, le fait que le poids de cet objet soit zéro le rends statique
+		shape->calculateLocalInertia(0, btVector3(0, 0, 0));
+
+		// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+		motionState = new btDefaultMotionState(transform);
+		//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+		btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(0, motionState, shape, btVector3(0, 0, 0));
+		//On construis le corps de la boite à partir de l'information regroupée
+		body_sol = new btRigidBody(myBoxRigidBodyConstructionInfo);
     }
 
     // Erreur de chargement
@@ -69,6 +88,12 @@ Carte::~Carte()
     delete this->carte;
     this->conteneurTextures.supprimer("mur.bmp");
     this->conteneurTextures.supprimer("herbe.bmp");
+
+	delete this->shape;
+	delete this->motionState;
+
+	// On ne libère pas l'attribut body_sol du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
+
 }
 
 void Carte::dessiner()
@@ -270,4 +295,8 @@ void Carte::entourage(sint32 x, sint32 y, sint32 z, bool8 entourage[8])
 
 	}
 
+}
+
+btRigidBody * Carte::getBody_Sol(){
+	return this->body_sol;
 }

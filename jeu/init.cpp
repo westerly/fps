@@ -2,7 +2,7 @@
 #include "configuration.h"
 #include "SDL.h"
 
-#include < GL/glut.h >
+#include < glut.h >
 
 
 void initSDL(void)

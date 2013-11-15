@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,12 +19,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -37,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
@@ -51,10 +53,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;/NODEFAULTLIB:msvcrt.lib;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;glu32.lib;glut32.lib;opengl32.lib;SDL_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;glu32.lib;glut32.lib;opengl32.lib;SDL_image.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -77,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="animator.h" />
     <ClInclude Include="arme.h" />
+    <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="carte.h" />
     <ClInclude Include="configuration.h" />
@@ -91,13 +95,16 @@
     <ClInclude Include="objet3DStatique.h" />
     <ClInclude Include="objloader.h" />
     <ClInclude Include="personnage.h" />
+    <ClInclude Include="physicEngine.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="target.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="arme.cpp" />
+    <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="carte.cpp" />
     <ClCompile Include="conteneurTextures.cpp" />
@@ -112,7 +119,9 @@
     <ClCompile Include="objet3DStatique.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="personnage.cpp" />
+    <ClCompile Include="physicEngine.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="target.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="carte.bmp" />

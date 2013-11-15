@@ -14,8 +14,5 @@ Ok je passeAttention : la largeur de fond_menu.bmp n'est pas une puissance de 2
  Attention : la hauteur de personnage\gun_shoot5.png n'est pas une puissance de 2
  Attention : la largeur de personnage\gun_shoot6.png n'est pas une puissance de 2
  Attention : la hauteur de personnage\gun_shoot6.png n'est pas une puissance de 2
- Attention : la largeur de bullet\animation_destruction_bullet_1.png n'est pas une puissance de 2
- Attention : la hauteur de bullet\animation_destruction_bullet_1.png n'est pas une puissance de 2
- Attention : la largeur de bullet\animation_destruction_bullet_2.png n'est pas une puissance de 2
- Attention : la hauteur de bullet\animation_destruction_bullet_2.png n'est pas une puissance de 2
- 
+ File : D:/Modeles 3D/1911.mtl
+1708 2195 3276 0

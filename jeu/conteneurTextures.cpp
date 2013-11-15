@@ -71,10 +71,7 @@ void ConteneurTextures::chargerTexture(const char* nomFichier, GLuint* texture, 
 		SDL_SetColorKey( surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, colorkey );	
 	}
 	
-
 	surface = SDL_DisplayFormatAlpha(surface);
-
-	
 
     if (NULL != surface)
     {

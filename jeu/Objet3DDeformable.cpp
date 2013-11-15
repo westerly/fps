@@ -1,7 +1,7 @@
 #include "Objet3DDeformable.h"
 
 
-Objet3DDeformable::Objet3DDeformable(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical)
+Objet3DDeformable::Objet3DDeformable(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass)
 {
 	 // Initialisation des attributs
     this->positionX = positionX;
@@ -9,6 +9,8 @@ Objet3DDeformable::Objet3DDeformable(float16 positionX, float16 positionY, float
     this->positionZ = positionZ;
     this->angleHorizontal = angleHorizontal;
 	this->angleVertical = angleVertical;
+	//this->localInertia = localInertia;
+	this->mass = mass;
 
 }
 
@@ -40,5 +42,9 @@ void Objet3DDeformable::ajouterTexture(std::string nomFichierTexture)
 void Objet3DDeformable::dessiner()
 {
    
+}
+
+btRigidBody * Objet3DDeformable::getBody(){
+	return this->body;
 }
 

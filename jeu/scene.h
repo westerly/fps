@@ -18,9 +18,12 @@
 #include "personnage.h"
 #include "carte.h"
 #include "animator.h"
+#include "target.h"
 
 #include "gameEventHandler.h"
 #include "controleur.h"
+
+#include "physicEngine.h"
 
 //#include "bullet.h"
 
@@ -52,6 +55,11 @@ class Scene
 		GameEventHandler * eventHandler;
 
 		Controleur * controleur;
+
+		// test target
+		target * targetTest;
+
+		physicEngine * physicHandler;
 
 		void initOpenGL(void);
 
