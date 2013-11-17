@@ -9,6 +9,11 @@
 // Classe mère du jeu.
 class Jeu
 {
+
+	private:
+		SDL_Window *screen;
+		SDL_Renderer *renderer;
+		SDL_GLContext  contexteOpenGL;
     public:
         Jeu();
         ~Jeu();

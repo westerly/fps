@@ -16,8 +16,8 @@ class target
 	int number_objets_base;
 
 	// Largeur et hauteur des objets qui composent la cible
-	int largeur;
-	int hauteur;
+	float largeur;
+	float hauteur;
 
 	// Position de la cible (position du premier élément de la base)
 	float16 positionX;
@@ -26,7 +26,7 @@ class target
 
 
 public:
-	target(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, int largeur = 1, int hauteur = 1, int nbr_obj_base = 3);
+	target(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float largeur = 1, float hauteur = 1, int nbr_obj_base = 3);
 	virtual ~target();
 
 	void dessiner();

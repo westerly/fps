@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Projets\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\include;C:\Projets\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Projets\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\lib\x86;C:\Projets\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
@@ -57,7 +57,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;glu32.lib;glut32.lib;opengl32.lib;SDL_image.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glut32.lib;opengl32.lib;SDL2_image.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -87,7 +87,6 @@
     <ClInclude Include="conteneurTextures.h" />
     <ClInclude Include="controleur.h" />
     <ClInclude Include="gameEventHandler.h" />
-    <ClInclude Include="init.h" />
     <ClInclude Include="jeu.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Objet3DDeformable.h" />
@@ -110,7 +109,6 @@
     <ClCompile Include="conteneurTextures.cpp" />
     <ClCompile Include="controleur.cpp" />
     <ClCompile Include="gameEventHandler.cpp" />
-    <ClCompile Include="init.cpp" />
     <ClCompile Include="jeu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />

@@ -7,8 +7,9 @@
 
 #include <string>
 
-#include "SDL_image.h"
+#include "SDL.h"
 #include < glut.h >
+#include "SDL_image.h"
 
 
 class ConteneurTextures 

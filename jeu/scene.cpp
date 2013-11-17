@@ -1,12 +1,17 @@
 #include "scene.h"
 
-Scene::Scene()
+Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteOpenGL)
 {
+	this->screen = screen;
+	this->renderer = renderer;
+	this->contexteOpenGL = contexteOpenGL;
+
     // Maintien de la souris dans la fenetre
-    SDL_WM_GrabInput(SDL_GRAB_ON);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+    // Correctif SDL 2.0 SDL_WM_GrabInput(SDL_GRAB_ON);
 
     // La souris est au centre de l'ecran
-    SDL_WarpMouse( (LARGEUR_FENETRE/2), (HAUTEUR_FENETRE/2) );
+    SDL_WarpMouseInWindow(this->screen, (LARGEUR_FENETRE/2), (HAUTEUR_FENETRE/2) );
 
     // La souris est invisible
     SDL_ShowCursor(FALSE);
@@ -33,7 +38,7 @@ Scene::Scene()
 	// Le gestionnaire d'évènements écoute l'objet personnage
 	this->eventHandler->hookEvent(this->personnage);
 
-	this->targetTest = new target(4, 4, 15, 1, 1, 3);
+	this->targetTest = new target(4, 4, 0, 1, 1, 3);
 
 	// Ajouter les objets composants la cible au monde physique
 	this->physicHandler->addRigidBody(this->targetTest);
@@ -66,6 +71,11 @@ void Scene::executer()
 
     this->continuer = TRUE;
 
+	// Variable pour compter le nombre de fps
+	int framesPerSecond = 0;
+	int lastFramePerSecond = 0;
+	uint32 cptMilliSeconde = 0;
+
     while(this->continuer)
     {
         gererEvenements();
@@ -76,54 +86,93 @@ void Scene::executer()
         // On calcule le temps de construction de la derniere image
         this->tempsDernierPas = SDL_GetTicks() - heureDernierPas;
         heureDernierPas += this->tempsDernierPas;
+
+		// On compte le nombre de frames par seconde et on l'affiche
+		
+		cptMilliSeconde = cptMilliSeconde + this->tempsDernierPas;
+		framesPerSecond++;
+		if (cptMilliSeconde >= 1000){
+			//printf("\nCurrent Frames Per Second: %d\n\n", (int)framesPerSecond);
+			lastFramePerSecond = framesPerSecond;
+			framesPerSecond = 0;
+			cptMilliSeconde = 0;
+		}
+		dessinerFPS(lastFramePerSecond);
+
     }
 }
+
+void Scene::dessinerFPS(int fps){
+	if (TTF_Init() == -1)
+	{
+	    fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+	}
+	else{
+		/* Chargement de la police */
+		this->police = TTF_OpenFont("polices/arial.ttf", 65);
+		SDL_Color couleurNoire = { 0, 0, 0 };
+		/* Écriture du texte dans la SDL_Surface texte en mode Blended (optimal) */
+		SDL_Surface *surface = TTF_RenderText_Blended(police, "Salut les Zér0s !", couleurNoire);
+		this->texte = SDL_CreateTextureFromSurface(this->renderer, surface);
+		SDL_FreeSurface(surface);
+		SDL_Rect position;
+		position.x = 60;
+		position.y = 370;
+		// SDL 2.0 SDL_BlitSurface(texte, NULL, this->screen, &position); /* Blit du texte */
+		// Flip(this->ecran);
+		//SDL_RenderClear(this->renderer);
+		SDL_RenderCopy(this->renderer, this->texte, NULL, &position);
+		SDL_RenderPresent(this->renderer);
+	}
+
+}
+
 
 void Scene::animer(void)
 {
     // Lecture de l'état des touches
     int nombreDeTouches;
-    Uint8* pTouches = SDL_GetKeyState(&nombreDeTouches);
+	const Uint8* pTouches = SDL_GetKeyboardState(&nombreDeTouches);
     Uint8* touches = new Uint8[nombreDeTouches];
     memcpy(touches, pTouches, nombreDeTouches);
 
     // Evite les deplacements absurdes
-    if (touches[SDLK_w] == touches[SDLK_s]) // Avancer et reculer
+	if (touches[SDL_SCANCODE_W] == touches[SDL_SCANCODE_S]) // Avancer et reculer
     {
-        touches[SDLK_w] = 0u; // Ici, on travaille sur
-        touches[SDLK_s] = 0u; // une copie des touches
+		touches[SDL_SCANCODE_W] = 0u; // Ici, on travaille sur
+		touches[SDL_SCANCODE_S] = 0u; // une copie des touches
     }
-    if (touches[SDLK_a] == touches[SDLK_d]) // Gauche et droite
+	if (touches[SDL_SCANCODE_A] == touches[SDL_SCANCODE_D]) // Gauche et droite
     {
-        touches[SDLK_a] = 0u;
-        touches[SDLK_d] = 0u;
+		touches[SDL_SCANCODE_A] = 0u;
+		touches[SDL_SCANCODE_D] = 0u;
     }
 
     float16 direction;
     bool8 deplacement = FALSE;
 
-    if (touches[SDLK_w]) // Touche Z
+	if (touches[SDL_SCANCODE_W]) // Touche Z
     {
         // Avancer
 
         deplacement = TRUE;
 
         // En diagonale
-        if (touches[SDLK_a]) direction = 45.0;
-        else if (touches[SDLK_d]) direction = -45.0;
+		if (touches[SDL_SCANCODE_A]) direction = 45.0;
+		else if (touches[SDL_SCANCODE_D]) direction = -45.0;
 
         // Droit
         else direction = 0.0;
     }
-    else if (touches[SDLK_s]) // Touche S
+	else if (touches[SDL_SCANCODE_S]) // Touche S
     {
         // Reculer
 
         deplacement = TRUE;
 
         // En diagonale
-        if (touches[SDLK_a]) direction = 135.0;
-        else if (touches[SDLK_d]) direction = -135.0;
+		if (touches[SDL_SCANCODE_A]) direction = 135.0;
+		else if (touches[SDL_SCANCODE_D]) direction = -135.0;
 
         // Droit
         else direction = 180.0;
@@ -131,13 +180,13 @@ void Scene::animer(void)
 
     if(FALSE == deplacement)
     {
-        if (touches[SDLK_a]) // Touche Q
+		if (touches[SDL_SCANCODE_A]) // Touche Q
         {
             // Gauche
             direction = 90.0;
             deplacement = TRUE;
         }
-        else if (touches[SDLK_d]) // Touche D
+		else if (touches[SDL_SCANCODE_D]) // Touche D
         {
             // Droite
             direction = -90.0;
@@ -192,7 +241,6 @@ void Scene::dessiner(void)
 	//gluLookAt(0,0,3,0,0,1,-1,0,0);
     this->personnage->regarder();
 
-
 	//this->table->dessiner();
 
     // Dessin de la skybox
@@ -204,11 +252,11 @@ void Scene::dessiner(void)
     // Dessin de la carte
     this->carte->dessiner();
 
-	//Dessin du personnage
-    this->personnage->dessiner();
-
 	// Dessin de la cible test
 	this->targetTest->dessiner();
+
+	//Dessin du personnage
+    this->personnage->dessiner();
 
 
 	// Dessin des animations
@@ -218,7 +266,8 @@ void Scene::dessiner(void)
 void Scene::afficher(void)
 {
     glFlush();
-    SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(this->screen);
+    // SDL 2.0 SDL_GL_SwapBuffers();
 }
 
 void Scene::gererEvenements(void)
@@ -230,6 +279,11 @@ void Scene::gererEvenements(void)
         {
             case SDL_QUIT:
                 this->continuer = FALSE;
+
+				// Fermeture de la police
+				TTF_CloseFont(this->police);
+				// Fermeture de la librairie ttf
+				TTF_Quit();
                 break;
 
             case SDL_MOUSEMOTION:
@@ -241,7 +295,7 @@ void Scene::gererEvenements(void)
                     this->personnage->tournerVerticalement(-evenement.motion.yrel * 0.06);
 
                     // Replace la souris au milieu de l'ecran
-                    SDL_WarpMouse( (LARGEUR_FENETRE/2), (HAUTEUR_FENETRE/2) );
+                    SDL_WarpMouseInWindow(this->screen, (LARGEUR_FENETRE/2), (HAUTEUR_FENETRE/2) );
                 }
                 break;
 

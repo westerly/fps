@@ -1,7 +1,7 @@
 #include "box.h"
 
 
-box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass, int plargeur, int phauteur)
+box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass, float plargeur, float phauteur)
 {
 	Objet3DDeformable(positionX, positionY, positionZ, angleHorizontal, angleVertical, mass);
 	this->largeur = plargeur;
@@ -89,5 +89,8 @@ void box::dessinerBox(float x, float y, float z)
 	glVertex3i(-1, 1, 1); glVertex3i(-1, -1, 1);
 	glEnd();
 	glPopMatrix();
+
+	// On remet la couleur à la normale ( évite de bleuter les textures )
+	glColor4f(1, 1, 1, 1);
 
 }

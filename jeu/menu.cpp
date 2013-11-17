@@ -38,7 +38,8 @@ void Menu::dessiner(void)
  
     // Affichage du dessin
     glFlush();
-    SDL_GL_SwapBuffers();
+	// appeler SDL_GL_SwapWindow(this->screen); faire passer screen en attribut de menu
+    // Changement SDL 2.0 SDL_GL_SwapBuffers();
  
 }
  

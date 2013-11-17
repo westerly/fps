@@ -41,10 +41,13 @@ void Jeu::executer(void)
   //  }
  
     // Execution de la scene
-    Scene scene;
+    Scene scene(this->screen, this->renderer,this->contexteOpenGL);
     scene.executer();
  
     // Arret de la SDL
+	SDL_GL_DeleteContext(this->contexteOpenGL);
+	SDL_DestroyWindow(this->screen);
+	SDL_DestroyRenderer(this->renderer);
     SDL_Quit();
 }
 
@@ -59,8 +62,37 @@ void Jeu::initSDL(void)
     }
  
     // Creation de la fenetre initialisee pour fonctionner avec OpenGL
-    SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_OPENGL);
+    // Correctif SDL 2.0 this->ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_OPENGL);
+
+	
+
+	this->screen = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		LARGEUR_FENETRE, HAUTEUR_FENETRE, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+
+	if (this->screen == 0)
+	{
+		std::cout << "Erreur lors de la recuperation de la vue : " << SDL_GetError() << std::endl;
+		SDL_Quit();
+
+		exit(EXIT_FAILURE);
+	}
+
+	// Création du contexte OpenGL
+
+	this->contexteOpenGL = SDL_GL_CreateContext(this->screen);
+
+	if (this->contexteOpenGL == 0)
+	{
+		std::cout << SDL_GetError() << std::endl;
+		SDL_DestroyWindow(this->screen);
+		SDL_Quit();
+		exit(EXIT_FAILURE);
+	}
+
+	this->renderer = SDL_CreateRenderer(this->screen, -1, 0);
  
     // Titre de l'application
-    SDL_WM_SetCaption(TITRE_APPLICATION, NULL);
+    //Correctif SDL 2.0 SDL_WM_SetCaption(TITRE_APPLICATION, NULL);
+	SDL_SetWindowTitle(screen, TITRE_APPLICATION);
+
 }

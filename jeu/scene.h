@@ -9,21 +9,18 @@
 #include "Objet3DDeformableBlender.h"
 #include "carte.h"
 #include "objloader.h"
-
 #include "types.h"
 #include "configuration.h"
 #include <map>
-
 #include <string>
 #include "personnage.h"
 #include "carte.h"
 #include "animator.h"
 #include "target.h"
-
 #include "gameEventHandler.h"
 #include "controleur.h"
-
 #include "physicEngine.h"
+#include <SDL_ttf.h>
 
 //#include "bullet.h"
 
@@ -40,33 +37,33 @@ class Scene
         Objet3DStatique* skybox;
 		Objet3DDeformableBlender * table;
         Carte* carte;
+		SDL_Window *screen;
+		SDL_Renderer *renderer;
+		SDL_GLContext contexteOpenGL;
+		TTF_Font * police;
+		SDL_Texture* texte;
+		Personnage * personnage;
+		//std::vector<Bullet*> Bullets;
+		animator * animationHandler;
+		GameEventHandler * eventHandler;
+		Controleur * controleur;
+		// test target
+		target * targetTest;
+		physicEngine * physicHandler;
+
 
         void gererEvenements(void);
         void animer(void);
         void dessiner(void);
-        void afficher(void);
-
-        Personnage * personnage;
-
-		//std::vector<Bullet*> Bullets;
-
-		animator * animationHandler;
-
-		GameEventHandler * eventHandler;
-
-		Controleur * controleur;
-
-		// test target
-		target * targetTest;
-
-		physicEngine * physicHandler;
-
+		void afficher(void);
 		void initOpenGL(void);
+		// Fonction qui affiche le nombre de fps courant à l'écran
+		void dessinerFPS(int fps);
 
 
     public:
 
-        Scene();
+		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL);
         ~Scene();
         void executer();
 };

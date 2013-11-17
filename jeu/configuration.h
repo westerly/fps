@@ -5,7 +5,7 @@
 #define LARGEUR_FENETRE (320*2)
 #define HAUTEUR_FENETRE (240*2)
 
-#define TITRE_APPLICATION "Mon premier jeu vidéo"
+#define TITRE_APPLICATION "Virtual Environment Shoot"
 
 #define PRET 0.1
 #define LOIN 1000.0

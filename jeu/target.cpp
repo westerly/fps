@@ -1,7 +1,7 @@
 #include "target.h"
 
 
-target::target(float16 positionX, float16 positionY, float16 positionZ, int largeur, int hauteur, int nbr_obj_base)
+target::target(float16 positionX, float16 positionY, float16 positionZ, float largeur, float hauteur, int nbr_obj_base)
 {
 	this->positionX = positionX;
 	this->positionY = positionY;

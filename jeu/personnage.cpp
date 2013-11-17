@@ -316,41 +316,41 @@ void Personnage::dessiner()
 		this->gun->dessiner(this->positionX,this->positionY,HAUTEUR_OEIL_PERSONNAGE,this->angleHorizontal,this->angleVertical);
 		
 		
-		glTranslatef(this->positionX,
-        this->positionY,
-        HAUTEUR_OEIL_PERSONNAGE);
+		//glTranslatef(this->positionX,
+  //      this->positionY,
+  //      HAUTEUR_OEIL_PERSONNAGE);
 
 
-		glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
-		glRotatef(this->angleVertical, 0.0, 1.0, 0.0);
+		//glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
+		//glRotatef(this->angleVertical, 0.0, 1.0, 0.0);
 
-		sint32 hauteurTextureCourante;
-		sint32 largeurTextureCourante;
+		//sint32 hauteurTextureCourante;
+		//sint32 largeurTextureCourante;
 
-		glEnable(GL_TEXTURE_2D);
-		// Permet d'afficher les textures transparentes
-		glEnable (GL_BLEND);
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-        hauteurTextureCourante = this->conteneurTextures.texture("personnage\\gun.png").hauteur;
-		largeurTextureCourante = this->conteneurTextures.texture("personnage\\gun.png").largeur;
+		//glEnable(GL_TEXTURE_2D);
+		//// Permet d'afficher les textures transparentes
+		//glEnable (GL_BLEND);
+		//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//
+  //      hauteurTextureCourante = this->conteneurTextures.texture("personnage\\gun.bmp").hauteur;
+		//largeurTextureCourante = this->conteneurTextures.texture("personnage\\gun.bmp").largeur;
 
-		glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("personnage\\gun2.png").texture);
-		glBegin(GL_POLYGON);
+		//glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("personnage\\gun.bmp").texture);
+		//glBegin(GL_POLYGON);
 
-		glTexCoord2f((float16)largeurTextureCourante / this->conteneurTextures.texture("personnage\\gun.png").largeur, (float16)0.0 / this->conteneurTextures.texture("personnage\\gun.png").hauteur); 
-		glVertex3d(-(this->rayon-0.1), 0.25, 0.21);
+		//glTexCoord2f((float16)largeurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
+		//glVertex3d(-(this->rayon-0.1), 0.25, 0.21);
 
-		glTexCoord2f((float16)largeurTextureCourante / this->conteneurTextures.texture("personnage\\gun.png").largeur, (float16)hauteurTextureCourante / this->conteneurTextures.texture("personnage\\gun.png").hauteur); 
-		glVertex3d(-(this->rayon-0.1), 0.25, -0.21);
+		//glTexCoord2f((float16)largeurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)hauteurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
+		//glVertex3d(-(this->rayon-0.1), 0.25, -0.21);
 
-		glTexCoord2f((float16)0.0 / this->conteneurTextures.texture("personnage\\gun.png").largeur, (float16)hauteurTextureCourante / this->conteneurTextures.texture("personnage\\gun.png").hauteur); 
-		glVertex3d(-(this->rayon-0.1), -0.25, -0.21);
+		//glTexCoord2f((float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)hauteurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
+		//glVertex3d(-(this->rayon-0.1), -0.25, -0.21);
 
-		glTexCoord2f((float16)0.0 / this->conteneurTextures.texture("personnage\\gun.png").largeur, (float16)0.0 / this->conteneurTextures.texture("personnage\\gun.png").hauteur); 
-		glVertex3d(-(this->rayon-0.1), -0.25, 0.21);
+		//glTexCoord2f((float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
+		//glVertex3d(-(this->rayon-0.1), -0.25, 0.21);
 
-		glEnd();
+		//glEnd();
 
 
     // Restoration du repère d'origine

@@ -24,9 +24,6 @@
     <ClInclude Include="conteneurTextures.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="init.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="objet3DStatique.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -87,9 +84,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="conteneurTextures.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="init.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">

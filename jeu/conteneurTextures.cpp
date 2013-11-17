@@ -1,5 +1,4 @@
 #include "conteneurTextures.h"
-#include "SDL.h"
 
 ConteneurTextures::Textures ConteneurTextures::textures;
 
@@ -64,18 +63,18 @@ void ConteneurTextures::chargerTexture(const char* nomFichier, GLuint* texture, 
 	// récupérer une chaîne de caractères
 	std::string stringNomfichier = oss.str();
 
-	if(stringNomfichier.find("gun") != -1)
-	{
-		// Permet de rendre transparent le blanc des textures du gun
-		Uint32 colorkey = SDL_MapRGB( surface->format, 0xFF, 0xFF, 0xFF );
-		SDL_SetColorKey( surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, colorkey );	
-	}
+	//if (NULL != surface && stringNomfichier.find("gun") != -1)
+	//{
+	//	// Permet de rendre transparent le blanc des textures du gun
+	//	Uint32 colorkey = SDL_MapRGB( surface->format, 0xFF, 0xFF, 0xFF );
+	//	// SDL 2.0 SDL_SetColorKey( surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, colorkey );
+	//	SDL_SetColorKey(surface, SDL_RLEACCEL | SDL_TRUE, colorkey);
+	//	surface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, NULL);
+	//}
 	
-	surface = SDL_DisplayFormatAlpha(surface);
 
     if (NULL != surface)
     {
-	
         // Verification de la largeur
         if ( 0 != (surface->w & (surface->w - 1)) )
         {
