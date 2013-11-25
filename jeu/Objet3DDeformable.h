@@ -7,6 +7,7 @@
 
 #include "conteneurTextures.h"
 #include "btBulletDynamicsCommon.h"
+#include "btBulletCollisionCommon.h"
 
 
 class Objet3DDeformable
@@ -14,31 +15,21 @@ class Objet3DDeformable
 	protected:
 
 		typedef std::set<std::string> Textures;
-
         Textures textures; // Les textures de l'objet
         ConteneurTextures conteneurTextures;
-
-
         // Position de l'objet
         float16 positionX;
         float16 positionY;
         float16 positionZ;
-
 		// Inertie de l'objet
 		btVector3 localInertia;
 		// Masse de l'objet
 		btScalar mass;
-
-
         // Angle horizontal avec l'axe des x (pour tourner sur sois même)
         float16 angleHorizontal;
-		
-
 		// Angle vertical avec l'axe des z (pour regarder en haut en bas)
 		float16 angleVertical;
-
         std::string nom;
-
 		// Position, orientation.
 		btTransform transform;
 		btCollisionShape *shape;

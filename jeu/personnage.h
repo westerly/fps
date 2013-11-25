@@ -18,7 +18,7 @@ class Personnage : public Objet3DDeformable
 		// Pour l'instant qu'une arme pour le perso et c'est un gun
 		arme * gun;
 
-        Personnage(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical);
+		Personnage(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass = 0.0f);
 
         // Déplacement
         void deplacer(float16 distance, float16 direction, bool8 entourage[8]);
@@ -29,6 +29,7 @@ class Personnage : public Objet3DDeformable
         void regarder(void);
 
 		void dessiner();
+		void drawTextInFrontOfCharacter(const char *text, int length, int x, int y);
 		__event void tirer(float16 positionX,float16 positionY,float16 positionZ,float16 angleHorizontal,float16 angleVertical);
 
 

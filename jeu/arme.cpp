@@ -88,7 +88,7 @@ void arme::dessiner(float16 positionX,float16 positionY, float16 positionZ, floa
 		glVertex3d(-(0.4f-0.1), -0.25, 0.21);
 
 		glEnd();
-
+		glDisable(GL_BLEND);
 
     // Restoration du repère d'origine
     glPopMatrix();

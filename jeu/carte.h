@@ -8,12 +8,13 @@
 
 #include "configuration.h"
 #include "btBulletDynamicsCommon.h"
+#include "Objet3DDeformable.h"
 
 
-class Carte
-{
+class Carte : public Objet3DDeformable{
+
     private:
-        ConteneurTextures conteneurTextures;
+        //ConteneurTextures conteneurTextures;
 
         bool8* carte;
         uint32 largeurCarte;
@@ -33,7 +34,7 @@ class Carte
 		btRigidBody *body_sol;
 
     public:
-        Carte(const char* nomFichier);
+		Carte(const char* nomFichier, float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f);
         ~Carte();
         void dessiner();
 

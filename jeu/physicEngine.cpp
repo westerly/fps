@@ -1,7 +1,7 @@
 #include "physicEngine.h"
 
 
-physicEngine::physicEngine()
+PhysicEngine::PhysicEngine()
 {
 	// Initialisation
 
@@ -22,10 +22,12 @@ physicEngine::physicEngine()
 
 	// On définit la gravité, de façon à ce que les objets tombent vers le bas (-Z).
 	world->setGravity(btVector3(0, 0, -10));
+
+
 }
 
 
-physicEngine::~physicEngine()
+PhysicEngine::~PhysicEngine()
 {
 	delete world;
 	delete sequentialImpulseConstraintSolver;
@@ -34,13 +36,13 @@ physicEngine::~physicEngine()
 	delete collisionConfiguration;
 }
 
-void physicEngine::addRigidBody(btRigidBody * body){
+void PhysicEngine::addRigidBody(btRigidBody * body){
 
 	this->world->addRigidBody(body);
 }
 
 
-void physicEngine::addRigidBody(target * t){
+void PhysicEngine::addRigidBody(target * t){
 
 	Objet3DDeformable* el;
 	for (std::vector<Objet3DDeformable*>::iterator obj = t->getObjets().begin(); obj != t->getObjets().end(); obj++)
@@ -51,6 +53,6 @@ void physicEngine::addRigidBody(target * t){
 }
 
 
-btDiscreteDynamicsWorld * physicEngine::getWorld(){
+btDiscreteDynamicsWorld * PhysicEngine::getWorld(){
 	return this->world;
 }

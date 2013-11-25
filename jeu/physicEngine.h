@@ -3,7 +3,7 @@
 
 #include "target.h"
 
-class physicEngine
+class PhysicEngine
 {
 private:
 	// Le nom du monde physique
@@ -19,8 +19,8 @@ private:
 
 
 public:
-	physicEngine();
-	virtual ~physicEngine();
+	PhysicEngine();
+	virtual ~PhysicEngine();
 
 	// Permet d'ajouter un objet rigide au monde physique Bullet
 	void addRigidBody(btRigidBody * body);

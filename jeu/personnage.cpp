@@ -3,7 +3,7 @@
 
 #include "personnage.h"
 
-Personnage::Personnage(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical) : Objet3DDeformable(positionX,positionY,positionZ,angleHorizontal,angleVertical)
+Personnage::Personnage(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass) : Objet3DDeformable(positionX, positionY, positionZ, angleHorizontal, angleVertical, mass)
 {
     this->rayon = 0.4f;
 
@@ -17,7 +17,6 @@ Personnage::Personnage(float16 positionX, float16 positionY, float16 positionZ, 
 
 	// Création de l'arme à partir du fichier de texture et du vector des fichiers pour son animation
 	this->gun = new arme("personnage\\gun.png",v);
-
 }
 
 void Personnage::deplacer(float16 distance, float16 direction, bool8 entourage[8])
@@ -305,54 +304,32 @@ void Personnage::regarder(void)
 
 void Personnage::dessiner()
 {
-	// On mémorise le repère courant avant d'effectuer la RST
-    glPushMatrix();
-		
-        // Positionne l'objet en lieu de dessin
-		//glTranslatef(this->positionX  - this->rayon * cos(-this->angleHorizontal * RADIANS_PAR_DEGRES),
-		//this->positionY + this->rayon * sin(-this->angleHorizontal * RADIANS_PAR_DEGRES),
-		//HAUTEUR_OEIL_PERSONNAGE + this->rayon * tan(this->angleVertical * RADIANS_PAR_DEGRES));
-
-		this->gun->dessiner(this->positionX,this->positionY,HAUTEUR_OEIL_PERSONNAGE,this->angleHorizontal,this->angleVertical);
-		
-		
-		//glTranslatef(this->positionX,
-  //      this->positionY,
-  //      HAUTEUR_OEIL_PERSONNAGE);
+	this->gun->dessiner(this->positionX,this->positionY,HAUTEUR_OEIL_PERSONNAGE,this->angleHorizontal,this->angleVertical);
+}
 
 
-		//glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
-		//glRotatef(this->angleVertical, 0.0, 1.0, 0.0);
+void Personnage::drawTextInFrontOfCharacter(const char *text, int length, int x, int y){
 
-		//sint32 hauteurTextureCourante;
-		//sint32 largeurTextureCourante;
-
-		//glEnable(GL_TEXTURE_2D);
-		//// Permet d'afficher les textures transparentes
-		//glEnable (GL_BLEND);
-		//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//
-  //      hauteurTextureCourante = this->conteneurTextures.texture("personnage\\gun.bmp").hauteur;
-		//largeurTextureCourante = this->conteneurTextures.texture("personnage\\gun.bmp").largeur;
-
-		//glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("personnage\\gun.bmp").texture);
-		//glBegin(GL_POLYGON);
-
-		//glTexCoord2f((float16)largeurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
-		//glVertex3d(-(this->rayon-0.1), 0.25, 0.21);
-
-		//glTexCoord2f((float16)largeurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)hauteurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
-		//glVertex3d(-(this->rayon-0.1), 0.25, -0.21);
-
-		//glTexCoord2f((float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)hauteurTextureCourante / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
-		//glVertex3d(-(this->rayon-0.1), -0.25, -0.21);
-
-		//glTexCoord2f((float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").largeur, (float16)0.0 / this->conteneurTextures.texture("personnage\\gun.bmp").hauteur); 
-		//glVertex3d(-(this->rayon-0.1), -0.25, 0.21);
-
-		//glEnd();
-
-
-    // Restoration du repère d'origine
-    glPopMatrix();
+	glMatrixMode(GL_PROJECTION); // change the current matrix to PROJECTION
+	double matrix[16]; // 16 doubles in stack memory
+	glGetDoublev(GL_PROJECTION_MATRIX, matrix); // get the values from PROJECTION matrix to local variable
+	glLoadIdentity(); // reset PROJECTION matrix to identity matrix
+	glOrtho(0, LARGEUR_FENETRE, 0, HAUTEUR_FENETRE, -5, 5); // orthographic perspective
+	glMatrixMode(GL_MODELVIEW); // change current matrix to MODELVIEW matrix again
+	glLoadIdentity(); // reset it to identity matrix
+	glPushMatrix(); // push current state of MODELVIEW matrix to stack
+	glTranslatef(this->positionX,
+		this->positionY,
+		this->positionZ);
+	glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
+	glRotatef(this->angleVertical, 0.0, 1.0, 0.0);
+	glLoadIdentity(); // reset it again. (may not be required, but it my convention)
+	glRasterPos2i(x, y); // raster position in 2D
+	for (int i = 0; i<length; i++){
+		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, (int)text[i]); // generation of characters in our text with 9 by 15 GLU font
+	}
+	glPopMatrix(); // get MODELVIEW matrix value from stack
+	glMatrixMode(GL_PROJECTION); // change current matrix mode to PROJECTION
+	glLoadMatrixd(matrix); // reset
+	glMatrixMode(GL_MODELVIEW); // change current matrix mode to MODELVIEW
 }

@@ -5,21 +5,33 @@
 
 #include "configuration.h"
 
-Bullet::Bullet(std::vector<std::string> & fichiersTextureAnimationDestructionBullet,float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical)
+Bullet::Bullet(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass, float16 rayon):Objet3DDeformable(positionX, positionY, positionZ, angleHorizontal, angleVertical, mass)
 {
-	this->positionX = positionX;
-	this->positionY = positionY;
-	this->positionZ = positionZ;
-	this->rayon = 0.1f;
-	this->angleHorizontal = angleHorizontal;
-	this->angleVertical = angleVertical;
-
+	this->rayon = rayon;
 	this->inColision = false;
 
-	for(std::vector<std::string>::iterator texture = fichiersTextureAnimationDestructionBullet.begin(); texture != fichiersTextureAnimationDestructionBullet.end(); texture++)
-	{
-		this->ajouterTexture(*texture);
-	}
+	// On déclare une forme et on l'initialise en tant que sphere
+	shape = new btSphereShape(this->rayon);
+
+	//On initialise notre btTransform et on lui dit une position (la position de la sphere)
+	transform.setIdentity();
+	transform.setOrigin(btVector3(positionX, positionY, positionZ));
+
+
+	this->localInertia = btVector3(0, 0, 0);
+	shape->calculateLocalInertia(mass, this->localInertia);
+
+	// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+	motionState = new btDefaultMotionState(transform);
+	//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+	btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
+	//On construis le corps de la boite à partir de l'information regroupée
+	body = new btRigidBody(myBoxRigidBodyConstructionInfo);
+
+	// Permet de pouvoir travailler sur l'objet bullet lors de la détection des collisions
+	body->setUserPointer(this);
+
+	this->body->setCollisionFlags(this->body->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 }
 
 
@@ -30,6 +42,10 @@ Bullet::~Bullet(void)
     {
         this->conteneurTextures.supprimer(*element);
     }
+
+	// On ne libère pas l'attribut body du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
+	delete motionState;
+	delete shape;
 
 }
 
@@ -56,35 +72,39 @@ void Bullet::positionSurLaCarte(sint32* x, sint32* y, sint32* z)
 }
 
 
+void Bullet::deplacer(const btVector3 &force){
+	this->body->applyCentralForce(force);
+}
+
 void Bullet::deplacer(float16 & distance,bool8 entourage[8])
 {
 
     // Calcule de la position cible de la balle
-	float16 positionCibleY = this->positionY - distance * sin(this->angleHorizontal * M_PI / 180.0);
-	float16 positionCibleX = this->positionX - distance * cos(this->angleHorizontal * M_PI / 180.0);
-	float16 positionCibleZ = this->positionZ + distance * sin(this->angleVertical * M_PI / 180.0);
+	//float16 positionCibleY = this->positionY - distance * sin(this->angleHorizontal * M_PI / 180.0);
+	//float16 positionCibleX = this->positionX - distance * cos(this->angleHorizontal * M_PI / 180.0);
+	//float16 positionCibleZ = this->positionZ + distance * sin(this->angleVertical * M_PI / 180.0);
 
 
-	// Colision avec le sol
-	if((positionCibleZ - this->rayon) <=0)
-	{
-		this->inColision = true;
-	}
+	//// Colision avec le sol
+	//if((positionCibleZ - this->rayon) <=0)
+	//{
+	//	this->inColision = true;
+	//}
 
 
-	// Si la balle n'est pas au dessus des murs
-	if(((positionCibleZ - this->rayon) < HAUTEUR_MURS))
-	{
-		// Gestion des colisions avec les murs
-		this->handleColisionWithWall(positionCibleX,positionCibleY, entourage);
-	}
+	//// Si la balle n'est pas au dessus des murs
+	//if(((positionCibleZ - this->rayon) < HAUTEUR_MURS))
+	//{
+	//	// Gestion des colisions avec les murs
+	//	this->handleColisionWithWall(positionCibleX,positionCibleY, entourage);
+	//}
 
-	if(!this->inColision)
-	{
-		this->positionY = positionCibleY;
-		this->positionX = positionCibleX;
-		this->positionZ = positionCibleZ;
-	}
+	//if(!this->inColision)
+	//{
+	//	this->positionY = positionCibleY;
+	//	this->positionX = positionCibleX;
+	//	this->positionZ = positionCibleZ;
+	//}
 
 }
 
@@ -280,26 +300,18 @@ void Bullet::dessiner()
 {
 	glDisable(GL_TEXTURE_2D);
 	//New quadric object
-	//glDisable (GL_LIGHTING);
 	GLUquadric * quadric = gluNewQuadric();
-	//Turn on the texture mode for quadrics
-	//gluQuadricTexture(quadric, false);
 
-	// On mémorise le repère courant avant d'effectuer la RST
-    glPushMatrix();
-		
-		glTranslatef(this->positionX,
-        this->positionY,
-        this->positionZ);
+	// On recupère la matrice OpenGL transformée par Bullet qu'on appliquera à notre boite
+	motionState->m_graphicsWorldTrans.getOpenGLMatrix(matrix);
 
-		glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
-		glRotatef(this->angleVertical, 0.0, 1.0, 0.0);
-		//glColor3f(0.0, 1.0, 1.0);
-		gluQuadricDrawStyle(quadric, GLU_FILL );
-
+	// On affiche notre boite avec les transformations appliquées grâce à la matrice
+	glPushMatrix();
+		glMultMatrixf(matrix);
+		glColor3f(0.0, 1.0, 1.0);
+		gluQuadricDrawStyle(quadric, GLU_FILL);
 		gluSphere(quadric, this->rayon, 20, 20);
-
-    // Restoration du repère d'origine
-    glPopMatrix();
-	
+	glPopMatrix();
+	// On remet la couleur standard
+	glColor3f(255, 255, 255);
 }

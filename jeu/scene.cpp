@@ -5,6 +5,7 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	this->screen = screen;
 	this->renderer = renderer;
 	this->contexteOpenGL = contexteOpenGL;
+	this->currentFPS = 0;
 
     // Maintien de la souris dans la fenetre
 	SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -17,28 +18,27 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
     SDL_ShowCursor(FALSE);
 
     this->skybox = new Objet3DStatique("skybox.o3s.m3s");
-    this->carte = new Carte("carte.bmp");
-    this->personnage = new Personnage(8, 3, 0, 0, 0);
+    this->carte = new Carte("carte.bmp",0.0,0.0,-1.0);
+    this->personnage = new Personnage(8, 3, 0, 0, 0, 1);
 
 	//this->table = new Objet3DDeformableBlender("D:\Modeles 3D\Colt_anaconda\colt.obj",3,3,4,0,0);
 
-	this->physicHandler = new physicEngine();
+	this->physicHandler = new PhysicEngine();
 
 	this->animationHandler = new animator();
 	this->animationHandler->armePersonnage = this->personnage->gun;
 
 
-	this->controleur = new Controleur();
+	this->controleur = new Controleur(this->carte, this->physicHandler);
 	this->eventHandler = new GameEventHandler();
 
 	this->controleur->setLinkWithHandlerEvent(this->eventHandler);
-	this->controleur->setLinkWithMap(this->carte);
 	this->eventHandler->setLinkWithControleur(this->controleur);
 	
 	// Le gestionnaire d'évènements écoute l'objet personnage
 	this->eventHandler->hookEvent(this->personnage);
 
-	this->targetTest = new target(4, 4, 0, 1, 1, 3);
+	this->targetTest = new target(4, 4, 0, 0.1, 0.1, 6);
 
 	// Ajouter les objets composants la cible au monde physique
 	this->physicHandler->addRigidBody(this->targetTest);
@@ -80,53 +80,27 @@ void Scene::executer()
     {
         gererEvenements();
         animer();
-        dessiner();
-        afficher();
+		
 
         // On calcule le temps de construction de la derniere image
         this->tempsDernierPas = SDL_GetTicks() - heureDernierPas;
         heureDernierPas += this->tempsDernierPas;
 
-		// On compte le nombre de frames par seconde et on l'affiche
-		
+		// On compte le nombre de frames par seconde
 		cptMilliSeconde = cptMilliSeconde + this->tempsDernierPas;
 		framesPerSecond++;
 		if (cptMilliSeconde >= 1000){
 			//printf("\nCurrent Frames Per Second: %d\n\n", (int)framesPerSecond);
-			lastFramePerSecond = framesPerSecond;
+			this->currentFPS = framesPerSecond;
 			framesPerSecond = 0;
 			cptMilliSeconde = 0;
 		}
-		dessinerFPS(lastFramePerSecond);
+
+		dessiner();
+		afficher();
 
     }
 }
-
-void Scene::dessinerFPS(int fps){
-	if (TTF_Init() == -1)
-	{
-	    fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
-	}
-	else{
-		/* Chargement de la police */
-		this->police = TTF_OpenFont("polices/arial.ttf", 65);
-		SDL_Color couleurNoire = { 0, 0, 0 };
-		/* Écriture du texte dans la SDL_Surface texte en mode Blended (optimal) */
-		SDL_Surface *surface = TTF_RenderText_Blended(police, "Salut les Zér0s !", couleurNoire);
-		this->texte = SDL_CreateTextureFromSurface(this->renderer, surface);
-		SDL_FreeSurface(surface);
-		SDL_Rect position;
-		position.x = 60;
-		position.y = 370;
-		// SDL 2.0 SDL_BlitSurface(texte, NULL, this->screen, &position); /* Blit du texte */
-		// Flip(this->ecran);
-		//SDL_RenderClear(this->renderer);
-		SDL_RenderCopy(this->renderer, this->texte, NULL, &position);
-		SDL_RenderPresent(this->renderer);
-	}
-
-}
-
 
 void Scene::animer(void)
 {
@@ -207,24 +181,14 @@ void Scene::animer(void)
     {
         // Calcule de la distance à parcourir
         float16 distance = (float)tempsDernierPas * VITESSE_DEPLACEMENT_PERSONNAGE / 1000.0f;
-
         // Recuperation de l'environnement
         sint32 positionCarteX = 0, positionCarteY = 0;
         bool8 entouragePersonnage[8];
         this->personnage->positionSurLaCarte(&positionCarteX, &positionCarteY);
         this->carte->entourage(positionCarteY, positionCarteX, entouragePersonnage);
-
         // Deplacement du personnage dans la direction demande
         this->personnage->deplacer(distance, direction, entouragePersonnage);
     }
-
-	// Si il y a des balles de tirées 
-	if(this->controleur->thereAreBullets())
-	{
-		// Calcule de la distance à parcourir
-        float16 distance = (float)tempsDernierPas * VITESSE_DEPLACEMENT_BULLET / 1000.0f;
-		this->controleur->handleBullets(distance);
-	}
 	
 	this->animationHandler->animer();
 }
@@ -236,9 +200,8 @@ void Scene::dessiner(void)
 
     // Place la camera
     glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
 	
-	//gluLookAt(0,0,3,0,0,1,-1,0,0);
+	//gluLookAt(0, 0, -10, 0, 0, 3, 0, 1, 0);
     this->personnage->regarder();
 
 	//this->table->dessiner();
@@ -258,14 +221,25 @@ void Scene::dessiner(void)
 	//Dessin du personnage
     this->personnage->dessiner();
 
-
-	// Dessin des animations
+	std::string text;
+	// créer un flux de sortie
+	std::ostringstream oss;
+	// écrire un nombre dans le flux
+	oss << this->currentFPS;
+	// récupérer une chaîne de caractères
+	std::string nbrFPS = oss.str();
+	text = "FPS: " + nbrFPS;
+	glColor3f(0, 0, 255);
+	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), 0, HAUTEUR_FENETRE - 10);
+	glColor3f(255, 255, 255);
 	
 }
 
 void Scene::afficher(void)
 {
+	// glFlush — force execution of GL commands in finite time
     glFlush();
+	// Use this function to update a window with OpenGL rendering.
 	SDL_GL_SwapWindow(this->screen);
     // SDL 2.0 SDL_GL_SwapBuffers();
 }
@@ -326,6 +300,8 @@ void Scene::gererEvenements(void)
                 break;
         }
     }
+
+	this->controleur->handleCollisions();
 }
 
 void Scene::initOpenGL(void)
@@ -347,5 +323,6 @@ void Scene::initOpenGL(void)
 
     // Activation du tampon de profondeur
     glEnable(GL_DEPTH_TEST);
+
 }
 

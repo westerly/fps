@@ -2,7 +2,7 @@
 #include "carte.h"
 
 
-Carte::Carte(const char* nomFichier)
+Carte::Carte(const char* nomFichier, float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass) :Objet3DDeformable(positionX, positionY, positionZ, angleHorizontal, angleVertical, mass)
 {
     // Initialisation des attributs
     this->carte = NULL;
@@ -63,10 +63,10 @@ Carte::Carte(const char* nomFichier)
 		// Position du sol
 		transform.setIdentity();
 		// On place le sol à z = -1 pour que le dessus de la boite représentant le sol arrive en z = 0 (car l'épaisseur de la boite est à 1)
-		transform.setOrigin(btVector3(0, 0, -1));
+		transform.setOrigin(btVector3(this->positionX, this->positionY, this->positionZ));
 
 		// Le premier paramètre est la masse, il vaut 0, le fait que le poids de cet objet soit zéro le rends statique
-		shape->calculateLocalInertia(0, btVector3(0, 0, 0));
+		shape->calculateLocalInertia(this->mass, btVector3(0, 0, 0));
 
 		// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
 		motionState = new btDefaultMotionState(transform);

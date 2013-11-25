@@ -3,14 +3,14 @@
 
 
 #include "types.h"
+#include "Objet3DDeformable.h"
 #include <string>
 #include <vector>
 #include <set>
 
 #include "conteneurTextures.h"
 
-class Bullet
-{
+class Bullet : public Objet3DDeformable{
 
 	private:
 
@@ -29,11 +29,12 @@ class Bullet
 		bool inColision;
 
 	public:
-		Bullet(std::vector<std::string> & fichiersTextureAnimationDestructionBullet, float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical);
+		Bullet(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f, float16 rayon = 0.1f);
 		~Bullet(void);
 		void ajouterTexture(std::string nomFichierTexture);
 		void positionSurLaCarte(sint32* x, sint32* y, sint32* z);
 		void deplacer(float16 & distance,bool8 entourage[8]);
+		void deplacer(const btVector3 &force);
 
 		__event void collision(Bullet * balle);
 

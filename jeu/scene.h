@@ -49,7 +49,8 @@ class Scene
 		Controleur * controleur;
 		// test target
 		target * targetTest;
-		physicEngine * physicHandler;
+		PhysicEngine * physicHandler;
+		int currentFPS;
 
 
         void gererEvenements(void);
@@ -57,8 +58,6 @@ class Scene
         void dessiner(void);
 		void afficher(void);
 		void initOpenGL(void);
-		// Fonction qui affiche le nombre de fps courant à l'écran
-		void dessinerFPS(int fps);
 
 
     public:
