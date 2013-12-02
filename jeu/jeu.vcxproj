@@ -86,6 +86,7 @@
     <ClInclude Include="configuration.h" />
     <ClInclude Include="conteneurTextures.h" />
     <ClInclude Include="controleur.h" />
+    <ClInclude Include="cylinder.h" />
     <ClInclude Include="gameEventHandler.h" />
     <ClInclude Include="jeu.h" />
     <ClInclude Include="menu.h" />
@@ -108,6 +109,7 @@
     <ClCompile Include="carte.cpp" />
     <ClCompile Include="conteneurTextures.cpp" />
     <ClCompile Include="controleur.cpp" />
+    <ClCompile Include="cylinder.cpp" />
     <ClCompile Include="gameEventHandler.cpp" />
     <ClCompile Include="jeu.cpp" />
     <ClCompile Include="main.cpp" />

@@ -13,15 +13,16 @@ private:
 	float largeur;
 	float hauteur;
 	// Les comosantes de la couleur de la boite;
-	float r, g, b;
+	float r, g, b, a;
 
 
 public:
-	box(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f, float plargeur = 1, float phauteur = 1, float r = 255, float g = 255, float b = 255);
+	box(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f, float plargeur = 1, float phauteur = 1, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0);
 	virtual ~box();
 
 	void dessinerBox(float x, float y, float z);
 	virtual void dessiner();
+	inline void box::setRGBA(float p_r, float p_g, float p_b, float p_a){r = p_r;g = p_g;b = p_b;a = p_a;}
 };
 
 #endif

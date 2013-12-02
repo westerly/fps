@@ -29,7 +29,7 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	this->animationHandler->armePersonnage = this->personnage->gun;
 
 
-	this->controleur = new Controleur(this->carte, this->physicHandler);
+	this->controleur = new Controleur(this->carte, this->physicHandler,this->personnage);
 	this->eventHandler = new GameEventHandler();
 
 	this->controleur->setLinkWithHandlerEvent(this->eventHandler);
@@ -38,7 +38,9 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	// Le gestionnaire d'évènements écoute l'objet personnage
 	this->eventHandler->hookEvent(this->personnage);
 
-	this->targetTest = new target(4, 4, 0, 0.1, 0.1, 6);
+	// For the box
+	//this->targetTest = new target(4, 4, 0, 0.15, 0.15, 4);
+	this->targetTest = new target(4, 4, 0, 1.0, 1.0, 3);
 
 	// Ajouter les objets composants la cible au monde physique
 	this->physicHandler->addRigidBody(this->targetTest);
@@ -82,7 +84,7 @@ void Scene::executer()
         animer();
 		
 
-        // On calcule le temps de construction de la derniere image
+        // On calcule le temps de construction de la derniere image (en millisecondes)
         this->tempsDernierPas = SDL_GetTicks() - heureDernierPas;
         heureDernierPas += this->tempsDernierPas;
 
@@ -90,7 +92,6 @@ void Scene::executer()
 		cptMilliSeconde = cptMilliSeconde + this->tempsDernierPas;
 		framesPerSecond++;
 		if (cptMilliSeconde >= 1000){
-			//printf("\nCurrent Frames Per Second: %d\n\n", (int)framesPerSecond);
 			this->currentFPS = framesPerSecond;
 			framesPerSecond = 0;
 			cptMilliSeconde = 0;
@@ -189,6 +190,10 @@ void Scene::animer(void)
         // Deplacement du personnage dans la direction demande
         this->personnage->deplacer(distance, direction, entouragePersonnage);
     }
+
+	//if (this->controleur->thereAreBullets()){
+	//	this->controleur->handleBullets();
+	//}
 	
 	this->animationHandler->animer();
 }
@@ -208,9 +213,6 @@ void Scene::dessiner(void)
 
     // Dessin de la skybox
     this->skybox->dessiner();
-
-	// Dessin des balles
-	this->controleur->drawBullets();
 	
     // Dessin de la carte
     this->carte->dessiner();
@@ -300,8 +302,6 @@ void Scene::gererEvenements(void)
                 break;
         }
     }
-
-	this->controleur->handleCollisions();
 }
 
 void Scene::initOpenGL(void)

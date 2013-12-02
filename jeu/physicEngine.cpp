@@ -16,13 +16,13 @@ PhysicEngine::PhysicEngine()
 
 	// Constraint solver par défaut. Pour du processus parallèle utilisez un constrint solver différent. Regardez Extras/BulletMultiThreaded.
 	sequentialImpulseConstraintSolver = new btSequentialImpulseConstraintSolver;
+	
 
 	// On initialise le monde physique Bullet.
 	world = new btDiscreteDynamicsWorld(dispatcher, broadphase, sequentialImpulseConstraintSolver, collisionConfiguration);
 
 	// On définit la gravité, de façon à ce que les objets tombent vers le bas (-Z).
 	world->setGravity(btVector3(0, 0, -10));
-
 
 }
 

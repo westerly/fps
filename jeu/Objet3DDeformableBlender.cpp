@@ -26,5 +26,5 @@ void Objet3DDeformableBlender::dessiner(){
 	// Restoration du repère d'origine
     glPopMatrix();
 
-	glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHTING);
 }

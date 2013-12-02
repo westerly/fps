@@ -1,14 +1,18 @@
 #include "box.h"
 
 
-box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass, float plargeur, float phauteur, float r, float g, float b)
+box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass, float plargeur, float phauteur, float r, float g, float b, float a)
 {
 	Objet3DDeformable(positionX, positionY, positionZ, angleHorizontal, angleVertical, mass);
 	this->largeur = plargeur;
 	this->hauteur = phauteur;
-	this->r + r;
+	this->r = r;
 	this->g = g;
 	this->b = b;
+	this->a = a;
+
+	// Chargement de la texture du mur
+	this->conteneurTextures.ajouter("mur.bmp");
 
 	// On déclare une forme et on l'initialise en tant que boite de la taille largeur,largeur,hauteur (x, y, z)
 	shape = new btBoxShape(btVector3(largeur, largeur, hauteur));
@@ -56,41 +60,43 @@ void box::dessiner()
 void box::dessinerBox(float x, float y, float z)
 {
 
-	
+
+	// Activation des textures
+	glEnable(GL_TEXTURE_2D);
+
+	// Selection de la texture du mur
+	glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("mur.bmp").texture);
+
 	glPushMatrix();
 	glScalef(x, y, z);
 	glBegin(GL_QUADS);
 
 	//face 1
-	glColor3ub(this->r, this->g, this->b);
+	glColor4f(this->r, this->g, this->b, this->a);
+
 	glNormal3i(-1, 1, -1);
-	glVertex3i(-1, 1, -1); glVertex3i(1, 1, -1);
-	glVertex3i(1, -1, -1); glVertex3i(-1, -1, -1);
+	glTexCoord2i(1, 1); glVertex3i(-1, 1, -1); glTexCoord2i(1, 0); glVertex3i(1, 1, -1);
+	glTexCoord2i(0, 0); glVertex3i(1, -1, -1); glTexCoord2i(0, 1); glVertex3i(-1, -1, -1);
 	//face 2
-	glColor3ub(this->r, this->g, this->b);
 	glNormal3i(-1, -1, -1);
-	glVertex3i(-1, -1, -1); glVertex3i(1, -1, -1);
-	glVertex3i(1, -1, 1); glVertex3i(-1, -1, 1);
+	glTexCoord2i(1, 1); glVertex3i(-1, -1, -1); glTexCoord2i(1, 0); glVertex3i(1, -1, -1);
+	glTexCoord2i(0, 0); glVertex3i(1, -1, 1); glTexCoord2i(0, 1); glVertex3i(-1, -1, 1);
 	// face 3
-	glColor3ub(this->r, this->g, this->b);
 	glNormal3i(1, -1, 1);
-	glVertex3i(1, -1, 1); glVertex3i(1, -1, -1);
-	glVertex3i(1, 1, -1); glVertex3i(1, 1, 1);
+	glTexCoord2i(1, 1); glVertex3i(1, -1, 1); glTexCoord2i(1, 0); glVertex3i(1, -1, -1);
+	glTexCoord2i(0, 0); glVertex3i(1, 1, -1); glTexCoord2i(0, 1); glVertex3i(1, 1, 1);
 	//face 4
-	glColor3ub(this->r, this->g, this->b);
 	glNormal3i(1, 1, -1);
-	glVertex3i(1, 1, -1); glVertex3i(-1, 1, -1);
-	glVertex3i(-1, 1, 1); glVertex3i(1, 1, 1);
+	glTexCoord2i(1, 1); glVertex3i(1, 1, -1); glTexCoord2i(1, 0); glVertex3i(-1, 1, -1);
+	glTexCoord2i(0, 0); glVertex3i(-1, 1, 1); glTexCoord2i(0, 1); glVertex3i(1, 1, 1);
 	//face 5
-	glColor3ub(this->r, this->g, this->b);
 	glNormal3i(-1, 1, 1);
-	glVertex3i(-1, 1, 1); glVertex3i(-1, 1, -1);
-	glVertex3i(-1, -1, -1); glVertex3i(-1, -1, 1);
+	glTexCoord2i(1, 1); glVertex3i(-1, 1, 1); glTexCoord2i(1, 0); glVertex3i(-1, 1, -1);
+	glTexCoord2i(0, 0); glVertex3i(-1, -1, -1); glTexCoord2i(0, 1); glVertex3i(-1, -1, 1);
 	//face 6
-	glColor3ub(this->r, this->g, this->b);
 	glNormal3i(1, -1, 1);
-	glVertex3i(1, -1, 1); glVertex3i(1, 1, 1);
-	glVertex3i(-1, 1, 1); glVertex3i(-1, -1, 1);
+	glTexCoord2i(1, 1); glVertex3i(1, -1, 1); glTexCoord2i(1, 0); glVertex3i(1, 1, 1);
+	glTexCoord2i(0, 0); glVertex3i(-1, 1, 1); glTexCoord2i(0, 1); glVertex3i(-1, -1, 1);
 	glEnd();
 	glPopMatrix();
 

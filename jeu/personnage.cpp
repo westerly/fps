@@ -14,6 +14,7 @@ Personnage::Personnage(float16 positionX, float16 positionY, float16 positionZ, 
 	v.push_back("personnage\\gun_shoot4.png");
 	v.push_back("personnage\\gun_shoot5.png");
 	v.push_back("personnage\\gun_shoot6.png");
+	v.push_back("personnage\\viseur.png");
 
 	// Création de l'arme à partir du fichier de texture et du vector des fichiers pour son animation
 	this->gun = new arme("personnage\\gun.png",v);

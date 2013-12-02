@@ -4,6 +4,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "Objet3DDeformable.h"
 #include "box.h"
+#include "cylinder.h"
 #include "types.h"
 #include <vector>
 

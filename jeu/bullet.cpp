@@ -9,29 +9,33 @@ Bullet::Bullet(float16 positionX, float16 positionY, float16 positionZ, float16 
 {
 	this->rayon = rayon;
 	this->inColision = false;
-
+	this->angleHorizontal = angleHorizontal;
+	this->angleVertical = angleVertical;
+	this->mass = mass;
+	
 	// On déclare une forme et on l'initialise en tant que sphere
-	shape = new btSphereShape(this->rayon);
+	//shape = new btSphereShape(this->rayon);
+	//shape = new btBoxShape(btVector3(this->rayon, this->rayon, this->rayon));
+	//shape = new btCylinderShapeZ(btVector3(this->rayon, 6.0, this->rayon));
+	////this->shape = new btCapsuleShapeX(0.1, 3);
+	////On initialise notre btTransform et on lui dit une position (la position de la sphere)
+	//transform.setIdentity();
+	//transform.setOrigin(btVector3(positionX, positionY, positionZ));
 
-	//On initialise notre btTransform et on lui dit une position (la position de la sphere)
-	transform.setIdentity();
-	transform.setOrigin(btVector3(positionX, positionY, positionZ));
 
-
-	this->localInertia = btVector3(0, 0, 0);
-	shape->calculateLocalInertia(mass, this->localInertia);
-
-	// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
-	motionState = new btDefaultMotionState(transform);
-	//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
-	btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
-	//On construis le corps de la boite à partir de l'information regroupée
-	body = new btRigidBody(myBoxRigidBodyConstructionInfo);
-
-	// Permet de pouvoir travailler sur l'objet bullet lors de la détection des collisions
-	body->setUserPointer(this);
-
-	this->body->setCollisionFlags(this->body->getCollisionFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
+	//transform.setRotation(btQuaternion(btVector3(0.0, 0.0, 1.0), btScalar(M_PI * this->angleHorizontal / 180)));
+	//transform.setRotation(btQuaternion(btVector3(0.0, 1.0, 0.0), btScalar(M_PI * (this->angleVertical + 90) / 180)));
+	//
+	//this->localInertia = btVector3(0, 0, 0);
+	//shape->calculateLocalInertia(mass, this->localInertia);
+	//// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+	//motionState = new btDefaultMotionState(transform);
+	////On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+	//btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
+	////On construis le corps de la boite à partir de l'information regroupée
+	//body = new btRigidBody(myBoxRigidBodyConstructionInfo);
+	//// Permet de pouvoir travailler sur l'objet bullet lors de la détection des collisions
+	//body->setUserPointer(this);
 }
 
 
@@ -298,20 +302,56 @@ void Bullet::handleColisionWithWall(float16 & positionCibleX, float16 & position
 
 void Bullet::dessiner()
 {
-	glDisable(GL_TEXTURE_2D);
-	//New quadric object
-	GLUquadric * quadric = gluNewQuadric();
+	//glDisable(GL_TEXTURE_2D);
+	////New quadric object
+	//GLUquadric * quadric = gluNewQuadric();
 
-	// On recupère la matrice OpenGL transformée par Bullet qu'on appliquera à notre boite
-	motionState->m_graphicsWorldTrans.getOpenGLMatrix(matrix);
+	//// On recupère la matrice OpenGL transformée par Bullet qu'on appliquera à notre boite
+	//motionState->m_graphicsWorldTrans.getOpenGLMatrix(matrix);
 
-	// On affiche notre boite avec les transformations appliquées grâce à la matrice
-	glPushMatrix();
-		glMultMatrixf(matrix);
-		glColor3f(0.0, 1.0, 1.0);
-		gluQuadricDrawStyle(quadric, GLU_FILL);
-		gluSphere(quadric, this->rayon, 20, 20);
-	glPopMatrix();
-	// On remet la couleur standard
-	glColor3f(255, 255, 255);
+	//// On affiche notre boite avec les transformations appliquées grâce à la matrice
+	//glPushMatrix();
+	//	glMultMatrixf(matrix);
+	//	glColor3f(0.0, 1.0, 1.0);
+	//	gluQuadricDrawStyle(quadric, GLU_FILL);
+	//	GLUquadricObj *quadratic;
+	//	quadratic = gluNewQuadric();
+	//	//glRotatef(this->angleHorizontal, 0.0, 0.0, 1.0);
+	//	//glRotatef(this->angleVertical + 90, 0.0, 1.0, 0.0);
+	//	gluCylinder(quadratic, 0.1f, 0.1f, 3.0f, 32, 32);
+	//	//gluSphere(quadric, this->rayon, 20, 20);
+
+	//	//glScalef(this->rayon, this->rayon, this->rayon);
+	//	//glBegin(GL_QUADS);
+
+
+	//	//glNormal3i(-1, 1, -1);
+	//	//glVertex3i(-1, 1, -1); glVertex3i(1, 1, -1);
+	//	//glVertex3i(1, -1, -1); glVertex3i(-1, -1, -1);
+	//	////face 2
+	//	//glNormal3i(-1, -1, -1);
+	//	//glVertex3i(-1, -1, -1); glVertex3i(1, -1, -1);
+	//	//glVertex3i(1, -1, 1); glVertex3i(-1, -1, 1);
+	//	//// face 3
+	//	//glNormal3i(1, -1, 1);
+	//	//glVertex3i(1, -1, 1);glVertex3i(1, -1, -1);
+	//	//glVertex3i(1, 1, -1);glVertex3i(1, 1, 1);
+	//	////face 4
+	//	//glNormal3i(1, 1, -1);
+	//	//glVertex3i(1, 1, -1);glVertex3i(-1, 1, -1);
+	//	//glVertex3i(-1, 1, 1);glVertex3i(1, 1, 1);
+	//	////face 5
+	//	//glNormal3i(-1, 1, 1);
+	//	//glVertex3i(-1, 1, 1); glVertex3i(-1, 1, -1);
+	//	//glVertex3i(-1, -1, -1);glVertex3i(-1, -1, 1);
+	//	////face 6
+	//	//glNormal3i(1, -1, 1);
+	//	//glVertex3i(1, -1, 1);glVertex3i(1, 1, 1);
+	//	//glVertex3i(-1, 1, 1);glVertex3i(-1, -1, 1);
+	//	//glEnd();
+	//	//glPopMatrix();
+
+	//glPopMatrix();
+	//// On remet la couleur standard
+	//glColor3f(255, 255, 255);
 }

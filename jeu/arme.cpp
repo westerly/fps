@@ -62,7 +62,8 @@ void arme::dessiner(float16 positionX,float16 positionY, float16 positionZ, floa
 
 		sint32 hauteurTextureCourante;
 		sint32 largeurTextureCourante;
-
+		// Permet d'afficher le gun et le viseur dans tous les cas et même si une texture est dessiné devant
+		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
 		// Permet d'afficher les textures transparentes
 		glEnable (GL_BLEND);
@@ -93,4 +94,48 @@ void arme::dessiner(float16 positionX,float16 positionY, float16 positionZ, floa
     // Restoration du repère d'origine
     glPopMatrix();
 
+
+	// On mémorise le repère courant avant d'effectuer la RST
+	glPushMatrix();
+
+		glTranslatef(positionX,
+			positionY,
+			positionZ);
+
+
+		glRotatef(angleHorizontal, 0.0, 0.0, 1.0);
+		glRotatef(angleVertical, 0.0, 1.0, 0.0);
+
+		glEnable(GL_TEXTURE_2D);
+		// Permet d'afficher les textures transparentes
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		hauteurTextureCourante = this->conteneurTextures.texture("personnage\\viseur.png").hauteur;
+		largeurTextureCourante = this->conteneurTextures.texture("personnage\\viseur.png").largeur;
+		GLuint textureViseur = this->conteneurTextures.texture("personnage\\viseur.png").texture;
+
+		glBindTexture(GL_TEXTURE_2D, textureViseur);
+		glBegin(GL_POLYGON);
+
+		// 0.4f correspond au rayon du personnage...
+		glTexCoord2f(1,0);
+		glVertex3d(-2, 0.25, 0.21);
+
+		glTexCoord2f(1, 1);
+		glVertex3d(-2, 0.25, -0.21);
+
+		glTexCoord2f(0, 1);
+		glVertex3d(-2, -0.25, -0.21);
+
+		glTexCoord2f(0, 0);
+		glVertex3d(-2, -0.25, 0.21);
+
+		glEnd();
+		glDisable(GL_BLEND);
+
+	// Restoration du repère d'origine
+	glPopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
 }

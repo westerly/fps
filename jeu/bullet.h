@@ -29,6 +29,9 @@ class Bullet : public Objet3DDeformable{
 		bool inColision;
 
 	public:
+		btVector3 vecteurDirection;
+
+	public:
 		Bullet(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f, float16 rayon = 0.1f);
 		~Bullet(void);
 		void ajouterTexture(std::string nomFichierTexture);

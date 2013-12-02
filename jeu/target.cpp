@@ -12,9 +12,14 @@ target::target(float16 positionX, float16 positionY, float16 positionZ, float la
 
 	int j = nbr_obj_base;
 	while (j != 0){
-		for (int i = 0; i < j; i++){
+		/*for (int i = 0; i < j; i++){
 			this->objets.push_back(new box(positionX, positionY + i * largeur + i * (largeur / 3) + (nbr_obj_base - j) * ((2 * largeur) / 3), 
-				(nbr_obj_base - j) * hauteur + positionZ, 0.0, 0.0, 0.5, this->largeur, this->hauteur));
+				(nbr_obj_base - j) * (hauteur + 0.2) + positionZ, 0.0, 0.0, 5.0, this->largeur, this->hauteur));
+		}*/
+
+		for (int i = 0; i < j; i++){
+			this->objets.push_back(new cylinder(positionX, positionY + i * largeur + i * (largeur / 3) + (nbr_obj_base - j) * ((2 * largeur) / 3),
+				(nbr_obj_base - j) * (hauteur + 0.2) + positionZ, 0.0, 0.0, 5.0, this->largeur, this->hauteur));
 		}
 		j--;
 	}

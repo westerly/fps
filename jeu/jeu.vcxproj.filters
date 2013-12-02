@@ -78,6 +78,9 @@
     <ClInclude Include="box.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="cylinder.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="carte.cpp">
@@ -135,6 +138,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="box.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="cylinder.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
