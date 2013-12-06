@@ -12,11 +12,15 @@ class Personnage : public Objet3DDeformable
     private:
 
         float16 rayon;
+		// Vitesse de déplacement du personnage
+		float vitesse;
+	
 
     public:
 
 		// Pour l'instant qu'une arme pour le perso et c'est un gun
 		arme * gun;
+
 
 		Personnage(float16 positionX, float16 positionY, float16 positionZ, float16 angleHorizontal, float16 angleVertical, btScalar mass = 0.0f);
 
@@ -32,6 +36,8 @@ class Personnage : public Objet3DDeformable
 		void drawTextInFrontOfCharacter(const char *text, int length, int x, int y);
 		__event void tirer(float16 positionX,float16 positionY,float16 positionZ,float16 angleHorizontal,float16 angleVertical);
 
+		inline float getVitesse(){ return this->vitesse; }
+		inline void setVitesse(float v){ this->vitesse = v; }
 
 };
 

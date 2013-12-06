@@ -32,6 +32,7 @@ class Controleur
 		void setLinkWithMap(Carte * carte){this->carte = carte;}
 
 		void handleBullets();
+
 };
 
 

@@ -12,7 +12,7 @@ cylinder::cylinder(float16 positionX, float16 positionY, float16 positionZ, floa
 	float radius = largeur / 2;
 
 	// Chargement de la texture du mur
-	this->conteneurTextures.ajouter("mur.bmp");
+	this->conteneurTextures.ajouter("cylinder.bmp");
 
 	// On déclare une forme et on l'initialise en tant que cylindre
 	shape = new btCylinderShapeZ(btVector3(radius, this->hauteur, radius));
@@ -59,7 +59,7 @@ void cylinder::dessiner()
 
 void cylinder::dessinerCylinder(float x, float y, float z)
 {
-	float radius = this->largeur / 2;
+	float radius = x;
 
 	// Activation des textures
 	//glEnable(GL_TEXTURE_2D);
@@ -88,7 +88,7 @@ void cylinder::dessinerCylinder(float x, float y, float z)
 		/* Enable 2D Texture*/
 		glEnable(GL_TEXTURE_2D);
 		/* set current working texture */
-		glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("mur.bmp").texture);
+		glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("cylinder.bmp").texture);
 
 		/* Disabling these is not necessary in this example,
 		* BUT if you have previously enabled GL_TEXTURE_GEN_
@@ -102,14 +102,68 @@ void cylinder::dessinerCylinder(float x, float y, float z)
 		z = this->hauteur;
 		for (int i = 0; i <= faces; i++) {
 			double u = i / (double)faces;
-			x2 = this->largeur*cos(2 * M_PI*u);
-			y2 = this->largeur*sin(2 * M_PI*u);
+			x2 = 1*cos(2 * M_PI*u);
+			y2 = 1*sin(2 * M_PI*u);
 			/* Bottom vertex*/
 			glTexCoord2d(u, 1.0); glVertex3d(x2, y2, 0);
 			/* Top vertex*/
 			glTexCoord2d(u, 0.0); glVertex3d(x2, y2, 1);
 		}
 		glEnd();
+
+
+
+		float angle, radian, xc, yc, xcos, ysin, tx, ty;       // values needed by drawCircleOutline
+
+		// draw first circle
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("cylinder.bmp").texture);
+
+		glBegin(GL_POLYGON);
+
+		for (angle = 0.0; angle<360.0; angle += 2.0)
+		{
+			radian = angle * (M_PI / 180.0f);
+
+			xcos = (float)cos(radian);
+			ysin = (float)sin(radian);
+			xc = xcos * this->largeur * (1 / this->largeur);
+			yc = ysin * this->largeur * (1 / this->largeur);
+			tx = xcos * 0.5 + 0.5;
+			ty = ysin * 0.5 + 0.5;
+
+			glTexCoord2f(tx, ty);
+			glVertex3f(xc, yc, 0);
+
+		}
+
+		glEnd();
+
+		// Draw second circle
+		glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("cylinder.bmp").texture);
+		glBegin(GL_POLYGON);
+
+		for (angle = 0.0; angle<360.0; angle += 2.0)
+		{
+			radian = angle * (M_PI / 180.0f);
+
+			xcos = (float)cos(radian);
+			ysin = (float)sin(radian);
+			xc = xcos * this->largeur * (1/this->largeur);
+			yc = ysin * this->largeur * (1/this->largeur);
+			tx = xcos * 0.5 + 0.5;
+			ty = ysin * 0.5 + 0.5;
+
+			glTexCoord2f(tx, ty);
+			glVertex3f(xc, yc, 1.0);
+
+		}
+
+		glEnd();
+
+
+		glDisable(GL_TEXTURE_2D);
+
 
 	// On remet la couleur à la normale ( évite de bleuter les textures )
 	glColor4f(1, 1, 1, 1);

@@ -40,12 +40,15 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 
 	// For the box
 	//this->targetTest = new target(4, 4, 0, 0.15, 0.15, 4);
-	this->targetTest = new target(4, 4, 0, 1.0, 1.0, 3);
+	this->targetTest = new target(4, 4, 0, 0.5, 0.5, 3);
 
 	// Ajouter les objets composants la cible au monde physique
 	this->physicHandler->addRigidBody(this->targetTest);
 	// Ajouter le sol au monde physique
 	this->physicHandler->addRigidBody(this->carte->getBody_Sol());
+
+	// Ajout des rigides body pour les murs dans le monde physique
+	this->physicHandler->addRigidBodies(this->carte->getRigidBodiesWalls());
 
 }
 
@@ -153,6 +156,16 @@ void Scene::animer(void)
         else direction = 180.0;
     }
 
+	if (touches[SDL_SCANCODE_Q]) // Touche A (Déplacement rapide)
+	{
+		// On double la vitesse du personnage si la touche est enfoncée
+		this->personnage->setVitesse(VITESSE_DEPLACEMENT_PERSONNAGE * 2);
+	}
+	else{
+		// On remet la vitesse du personnage à la vitesse normal si la touche n'est pas enfoncée
+		this->personnage->setVitesse(VITESSE_DEPLACEMENT_PERSONNAGE);
+	}
+
     if(FALSE == deplacement)
     {
 		if (touches[SDL_SCANCODE_A]) // Touche Q
@@ -181,7 +194,7 @@ void Scene::animer(void)
     if (deplacement)
     {
         // Calcule de la distance à parcourir
-        float16 distance = (float)tempsDernierPas * VITESSE_DEPLACEMENT_PERSONNAGE / 1000.0f;
+        float16 distance = (float)tempsDernierPas * this->personnage->getVitesse() / 1000.0f;
         // Recuperation de l'environnement
         sint32 positionCarteX = 0, positionCarteY = 0;
         bool8 entouragePersonnage[8];
@@ -222,6 +235,8 @@ void Scene::dessiner(void)
 
 	//Dessin du personnage
     this->personnage->dessiner();
+
+	this->physicHandler->getWorld()->debugDrawWorld();
 
 	std::string text;
 	// créer un flux de sortie

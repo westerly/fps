@@ -90,6 +90,7 @@
     <ClInclude Include="gameEventHandler.h" />
     <ClInclude Include="jeu.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="MyDebug.h" />
     <ClInclude Include="Objet3DDeformable.h" />
     <ClInclude Include="Objet3DDeformableBlender.h" />
     <ClInclude Include="objet3DStatique.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="jeu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="MyDebug.cpp" />
     <ClCompile Include="Objet3DDeformable.cpp" />
     <ClCompile Include="Objet3DDeformableBlender.cpp" />
     <ClCompile Include="objet3DStatique.cpp" />

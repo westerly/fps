@@ -2,6 +2,7 @@
 #define PHYSICENGINE_H_INCLUDED
 
 #include "target.h"
+#include "MyDebug.h"
 
 class PhysicEngine
 {
@@ -17,6 +18,7 @@ private:
 	// btSequentialImpulseConstraintSolver est une implémentation SIMD rapide de la méthode Projected Gauss Seidel (iterative LCP).
 	btSequentialImpulseConstraintSolver *sequentialImpulseConstraintSolver;
 
+	MyDebug * debugger;
 
 public:
 	PhysicEngine();
@@ -26,6 +28,7 @@ public:
 	void addRigidBody(btRigidBody * body);
 	// Ajouter tous les objets rigides d'une cible au monde physique
 	void addRigidBody(target * t);
+	void addRigidBodies(std::vector<btRigidBody*> bodies);
 
 	btDiscreteDynamicsWorld * getWorld();
 };

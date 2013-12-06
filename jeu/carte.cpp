@@ -94,6 +94,19 @@ Carte::~Carte()
 
 	// On ne libère pas l'attribut body_sol du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
 
+
+	// Libération des shapes des murs
+	for (std::vector<btCollisionShape*>::iterator element = this->shapeWalls.begin(); element != this->shapeWalls.end(); element++)
+	{
+		delete *element;
+	}
+
+	// Libération des motionState des murs
+	for (std::vector<btDefaultMotionState*>::iterator element = this->motionStateWalls.begin(); element != this->motionStateWalls.end(); element++)
+	{
+		delete *element;
+	}
+
 }
 
 void Carte::dessiner()
@@ -146,14 +159,6 @@ void Carte::creerListeAffichage()
     uint32 nbCases;
     nbCases = this->hauteurCarte * this->largeurCarte;
 
-//    for(uint32 i = 0u; i < this->hauteurCarte ; i++)
-//    {
-//        for(uint32 j = 0u; j < this->largeurCarte ; j++)
-//        {
-//            printf("%d ",this->carte[i*this->largeurCarte+j]);
-//        }
-//        printf ("\n");
-//    }
 
     for(uint32 j = 0u; j < this->hauteurCarte ; j++)
     {
@@ -167,6 +172,33 @@ void Carte::creerListeAffichage()
             // Si le mur est visible de l'ouest vers l'est
             if ((0 == caseGauche) && (1 == caseDroite))
             {
+				// On déclare la forme du mur et on l'initialise en tant que boite (largeur, hauteur, épaisseur = 1)
+				btCollisionShape* shape = new btBoxShape(btVector3(1, 0.1, HAUTEUR_MURS/2));
+				this->shapeWalls.push_back(shape);
+
+				btTransform tr;
+
+				// Position du mur
+				tr.setIdentity();
+				tr.setOrigin(btVector3(j, i+1, HAUTEUR_MURS/2));
+				tr.setRotation(btQuaternion(0, 0, 1, 90));
+
+				// Le premier paramètre est la masse, il vaut 0, le fait que le poids de cet objet soit zéro le rends statique
+				shape->calculateLocalInertia(0, btVector3(0, 0, 0));
+
+				// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+				btDefaultMotionState * mtState = new btDefaultMotionState(tr);
+				//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+				btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(0, mtState, shape, btVector3(0, 0, 0));
+				//On construis le corps de la boite à partir de l'information regroupée
+				btRigidBody * bodyWall = new btRigidBody(myBoxRigidBodyConstructionInfo);
+
+
+				this->transformWalls.push_back(tr);
+				this->motionStateWalls.push_back(mtState);
+				this->bodyWalls.push_back(bodyWall);
+
+
                 // Dessin du mur
                 glBegin(GL_QUADS);
                 glTexCoord2i(0, 0); glVertex3i(j, i+1, HAUTEUR_MURS);
@@ -179,6 +211,34 @@ void Carte::creerListeAffichage()
               // Si le mur est visible de l'est vers l'ouest
             if ((1 == caseGauche) && (0 == caseDroite))
             {
+
+				// On déclare la forme du mur et on l'initialise en tant que boite (largeur, hauteur, épaisseur = 1)
+				btCollisionShape* shape = new btBoxShape(btVector3(1, 0.1, HAUTEUR_MURS / 2));
+				this->shapeWalls.push_back(shape);
+
+				btTransform tr;
+
+				// Position du mur
+				tr.setIdentity();
+				tr.setOrigin(btVector3(j, i + 1, HAUTEUR_MURS / 2));
+				tr.setRotation(btQuaternion(0, 0, 1, 90));
+
+				// Le premier paramètre est la masse, il vaut 0, le fait que le poids de cet objet soit zéro le rends statique
+				shape->calculateLocalInertia(0, btVector3(0, 0, 0));
+
+				// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+				btDefaultMotionState * mtState = new btDefaultMotionState(tr);
+				//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+				btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(0, mtState, shape, btVector3(0, 0, 0));
+				//On construis le corps de la boite à partir de l'information regroupée
+				btRigidBody * bodyWall = new btRigidBody(myBoxRigidBodyConstructionInfo);
+
+
+				this->transformWalls.push_back(tr);
+				this->motionStateWalls.push_back(mtState);
+				this->bodyWalls.push_back(bodyWall);
+
+
                 // Dessin du mur
                 glBegin(GL_QUADS);
                 glTexCoord2i(1, 0); glVertex3i(j, i+1, HAUTEUR_MURS);
@@ -203,6 +263,33 @@ void Carte::creerListeAffichage()
             // Si le mur est visible du Nord vers le Sud
             if ((0 == caseHaut) && (1 == caseBas))
             {
+
+				// On déclare la forme du mur et on l'initialise en tant que boite (largeur, hauteur, épaisseur = 1)
+				btCollisionShape* shape = new btBoxShape(btVector3(0.1, 0.5, HAUTEUR_MURS / 2));
+				this->shapeWalls.push_back(shape);
+
+				btTransform tr;
+
+				// Position du mur
+				tr.setIdentity();
+				tr.setOrigin(btVector3(i+1, j, HAUTEUR_MURS / 2));
+				//tr.setRotation(btQuaternion(1, 0, 0, 90));
+
+				// Le premier paramètre est la masse, il vaut 0, le fait que le poids de cet objet soit zéro le rends statique
+				shape->calculateLocalInertia(0, btVector3(0, 0, 0));
+
+				// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+				btDefaultMotionState * mtState = new btDefaultMotionState(tr);
+				//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+				btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(0, mtState, shape, btVector3(0, 0, 0));
+				//On construis le corps de la boite à partir de l'information regroupée
+				btRigidBody * bodyWall = new btRigidBody(myBoxRigidBodyConstructionInfo);
+
+
+				this->transformWalls.push_back(tr);
+				this->motionStateWalls.push_back(mtState);
+				this->bodyWalls.push_back(bodyWall);
+
                 // Dessin du mur
                 glBegin(GL_QUADS);
 
@@ -217,6 +304,33 @@ void Carte::creerListeAffichage()
               // Si le mur est visible du Sud vers le Nord
             if ((0 == caseBas) && (1 == caseHaut))
             {
+
+				// On déclare la forme du mur et on l'initialise en tant que boite (largeur, hauteur, épaisseur = 1)
+				btCollisionShape* shape = new btBoxShape(btVector3(0.1, 0.5, HAUTEUR_MURS / 2));
+				this->shapeWalls.push_back(shape);
+
+				btTransform tr;
+
+				// Position du mur
+				tr.setIdentity();
+				tr.setOrigin(btVector3(i + 1, j, HAUTEUR_MURS / 2));
+				//tr.setRotation(btQuaternion(1, 0, 0, 90));
+
+				// Le premier paramètre est la masse, il vaut 0, le fait que le poids de cet objet soit zéro le rends statique
+				shape->calculateLocalInertia(0, btVector3(0, 0, 0));
+
+				// Il est conseillé d'utiliser motionState car il fournit des capacités d'interpolation et synchronise seulement les objets "actifs".
+				btDefaultMotionState * mtState = new btDefaultMotionState(tr);
+				//On regroupe les informations de la boite à partir de la masse, l'inertie et cetera
+				btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(0, mtState, shape, btVector3(0, 0, 0));
+				//On construis le corps de la boite à partir de l'information regroupée
+				btRigidBody * bodyWall = new btRigidBody(myBoxRigidBodyConstructionInfo);
+
+
+				this->transformWalls.push_back(tr);
+				this->motionStateWalls.push_back(mtState);
+				this->bodyWalls.push_back(bodyWall);
+
                 // Dessin du mur
                 glBegin(GL_QUADS);
 
