@@ -47,8 +47,6 @@ class Scene
 		animator * animationHandler;
 		GameEventHandler * eventHandler;
 		Controleur * controleur;
-		// test target
-		target * targetTest;
 		PhysicEngine * physicHandler;
 		int currentFPS;
 
@@ -58,6 +56,8 @@ class Scene
         void dessiner(void);
 		void afficher(void);
 		void initOpenGL(void);
+		void drawFPS(void);
+		void drawPoints(void);
 
 
     public:
@@ -65,6 +65,7 @@ class Scene
 		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL);
         ~Scene();
         void executer();
+		
 };
 
 #endif // SCENE_H_INCLUDED

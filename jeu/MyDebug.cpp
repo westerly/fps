@@ -18,6 +18,8 @@ void MyDebug::drawLine(const btVector3& from, const btVector3& to, const btVecto
 	glColor3f(toColor.getX(), toColor.getY(), toColor.getZ());
 	glVertex3f(to.getX(), to.getY(), to.getZ());
 	glEnd();
+	// on remet la couleur à la normale
+	glColor4f(1, 1, 1, 1);
 }
 
 void MyDebug::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)

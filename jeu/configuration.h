@@ -25,6 +25,21 @@
 
 #define VITESSE_DEPLACEMENT_BULLET 2.0f
 
+// Représente le nombre de cibles max affiché au maximum au début du jeu
+#define NBR_CIBLES_MAX 3
+// Représente le nombre max d'elements qu'une cible peut avoir à sa base 
+#define NBR_EL_TARGET_BASE_MAX 8
+// Représente le temps de vie maximum d'une cible au début du jeu (en millisecondes)
+#define MAX_LIVING_TIME_TARGET_BEGINNING 5000
+// Représente la fraction de la largeur d'un element d'une cible qui servira d'espacement entre les elements des cibles
+#define ESPACEMENT_ENTRE_ELEMENTS 0.33333
+// La taille min de la largeur d'un element d'une cible
+#define MIN_LARGEUR_EL_TARGET 0.25
+// La taille max de la largeur d'un element d'une cible
+#define MAX_LARGEUR_EL_TARGET 1.0
+
+// Le temps en millisecondes au bout duquel la cible correctement shooté disparait
+#define TIMES_BEFORE_TARGET_RIGHT_SHOT_DISAPPEARS 5000
 
 #endif // CONFIGURATION_H_INCLUDED
 

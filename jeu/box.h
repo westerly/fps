@@ -23,6 +23,8 @@ public:
 	void dessinerBox(float x, float y, float z);
 	virtual void dessiner();
 	inline void box::setRGBA(float p_r, float p_g, float p_b, float p_a){r = p_r;g = p_g;b = p_b;a = p_a;}
+	// Renvoie true si l'élément est un élément à shooter
+	inline bool isHighlighted(){ return (this->r == 255 && this->g == 0 && this->b == 0); }
 };
 
 #endif

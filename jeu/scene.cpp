@@ -37,13 +37,7 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	
 	// Le gestionnaire d'évènements écoute l'objet personnage
 	this->eventHandler->hookEvent(this->personnage);
-
-	// For the box
-	//this->targetTest = new target(4, 4, 0, 0.15, 0.15, 4);
-	this->targetTest = new target(4, 4, 0, 0.5, 0.5, 3);
-
-	// Ajouter les objets composants la cible au monde physique
-	this->physicHandler->addRigidBody(this->targetTest);
+	
 	// Ajouter le sol au monde physique
 	this->physicHandler->addRigidBody(this->carte->getBody_Sol());
 
@@ -59,8 +53,6 @@ Scene::~Scene()
 	delete this->personnage;
 	delete this->eventHandler;
 	delete this->animationHandler;
-	//delete this->table;
-	delete this->targetTest;
 	delete this->physicHandler;
 }
 
@@ -68,6 +60,9 @@ void Scene::executer()
 {	
 	// Parametrage d'OpenGL
     this->initOpenGL();
+
+	// Permet de pouvoir générer des nombres aléatoires par la suite
+	srand(time(NULL));
 
 
     // Initialisation des variables de gestion du temps
@@ -80,6 +75,9 @@ void Scene::executer()
 	int framesPerSecond = 0;
 	int lastFramePerSecond = 0;
 	uint32 cptMilliSeconde = 0;
+
+	// Initialisation du jeu par le controleur, création des premières cibles...
+	this->controleur->startGame();
 
     while(this->continuer)
     {
@@ -203,10 +201,6 @@ void Scene::animer(void)
         // Deplacement du personnage dans la direction demande
         this->personnage->deplacer(distance, direction, entouragePersonnage);
     }
-
-	//if (this->controleur->thereAreBullets()){
-	//	this->controleur->handleBullets();
-	//}
 	
 	this->animationHandler->animer();
 }
@@ -222,33 +216,25 @@ void Scene::dessiner(void)
 	//gluLookAt(0, 0, -10, 0, 0, 3, 0, 1, 0);
     this->personnage->regarder();
 
-	//this->table->dessiner();
-
     // Dessin de la skybox
     this->skybox->dessiner();
 	
     // Dessin de la carte
     this->carte->dessiner();
 
-	// Dessin de la cible test
-	this->targetTest->dessiner();
-
-	//Dessin du personnage
-    this->personnage->dessiner();
+	this->controleur->drawTargets();
 
 	this->physicHandler->getWorld()->debugDrawWorld();
 
-	std::string text;
-	// créer un flux de sortie
-	std::ostringstream oss;
-	// écrire un nombre dans le flux
-	oss << this->currentFPS;
-	// récupérer une chaîne de caractères
-	std::string nbrFPS = oss.str();
-	text = "FPS: " + nbrFPS;
-	glColor3f(0, 0, 255);
-	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), 0, HAUTEUR_FENETRE - 10);
-	glColor3f(255, 255, 255);
+	//Dessin du personnage
+	this->personnage->dessiner();
+
+	this->drawFPS();
+
+	this->drawPoints();
+
+	
+	
 	
 }
 
@@ -263,6 +249,12 @@ void Scene::afficher(void)
 
 void Scene::gererEvenements(void)
 {
+
+	// Update des différents timers des cibles
+	this->controleur->updateTimersTargets();
+	// Gérer les cibles
+	this->controleur->handleTargets();
+
     SDL_Event evenement;
     while (SDL_PollEvent(&evenement))
     {
@@ -339,5 +331,28 @@ void Scene::initOpenGL(void)
     // Activation du tampon de profondeur
     glEnable(GL_DEPTH_TEST);
 
+}
+
+void Scene::drawFPS(){
+	std::string text;
+	// créer un flux de sortie
+	std::ostringstream oss;
+	// écrire un nombre dans le flux
+	oss << this->currentFPS;
+	// récupérer une chaîne de caractères
+	std::string nbrFPS = oss.str();
+	text = "FPS: " + nbrFPS;
+	glColor3f(0, 0, 255);
+	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), 0, HAUTEUR_FENETRE - 10);
+}
+
+void Scene::drawPoints(){
+	std::string text;
+	// créer un flux de sortie
+	std::ostringstream oss;
+	oss << this->controleur->getNbrPoints();
+	std::string nbrPoints = oss.str();
+	text = "Points: " + nbrPoints;
+	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), LARGEUR_FENETRE - 150, HAUTEUR_FENETRE - 10);
 }
 

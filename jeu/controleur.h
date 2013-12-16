@@ -7,9 +7,10 @@
 #include "carte.h"
 #include "physicEngine.h"
 #include "personnage.h"
+#include "Helper.h"
 #include <vector>
-#include <algorithm>
 #include <string>
+
 
 
 class GameEventHandler;
@@ -21,18 +22,49 @@ class Controleur
 	Carte * carte;
 	PhysicEngine * physicEngine;
 	Personnage * personnage;
+	// Vecteur de targets contenant toute les cibles affichés (donc à gérer) dans le jeu
+	std::vector<target*> targets;
+	// Le nombre de points courant du joueur
+	int nbrPoints;
+
+	// Temps maximum de courant de vie d'une cible (évolue avec la difficulté)
+	uint32 current_max_living_time_target;
 
 	public:
-		inline Controleur::Controleur(Carte * p_carte, PhysicEngine * p_physicEngine, Personnage * p_personnage) :carte(p_carte), physicEngine(p_physicEngine), personnage(p_personnage){}
+		Controleur::Controleur(Carte * p_carte, PhysicEngine * p_physicEngine, Personnage * p_personnage);
 		~Controleur(void);
 
 		void shootBullet(float16 positionX,float16 positionY,float16 positionZ,float16 angleHorizontal,float16 angleVertical);
 		void setLinkWithHandlerEvent(GameEventHandler * handlerEvent){this->handlerEvent = handlerEvent;}
 		void setLinkWithAnimatorHandler(animator * animationHandler){this->animationHandler = animationHandler;}
 		void setLinkWithMap(Carte * carte){this->carte = carte;}
+		
+		// Fonction a appeler au lancement du jeu 
+		void startGame();
+		// Dessine les cibles
+		void drawTargets();
 
-		void handleBullets();
+		// Renvoi true si une cible affichée et trop proche de la position x,y et false dans le cas contraire
+		bool targetToCloseFromXY(float x, float y, float size);
 
+		// MAJ les timers des targets comme (displayedsince et sinceIsShot)
+		void updateTimersTargets();
+
+		void handleTargets();
+		// Créer une cible à une position random sur la carte
+		void createTarget();
+		// Permet de supprimer tous les rigidBody des elements de la cible du monde physique et de la mémoire
+		void deleteRigidBodiesFromTarget(target *tr);
+
+		// Fonction qui gère lorsque un element en surbrillance el a été shooté
+		void handleElHighlightedShot(Objet3DDeformable * el);
+
+		// Permet de MAJ le nombre de points du joueur qui vient de toucher correctement la cible t
+		// Le nombre de points gagné est calculé en fonction de la position du joueur par rapport à la cible 
+		// et par rapport à sa rapidité c'est à dire par rapport au paramètre displayedsince de la cible
+		void majNbrPointsPlayer(target * t);
+
+		inline int getNbrPoints(){ return this->nbrPoints; }
 };
 
 

@@ -36,7 +36,7 @@ PhysicEngine::~PhysicEngine()
 {
 	delete world;
 	delete sequentialImpulseConstraintSolver;
-	delete broadphase;
+    delete broadphase;
 	delete dispatcher;
 	delete collisionConfiguration;
 	if (this->debugger != NULL){ delete this->debugger; }

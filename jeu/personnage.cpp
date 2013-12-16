@@ -334,4 +334,7 @@ void Personnage::drawTextInFrontOfCharacter(const char *text, int length, int x,
 	glMatrixMode(GL_PROJECTION); // change current matrix mode to PROJECTION
 	glLoadMatrixd(matrix); // reset
 	glMatrixMode(GL_MODELVIEW); // change current matrix mode to MODELVIEW
+
+	// On remet la couleur à la normal
+	glColor3f(255, 255, 255);
 }

@@ -88,6 +88,7 @@
     <ClInclude Include="controleur.h" />
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="gameEventHandler.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="jeu.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="MyDebug.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="controleur.cpp" />
     <ClCompile Include="cylinder.cpp" />
     <ClCompile Include="gameEventHandler.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="jeu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />

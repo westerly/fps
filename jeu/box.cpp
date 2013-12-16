@@ -38,9 +38,9 @@ box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleH
 
 box::~box()
 {
-	// On ne libère pas l'attribut body du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
 	delete motionState;
 	delete shape;
+	//delete body;
 }
 
 

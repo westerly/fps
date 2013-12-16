@@ -50,14 +50,12 @@ class Carte : public Objet3DDeformable{
 		Carte(const char* nomFichier, float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f);
         ~Carte();
         void dessiner();
-
         void entourage(sint32 x, sint32 y, bool8 entourage[8]);
-
 		void entourage(sint32 x, sint32 y, sint32 z, bool8 entourage[8]);
-
 		btRigidBody * getBody_Sol();
-
 		inline std::vector<btRigidBody*> getRigidBodiesWalls(){ return this->bodyWalls; };
+		inline uint32 getLargeur(){ return this->largeurCarte; }
+		inline uint32 getHauteur(){ return this->hauteurCarte; }
 };
 
 #endif // CARTE_H_INCLUDED

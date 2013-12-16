@@ -92,7 +92,7 @@ Carte::~Carte()
 	delete this->shape;
 	delete this->motionState;
 
-	// On ne libère pas l'attribut body_sol du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
+	// On ne libère pas l'attribut body_sol (rigidBody) du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
 
 
 	// Libération des shapes des murs

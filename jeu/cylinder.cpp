@@ -38,9 +38,9 @@ cylinder::cylinder(float16 positionX, float16 positionY, float16 positionZ, floa
 
 cylinder::~cylinder()
 {
-	// On ne libère pas l'attribut body du tas, c'est le physicEngine qui s'en charge lorsque il libère de la mémoire l'attibut world
 	delete motionState;
 	delete shape;
+	//delete body;
 }
 
 
@@ -74,8 +74,6 @@ void cylinder::dessinerCylinder(float x, float y, float z)
 		glScalef(x, y, z);
 		
 
-		glColor4f(this->r, this->g, this->b, this->a);
-
 		/*GLUquadricObj *quadratic;
 		quadratic = gluNewQuadric();
 		gluCylinder(quadratic, 1, 1, 1, 32, 32);*/
@@ -96,6 +94,9 @@ void cylinder::dessinerCylinder(float x, float y, float z)
 		*/
 		glDisable(GL_TEXTURE_GEN_S);
 		glDisable(GL_TEXTURE_GEN_T);
+
+		glColor4f(this->r, this->g, this->b, this->a);
+
 
 		glBegin(GL_QUAD_STRIP);
 		double x2, y2, z2;
