@@ -40,7 +40,9 @@ class target
 	
 
 public:
-	target(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float largeur = 1, float hauteur = 1, int nbr_obj_base = 3);
+
+	// type : 0 pour target cylindre, 1 pour target box
+	target(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float largeur = 1, float hauteur = 1, int nbr_obj_base = 3, int type = 0);
 	virtual ~target();
 
 	void dessiner();

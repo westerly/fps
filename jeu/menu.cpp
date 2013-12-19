@@ -1,15 +1,22 @@
 #include "menu.h"
 #include "conteneurTextures.h"
  
-Menu::Menu(std::string imageFond)
+Menu::Menu(std::string imageFond, SDL_Window *scr)
 {
     this->imageFond = imageFond;
     this->conteneurTextures.ajouter(this->imageFond);
+	this->screen = scr;
 }
  
 Menu::~Menu()
 {
     this->conteneurTextures.supprimer(this->imageFond);
+
+	// Liberation des boutons
+	for (Boutons::iterator element = this->listeBoutons.begin(); element != listeBoutons.end(); element++)
+	{
+		delete *element;
+	}
 }
  
 void Menu::dessiner(void)
@@ -40,6 +47,7 @@ void Menu::dessiner(void)
     glFlush();
 	// appeler SDL_GL_SwapWindow(this->screen); faire passer screen en attribut de menu
     // Changement SDL 2.0 SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(this->screen);
  
 }
  
@@ -63,5 +71,14 @@ void Menu::dessinerFond(void)
  
 void Menu::dessinerBoutons(void)
 {
-    
+	// Dessin des boutons
+	for (Boutons::iterator element = this->listeBoutons.begin(); element != listeBoutons.end(); element++)
+	{
+		(*element)->dessiner();
+	}
+}
+
+void Menu::ajouterBouton(std::string texte, sint32 x, sint32 y, sint32 code)
+{
+	this->listeBoutons.insert(new Bouton(texte, x, y, code));
 }

@@ -40,10 +40,8 @@ class Scene
 		SDL_Window *screen;
 		SDL_Renderer *renderer;
 		SDL_GLContext contexteOpenGL;
-		TTF_Font * police;
 		SDL_Texture* texte;
 		Personnage * personnage;
-		//std::vector<Bullet*> Bullets;
 		animator * animationHandler;
 		GameEventHandler * eventHandler;
 		Controleur * controleur;
@@ -58,6 +56,8 @@ class Scene
 		void initOpenGL(void);
 		void drawFPS(void);
 		void drawPoints(void);
+		void verrouillerSouris(void);
+		void deverrouillerSouris(void);
 
 
     public:

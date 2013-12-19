@@ -111,22 +111,36 @@ void Controleur::startGame(){
 }
 
 void Controleur::createTarget(){
-	float random_hauteur_largeur = Helper::frand_a_b(MIN_LARGEUR_EL_TARGET, MAX_LARGEUR_EL_TARGET);
-	float random_obj_base = Helper::rand_a_b(3, NBR_EL_TARGET_BASE_MAX);
+	
+	
 
 	bool toClose = true;
 
 	while (toClose){
 
+		float random_obj_base = Helper::rand_a_b(3, NBR_EL_TARGET_BASE_MAX);
+
+		int random_type_target = Helper::rand_a_b(0, 2);
+
+		float random_hauteur_largeur = 0;
+		// Target de type cylindre
+		if (random_type_target == 0){
+			random_hauteur_largeur = Helper::frand_a_b(MIN_LARGEUR_EL_TARGET_CYLINDRE, MAX_LARGEUR_EL_TARGET_CYLINDRE);
+		}
+		else{
+			// Target de type box
+			random_hauteur_largeur = Helper::frand_a_b(MIN_LARGEUR_EL_TARGET_BOX, MAX_LARGEUR_EL_TARGET_BOX);
+		}
+
 		float size_target = random_obj_base * random_hauteur_largeur + ((random_obj_base - 1) * ESPACEMENT_ENTRE_ELEMENTS * random_hauteur_largeur);
 
-		float random_pos_x = Helper::frand_a_b(1, this->carte->getHauteur() - (size_target + 2));
-		float random_pos_y = Helper::frand_a_b(1, this->carte->getLargeur() - (size_target + 2));
+		float random_pos_x = Helper::frand_a_b(1 + size_target, this->carte->getHauteur() - (size_target + 2));
+		float random_pos_y = Helper::frand_a_b(1 + size_target, this->carte->getLargeur() - (size_target + 2));
 
 		toClose = targetToCloseFromXY(random_pos_x, random_pos_y, size_target);
 
 		if (!toClose){
-			target * tr = new target(random_pos_x, random_pos_y, 0, random_hauteur_largeur, random_hauteur_largeur, random_obj_base);
+			target * tr = new target(random_pos_x, random_pos_y, 0, random_hauteur_largeur, random_hauteur_largeur, random_obj_base,random_type_target);
 			this->targets.push_back(tr);
 			// Ajouter les objets composants la cible au monde physique
 			this->physicEngine->addRigidBody(tr);
@@ -217,8 +231,8 @@ bool Controleur::targetToCloseFromXY(float x, float y, float size){
 			}
 		}*/
 		
-		double dist = sqrt(pow(x - tr->getPositionX(), 2) + pow(y - tr->getPositionY(), 2));
-		if (dist <= size / 2){
+		double dist = sqrt(pow((x + (size/2)) - tr->getPositionX(), 2) + pow((y + (size/2)) - tr->getPositionY(), 2));
+		if (dist <= size){
 			return true;
 		}
 	}
@@ -239,5 +253,5 @@ void Controleur::majNbrPointsPlayer(target * t){
 	int points = distance_perso_target + (this->current_max_living_time_target - t->getDisplayedSince());
 
 	// On affecte un coefficient au nombre de points calculé auparavant en fonction de la largeur des éléments de la cible
-	this->nbrPoints = this->nbrPoints + (points * (MAX_LARGEUR_EL_TARGET + 1 - t->getLargeur()));
+	this->nbrPoints = this->nbrPoints + (points * (MAX_LARGEUR_EL_TARGET_BOX + 1 - t->getLargeur()));
 }

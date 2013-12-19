@@ -34,9 +34,13 @@
 // Représente la fraction de la largeur d'un element d'une cible qui servira d'espacement entre les elements des cibles
 #define ESPACEMENT_ENTRE_ELEMENTS 0.33333
 // La taille min de la largeur d'un element d'une cible
-#define MIN_LARGEUR_EL_TARGET 0.25
+#define MIN_LARGEUR_EL_TARGET_CYLINDRE 0.25
 // La taille max de la largeur d'un element d'une cible
-#define MAX_LARGEUR_EL_TARGET 1.0
+#define MAX_LARGEUR_EL_TARGET_CYLINDRE 1.0
+// La taille min de la largeur d'un element d'une cible
+#define MIN_LARGEUR_EL_TARGET_BOX 0.15
+// La taille max de la largeur d'un element d'une cible
+#define MAX_LARGEUR_EL_TARGET_BOX 0.5
 
 // Le temps en millisecondes au bout duquel la cible correctement shooté disparait
 #define TIMES_BEFORE_TARGET_RIGHT_SHOT_DISAPPEARS 5000

@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="animator.h" />
     <ClInclude Include="arme.h" />
+    <ClInclude Include="Bouton.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="carte.h" />
@@ -106,6 +107,7 @@
   <ItemGroup>
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="arme.cpp" />
+    <ClCompile Include="Bouton.cpp" />
     <ClCompile Include="box.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="carte.cpp" />

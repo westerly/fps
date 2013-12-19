@@ -7,15 +7,7 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	this->contexteOpenGL = contexteOpenGL;
 	this->currentFPS = 0;
 
-    // Maintien de la souris dans la fenetre
-	SDL_SetRelativeMouseMode(SDL_TRUE);
-    // Correctif SDL 2.0 SDL_WM_GrabInput(SDL_GRAB_ON);
-
-    // La souris est au centre de l'ecran
-    SDL_WarpMouseInWindow(this->screen, (LARGEUR_FENETRE/2), (HAUTEUR_FENETRE/2) );
-
-    // La souris est invisible
-    SDL_ShowCursor(FALSE);
+    
 
     this->skybox = new Objet3DStatique("skybox.o3s.m3s");
     this->carte = new Carte("carte.bmp",0.0,0.0,-1.0);
@@ -58,6 +50,8 @@ Scene::~Scene()
 
 void Scene::executer()
 {	
+	this->verrouillerSouris();
+
 	// Parametrage d'OpenGL
     this->initOpenGL();
 
@@ -102,6 +96,8 @@ void Scene::executer()
 		afficher();
 
     }
+
+	this->deverrouillerSouris();
 }
 
 void Scene::animer(void)
@@ -262,11 +258,6 @@ void Scene::gererEvenements(void)
         {
             case SDL_QUIT:
                 this->continuer = FALSE;
-
-				// Fermeture de la police
-				TTF_CloseFont(this->police);
-				// Fermeture de la librairie ttf
-				TTF_Quit();
                 break;
 
             case SDL_MOUSEMOTION:
@@ -354,5 +345,26 @@ void Scene::drawPoints(){
 	std::string nbrPoints = oss.str();
 	text = "Points: " + nbrPoints;
 	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), LARGEUR_FENETRE - 150, HAUTEUR_FENETRE - 10);
+}
+
+void Scene::verrouillerSouris(void)
+{
+	// Maintien de la souris dans la fenetre
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+
+	// La souris est au centre de l'ecran
+	SDL_WarpMouseInWindow(this->screen, (LARGEUR_FENETRE / 2), (HAUTEUR_FENETRE / 2));
+
+	// La souris est invisible
+	SDL_ShowCursor(FALSE);
+}
+
+void Scene::deverrouillerSouris(void)
+{
+	// Deverrouillage de la souris
+	SDL_SetRelativeMouseMode(SDL_FALSE);
+
+	// La souris est visible
+	SDL_ShowCursor(TRUE);
 }
 

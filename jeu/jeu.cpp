@@ -19,30 +19,61 @@ void Jeu::executer(void)
     this->initSDL();
  
     // Création du menu
-    Menu menu("fond_menu.bmp");
+    Menu menu("fond_menu.bmp", this->screen);
+
+	// Generation des codes de bouton
+	enum { BOUTON_JOUER, BOUTON_QUITTER };
+
+	menu.ajouterBouton("Jouer", LARGEUR_FENETRE / 2, HAUTEUR_FENETRE / 4, BOUTON_JOUER);
+	menu.ajouterBouton("Quitter", LARGEUR_FENETRE / 2, 3 * HAUTEUR_FENETRE / 4, BOUTON_QUITTER);
 	
     // Boucle d'execution du jeu
-  //  bool8 continuer = TRUE;
-  //  while(continuer)
-  //  {
-  //      // Affichage du menu
-  //      
-		//menu.dessiner();
-  //      // Gestion des evenements
-  //      SDL_Event evenement;
-  //      SDL_WaitEvent(&evenement);
-  //      switch(evenement.type)
-  //      {
-  //          // Quitter
-  //          case SDL_QUIT:
-  //              continuer = FALSE;
-  //              break;
-  //      }
-  //  }
+    bool8 continuer = TRUE;
+    while(continuer)
+    {
+        // Affichage du menu
+        
+		menu.dessiner();
+        // Gestion des evenements
+        SDL_Event evenement;
+        SDL_WaitEvent(&evenement);
+        switch(evenement.type)
+        {
+            // Quitter
+			case SDL_QUIT:{
+				continuer = FALSE;
+                break;
+			}
+                
+			// Un bouton a ete clique
+			case BOUTON_CLIQUE:
+			{
+				switch (evenement.user.code)
+				{
+					case BOUTON_JOUER:
+					{
+						// Execution de la scene
+						Scene scene(this->screen, this->renderer, this->contexteOpenGL);
+						scene.executer();
+						
+						break;
+					}
+				
+					case BOUTON_QUITTER:
+					{
+						continuer = FALSE;
+						break;
+					}
+				}
+				break;
+			}
+				
+        }
+    }
  
-    // Execution de la scene
-    Scene scene(this->screen, this->renderer,this->contexteOpenGL);
-    scene.executer();
+
+	// Arret de SDL_ttf
+	TTF_Quit();
  
     // Arret de la SDL
 	SDL_GL_DeleteContext(this->contexteOpenGL);
@@ -64,7 +95,8 @@ void Jeu::initSDL(void)
     // Creation de la fenetre initialisee pour fonctionner avec OpenGL
     // Correctif SDL 2.0 this->ecran = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32, SDL_OPENGL);
 
-	
+	// Initialisation de SDL TTF
+	TTF_Init();
 
 	this->screen = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		LARGEUR_FENETRE, HAUTEUR_FENETRE, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
