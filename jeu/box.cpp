@@ -12,7 +12,7 @@ box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleH
 	this->a = a;
 
 	// Chargement de la texture du mur
-	this->conteneurTextures.ajouter("mur.bmp");
+	this->conteneurTextures.ajouter("box.bmp");
 
 	// On déclare une forme et on l'initialise en tant que boite de la taille largeur,largeur,hauteur (x, y, z)
 	shape = new btBoxShape(btVector3(largeur, largeur, hauteur));
@@ -38,6 +38,8 @@ box::box(float16 positionX, float16 positionY, float16 positionZ, float16 angleH
 
 box::~box()
 {
+	this->conteneurTextures.supprimer("box.bmp");
+
 	delete motionState;
 	delete shape;
 	//delete body;
@@ -65,7 +67,7 @@ void box::dessinerBox(float x, float y, float z)
 	glEnable(GL_TEXTURE_2D);
 
 	// Selection de la texture du mur
-	glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("mur.bmp").texture);
+	glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("box.bmp").texture);
 
 	glPushMatrix();
 	glScalef(x, y, z);

@@ -11,17 +11,17 @@
 #include < glut.h >
 #include "SDL_image.h"
 
+struct Texture
+{
+	GLuint texture;
+	uint32 compteur;
+	sint32 largeur;
+	sint32 hauteur;
+};
 
 class ConteneurTextures 
 {
     private:
-        struct Texture
-        {
-            GLuint texture;
-            uint32 compteur;
-            sint32 largeur;
-            sint32 hauteur;
-        };
 
         typedef std::map<std::string, Texture> Textures;
 

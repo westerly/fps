@@ -24,16 +24,17 @@ void Jeu::executer(void)
 	// Generation des codes de bouton
 	enum { BOUTON_JOUER, BOUTON_QUITTER };
 
-	menu.ajouterBouton("Jouer", LARGEUR_FENETRE / 2, HAUTEUR_FENETRE / 4, BOUTON_JOUER);
-	menu.ajouterBouton("Quitter", LARGEUR_FENETRE / 2, 3 * HAUTEUR_FENETRE / 4, BOUTON_QUITTER);
+	menu.ajouterBouton("Jouer", LARGEUR_FENETRE / 2, 2.5 * HAUTEUR_FENETRE / 6, BOUTON_JOUER);
+	menu.ajouterBouton("Quitter", LARGEUR_FENETRE / 2, 3.5 * HAUTEUR_FENETRE / 6, BOUTON_QUITTER);
+
+	int score = NULL;
 	
     // Boucle d'execution du jeu
     bool8 continuer = TRUE;
     while(continuer)
     {
         // Affichage du menu
-        
-		menu.dessiner();
+		menu.dessiner(score);
         // Gestion des evenements
         SDL_Event evenement;
         SDL_WaitEvent(&evenement);
@@ -53,9 +54,12 @@ void Jeu::executer(void)
 					case BOUTON_JOUER:
 					{
 						// Execution de la scene
-						Scene scene(this->screen, this->renderer, this->contexteOpenGL);
-						scene.executer();
-						
+						Scene * scene = new Scene(this->screen, this->renderer, this->contexteOpenGL);
+						scene->executer();
+						// On récupère le dernier score
+						score = scene->getScore();
+						// On supprime la scene
+						delete scene;
 						break;
 					}
 				
@@ -67,7 +71,6 @@ void Jeu::executer(void)
 				}
 				break;
 			}
-				
         }
     }
  

@@ -10,6 +10,7 @@
 #include "Helper.h"
 #include <vector>
 #include <string>
+#include <SDL_ttf.h>
 
 
 
@@ -22,10 +23,17 @@ class Controleur
 	Carte * carte;
 	PhysicEngine * physicEngine;
 	Personnage * personnage;
+	typedef std::set<std::string> Textures;
+	Textures textures; // Les textures de l'objet
+	ConteneurTextures conteneurTextures;
 	// Vecteur de targets contenant toute les cibles affichés (donc à gérer) dans le jeu
 	std::vector<target*> targets;
+	// Nombre de vies du joueur
+	int nbrVies;
 	// Le nombre de points courant du joueur
 	int nbrPoints;
+	// Texture du texte qui affche le nombre de points du personnage
+	Texture textureTextePoints;
 
 	// Temps maximum de courant de vie d'une cible (évolue avec la difficulté)
 	uint32 current_max_living_time_target;
@@ -65,6 +73,15 @@ class Controleur
 		void majNbrPointsPlayer(target * t);
 
 		inline int getNbrPoints(){ return this->nbrPoints; }
+
+		
+		void creerTextureTextPoints();
+		// Dessine et créer la texture qui affiche le nombre de points du joueur
+		void dessinerTextePoints();
+		// Dessine les vies du joueur
+		void dessinerVie();
+
+		inline bool persoIsAlive(){ return this->nbrVies != 0; }
 };
 
 

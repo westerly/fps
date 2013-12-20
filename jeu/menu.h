@@ -5,6 +5,7 @@
 #include "conteneurTextures.h"
 #include "configuration.h"
 #include "SDL.h"
+#include "Helper.h"
 #include "Bouton.h"
 #include <SDL_ttf.h>
 #include <set>
@@ -14,7 +15,7 @@ class Menu
     public:
 		Menu(std::string imageFond, SDL_Window *scr);
         ~Menu();
-        void dessiner(void);
+        void dessiner(int score = NULL);
 		void ajouterBouton(std::string texte, sint32 x, sint32 y, sint32 code);
  
     private:
@@ -23,6 +24,7 @@ class Menu
 		SDL_Window *screen;
 		typedef std::set<Bouton*> Boutons;
 		Boutons listeBoutons;
+		Texture textureTextScore;
 
 
 		void dessinerFond(void);

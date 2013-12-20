@@ -2,7 +2,7 @@
 
 ConteneurTextures::Textures ConteneurTextures::textures;
 
-ConteneurTextures::Texture ConteneurTextures::ajouter(std::string nomFichier)
+Texture ConteneurTextures::ajouter(std::string nomFichier)
 {
     Texture& texture = this->textures[nomFichier];
 
@@ -41,7 +41,7 @@ void ConteneurTextures::supprimer(std::string nomFichier)
     }
 }
 
-ConteneurTextures::Texture ConteneurTextures::texture(std::string nomFichier)
+Texture ConteneurTextures::texture(std::string nomFichier)
 {
     return this->textures[nomFichier];
 }

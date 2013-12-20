@@ -1,11 +1,9 @@
-﻿La génération a démarré 19/12/2013 17:00:39.
+﻿La génération a démarré 20/12/2013 17:55:38.
      1>Projet "C:\Projets\Jeux\fps\visual studio\jeu\jeu\jeu.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D /NODEFAULTLIB:msvcrt.lib /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Bouton.cpp jeu.cpp
-         jeu.cpp
-     1>c:\projets\jeux\fps\visual studio\jeu\jeu\helper.h(26): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
-         Bouton.cpp
-         Génération de code en cours...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D /NODEFAULTLIB:msvcrt.lib /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt menu.cpp
+         menu.cpp
+     1>c:\projets\jeux\fps\visual studio\jeu\jeu\helper.h(34): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib glu32.lib glut32.lib opengl32.lib SDL2_image.lib BulletDynamics_vs2010_debug.lib BulletCollision_vs2010_debug.lib LinearMath_vs2010_debug.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.lib" /MACHINE:X86 Debug\jeu.res
          Debug\animator.obj
@@ -36,4 +34,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:04.46
+Temps écoulé 00:00:07.83

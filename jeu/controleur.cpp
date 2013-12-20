@@ -7,14 +7,28 @@ Controleur::Controleur(Carte * p_carte, PhysicEngine * p_physicEngine, Personnag
 	this->current_max_living_time_target = MAX_LIVING_TIME_TARGET_BEGINNING;
 	// Le joueur commence avec 0 point
 	this->nbrPoints = 0;
+	this->textureTextePoints.texture = NULL;
+	// Le joueur a trois vies au début du jeu
+	this->nbrVies = 3;
+
+	this->conteneurTextures.ajouter("coeur.png");
 }
 
 Controleur::~Controleur(void)
 {
+	// Libération des textures
+	for (Textures::iterator element = this->textures.begin(); element != textures.end(); element++)
+	{
+		this->conteneurTextures.supprimer(*element);
+	}
+
 	// Destruction des targets
 	for (std::vector<target*>::iterator it = this->targets.begin(); it != this->targets.end(); it++){
 		delete *it;
 	}
+
+	// Libération de la texture des textes
+	glDeleteTextures(1, &this->textureTextePoints.texture);
 }
 
 
@@ -112,8 +126,6 @@ void Controleur::startGame(){
 
 void Controleur::createTarget(){
 	
-	
-
 	bool toClose = true;
 
 	while (toClose){
@@ -187,13 +199,20 @@ void Controleur::handleTargets(){
 		if ( (tr->getDisplayedSince() >= this->current_max_living_time_target && !tr->isShot())
 			|| (tr->getSinceIsShot() >= TIMES_BEFORE_TARGET_RIGHT_SHOT_DISAPPEARS && tr->isShot()) ){
 			target * tr = *it;
+
+			// si la cible n'a pas été correctement shooté, le joueur perd une vie
+			if (!tr->isShot()){
+				this->nbrVies--;
+			}
+
 			// supression de la cible dans le vecteur de cibles
 			it = this->targets.erase(it);
 			// Suppression des rigidBody dans le monde physique et dans la mémoire
 			deleteRigidBodiesFromTarget(tr);
 			// suppression de la cible
 			delete tr;
-			nbr_targets_remove++;	
+			nbr_targets_remove++;
+
 		}
 		else{
 			++it;
@@ -220,16 +239,6 @@ bool Controleur::targetToCloseFromXY(float x, float y, float size){
 	// Parcours du vecteur de cibles
 	for (std::vector<target*>::iterator it = this->targets.begin(); it != this->targets.end(); it++){
 		target * tr = *it;
-		//if ((tr->getPositionX() >= x + (MAX_LARGEUR_EL_TARGET) && tr->getPositionX() - MAX_LARGEUR_EL_TARGET >= x)
-		//	|| (tr->getPositionX() + MAX_LARGEUR_EL_TARGET >= x - (MAX_LARGEUR_EL_TARGET) && tr->getPositionX() <= x -(MAX_LARGEUR_EL_TARGET)) ){
-		/*if ( (tr->getPositionX() - 4 <= x && tr->getPositionX() <= x + 4) || (tr->getPositionX()<= x+4 && tr->getPositionX() + 4 >= x+4)){
-
-			if ( (y + size >= tr->getPositionY() && y+size <= tr->getPositionY() + tr->getSize())
-				|| (tr->getPositionY() + tr->getSize() >= y  && tr->getPositionY() + tr->getSize() <= y + size) ){
-
-				return true;
-			}
-		}*/
 		
 		double dist = sqrt(pow((x + (size/2)) - tr->getPositionX(), 2) + pow((y + (size/2)) - tr->getPositionY(), 2));
 		if (dist <= size){
@@ -254,4 +263,97 @@ void Controleur::majNbrPointsPlayer(target * t){
 
 	// On affecte un coefficient au nombre de points calculé auparavant en fonction de la largeur des éléments de la cible
 	this->nbrPoints = this->nbrPoints + (points * (MAX_LARGEUR_EL_TARGET_BOX + 1 - t->getLargeur()));
+
+	// Suppression de la texture du texte pour afficher les points et création d'une nouvelle
+	glDeleteTextures(1, &this->textureTextePoints.texture);
+	this->creerTextureTextPoints();
+}
+
+
+
+void Controleur::creerTextureTextPoints(){
+	std::string text;
+	// créer un flux de sortie
+	std::ostringstream oss;
+	oss << nbrPoints;
+	std::string nbrPoints = oss.str();
+	text = nbrPoints + " points";
+	SDL_Color couleurTexte = { 0, 0, 255 };
+	Helper::creerTextureText(text, 35, couleurTexte, this->textureTextePoints);
+}
+
+void Controleur::dessinerTextePoints(){
+	if (this->textureTextePoints.texture == NULL){
+		// Si pas de texture encore créés pour le texte on en génère une avec la méthode creerTextureTextPoint
+		this->creerTextureTextPoints();
+	}
+
+	Helper::dessinerTexte(this->textureTextePoints, LARGEUR_FENETRE - 80, 40);
+}
+
+
+void Controleur::dessinerVie(){
+
+	// Activation de la transparence
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glMatrixMode(GL_PROJECTION); // change the current matrix to PROJECTION
+	double matrix[16]; // 16 doubles in stack memory
+	glGetDoublev(GL_PROJECTION_MATRIX, matrix); // get the values from PROJECTION matrix to local variable
+	glLoadIdentity(); // reset PROJECTION matrix to identity matrix
+
+	// Definition de la fenetre
+	gluOrtho2D(0.0, (GLdouble)LARGEUR_FENETRE, 0.0, (GLdouble)HAUTEUR_FENETRE);
+
+	glMatrixMode(GL_MODELVIEW); // change current matrix to MODELVIEW matrix again
+	glLoadIdentity(); // reset it to identity matrix
+
+	glPushMatrix();
+
+
+	// Desactivation du test de prophondeur
+	glDisable(GL_DEPTH_TEST);
+
+	// Vidage de l'image
+	//glClear(GL_COLOR_BUFFER_BIT);
+
+	// Activation des textures
+	glEnable(GL_TEXTURE_2D);
+
+	// Selection de la texture du texte
+	glBindTexture(GL_TEXTURE_2D, this->conteneurTextures.texture("coeur.png").texture);
+
+	sint32 hauteurTexture = this->conteneurTextures.texture("coeur.png").hauteur;
+	sint32 largeurTexture = this->conteneurTextures.texture("coeur.png").largeur;
+
+
+	for (int i = 0; i < this->nbrVies; i++){
+
+		sint32 pX = 40 + i * (largeurTexture + largeurTexture / 4);
+		sint32 pY = 40;
+
+		// Application du texte
+		glBegin(GL_QUADS);
+		glTexCoord2i(0, 0); glVertex2i(pX - (largeurTexture / 2),
+			HAUTEUR_FENETRE - pY + (hauteurTexture / 2));
+		glTexCoord2i(0, 1); glVertex2i(pX - (largeurTexture / 2),
+			HAUTEUR_FENETRE - pY - (hauteurTexture / 2));
+		glTexCoord2i(1, 1); glVertex2i(pX + (largeurTexture / 2),
+			HAUTEUR_FENETRE - pY - (hauteurTexture / 2));
+		glTexCoord2i(1, 0); glVertex2i(pX + (largeurTexture / 2),
+			HAUTEUR_FENETRE - pY + (hauteurTexture / 2));
+		glEnd();
+	}
+
+
+	
+
+	glPopMatrix(); // get MODELVIEW matrix value from stack
+	glMatrixMode(GL_PROJECTION); // change current matrix mode to PROJECTION
+	glLoadMatrixd(matrix); // reset
+	glMatrixMode(GL_MODELVIEW); // change current matrix mode to MODELVIEW
+
+	// Activation du tampon de profondeur
+	glEnable(GL_DEPTH_TEST);
 }

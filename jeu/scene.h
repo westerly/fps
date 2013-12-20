@@ -55,7 +55,6 @@ class Scene
 		void afficher(void);
 		void initOpenGL(void);
 		void drawFPS(void);
-		void drawPoints(void);
 		void verrouillerSouris(void);
 		void deverrouillerSouris(void);
 
@@ -65,6 +64,7 @@ class Scene
 		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL);
         ~Scene();
         void executer();
+		inline int getScore(){ return this->controleur->getNbrPoints(); }
 		
 };
 

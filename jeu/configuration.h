@@ -40,7 +40,7 @@
 // La taille min de la largeur d'un element d'une cible
 #define MIN_LARGEUR_EL_TARGET_BOX 0.15
 // La taille max de la largeur d'un element d'une cible
-#define MAX_LARGEUR_EL_TARGET_BOX 0.5
+#define MAX_LARGEUR_EL_TARGET_BOX 0.35
 
 // Le temps en millisecondes au bout duquel la cible correctement shooté disparait
 #define TIMES_BEFORE_TARGET_RIGHT_SHOT_DISAPPEARS 5000

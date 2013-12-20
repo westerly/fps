@@ -7,8 +7,6 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	this->contexteOpenGL = contexteOpenGL;
 	this->currentFPS = 0;
 
-    
-
     this->skybox = new Objet3DStatique("skybox.o3s.m3s");
     this->carte = new Carte("carte.bmp",0.0,0.0,-1.0);
     this->personnage = new Personnage(8, 3, 0, 0, 0, 1);
@@ -73,7 +71,7 @@ void Scene::executer()
 	// Initialisation du jeu par le controleur, création des premières cibles...
 	this->controleur->startGame();
 
-    while(this->continuer)
+    while(this->continuer && this->controleur->persoIsAlive())
     {
         gererEvenements();
         animer();
@@ -227,10 +225,8 @@ void Scene::dessiner(void)
 
 	this->drawFPS();
 
-	this->drawPoints();
-
-	
-	
+	this->controleur->dessinerTextePoints();
+	this->controleur->dessinerVie();
 	
 }
 
@@ -337,15 +333,6 @@ void Scene::drawFPS(){
 	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), 0, HAUTEUR_FENETRE - 10);
 }
 
-void Scene::drawPoints(){
-	std::string text;
-	// créer un flux de sortie
-	std::ostringstream oss;
-	oss << this->controleur->getNbrPoints();
-	std::string nbrPoints = oss.str();
-	text = "Points: " + nbrPoints;
-	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), LARGEUR_FENETRE - 150, HAUTEUR_FENETRE - 10);
-}
 
 void Scene::verrouillerSouris(void)
 {
