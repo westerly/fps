@@ -1,11 +1,7 @@
-﻿La génération a démarré 20/12/2013 17:55:38.
-     1>Projet "C:\Projets\Jeux\fps\visual studio\jeu\jeu\jeu.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D /NODEFAULTLIB:msvcrt.lib /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt menu.cpp
-         menu.cpp
-     1>c:\projets\jeux\fps\visual studio\jeu\jeu\helper.h(34): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib glu32.lib glut32.lib opengl32.lib SDL2_image.lib BulletDynamics_vs2010_debug.lib BulletCollision_vs2010_debug.lib LinearMath_vs2010_debug.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.lib" /MACHINE:X86 Debug\jeu.res
+﻿La génération a démarré 22/12/2013 23:15:40.
+     1>Projet "D:\Projets\Virtual Environment FPS\fps\jeu\jeu.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Projets\Virtual Environment FPS\fps\Debug\jeu.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib glu32.lib glut32.lib opengl32.lib SDL2_image.lib BulletDynamics_vs2010_debug.lib BulletCollision_vs2010_debug.lib LinearMath_vs2010_debug.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Projets\Virtual Environment FPS\fps\Debug\jeu.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Projets\Virtual Environment FPS\fps\Debug\jeu.lib" /MACHINE:X86 Debug\jeu.res
          Debug\animator.obj
          Debug\arme.obj
          Debug\Bouton.obj
@@ -29,9 +25,10 @@
          Debug\physicEngine.obj
          Debug\scene.obj
          Debug\target.obj
-         jeu.vcxproj -> C:\Projets\Jeux\fps\visual studio\jeu\Debug\jeu.exe
-     1>Génération du projet "C:\Projets\Jeux\fps\visual studio\jeu\jeu\jeu.vcxproj" terminée (Build cible(s)).
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: conflit entre la bibliothèque par défaut 'msvcrt.lib' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+         jeu.vcxproj -> D:\Projets\Virtual Environment FPS\fps\Debug\jeu.exe
+     1>Génération du projet "D:\Projets\Virtual Environment FPS\fps\jeu\jeu.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:07.83
+Temps écoulé 00:00:02.35

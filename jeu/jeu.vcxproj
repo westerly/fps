@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Projets\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\include;C:\Projets\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;D:\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;D:\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\include;D:\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;D:\libraries\glut-3.7.6-bin;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>C:\Projets\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Projets\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;C:\Projets\Jeux\fps\visual studio\jeu\jeu\glut-3.7.6-bin;C:\Projets\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\lib\x86;C:\Projets\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;D:\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;D:\libraries\glut-3.7.6-bin;D:\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\lib\x86;D:\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
