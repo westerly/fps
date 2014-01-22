@@ -1,7 +1,13 @@
-﻿La génération a démarré 22/12/2013 23:15:40.
-     1>Projet "D:\Projets\Virtual Environment FPS\fps\jeu\jeu.vcxproj" sur le nœud 2 (Build cible(s)).
-     1>Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Projets\Virtual Environment FPS\fps\Debug\jeu.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib glu32.lib glut32.lib opengl32.lib SDL2_image.lib BulletDynamics_vs2010_debug.lib BulletCollision_vs2010_debug.lib LinearMath_vs2010_debug.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Projets\Virtual Environment FPS\fps\Debug\jeu.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Projets\Virtual Environment FPS\fps\Debug\jeu.lib" /MACHINE:X86 Debug\jeu.res
+﻿La génération a démarré 22/01/2014 20:13:56.
+     1>Projet "C:\Projet\fps\jeu\jeu.vcxproj" sur le nœud 2 (Build cible(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt scene.cpp
+         scene.cpp
+     1>c:\projet\fps\jeu\helper.h(34): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+     1>c:\projet\fps\jeu\scene.cpp(13): warning C4316: 'Carte' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+     1>c:\projet\fps\jeu\scene.cpp(14): warning C4316: 'Personnage' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projet\fps\Debug\jeu.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib glu32.lib glut32.lib opengl32.lib SDL2_image.lib BulletDynamics_vs2010_debug.lib BulletCollision_vs2010_debug.lib LinearMath_vs2010_debug.lib SDL2_ttf.lib opencv_calib3d248.lib opencv_contrib248.lib opencv_core248.lib opencv_features2d248.lib opencv_flann248.lib opencv_gpu248.lib opencv_highgui248.lib opencv_imgproc248.lib opencv_legacy248.lib opencv_ml248.lib opencv_nonfree248.lib opencv_objdetect248.lib opencv_photo248.lib opencv_stitching248.lib opencv_ts248.lib opencv_video248.lib opencv_videostab248.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Projet\fps\Debug\jeu.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projet\fps\Debug\jeu.lib" /MACHINE:X86 Debug\jeu.res
          Debug\animator.obj
          Debug\arme.obj
          Debug\Bouton.obj
@@ -25,10 +31,11 @@
          Debug\physicEngine.obj
          Debug\scene.obj
          Debug\target.obj
+         LINK : C:\Projet\fps\Debug\jeu.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
      1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: conflit entre la bibliothèque par défaut 'msvcrt.lib' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
-         jeu.vcxproj -> D:\Projets\Virtual Environment FPS\fps\Debug\jeu.exe
-     1>Génération du projet "D:\Projets\Virtual Environment FPS\fps\jeu\jeu.vcxproj" terminée (Build cible(s)).
+         jeu.vcxproj -> C:\Projet\fps\Debug\jeu.exe
+     1>Génération du projet "C:\Projet\fps\jeu\jeu.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:02.35
+Temps écoulé 00:00:06.12

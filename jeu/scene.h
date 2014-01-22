@@ -21,6 +21,8 @@
 #include "controleur.h"
 #include "physicEngine.h"
 #include <SDL_ttf.h>
+#include "opencv\cv.h"
+#include "opencv2\highgui\highgui.hpp"
 
 //#include "bullet.h"
 
@@ -47,7 +49,12 @@ class Scene
 		Controleur * controleur;
 		PhysicEngine * physicHandler;
 		int currentFPS;
+		bool playWithCamera;
+		CvCapture* capture;
 
+		// Les dernières positions connues de la balle rouge trakée par la camera
+		float16 lastRedBallX;
+		float16 lastRedBallY;
 
         void gererEvenements(void);
         void animer(void);
@@ -57,11 +64,12 @@ class Scene
 		void drawFPS(void);
 		void verrouillerSouris(void);
 		void deverrouillerSouris(void);
-
+		void trackObject(IplImage* imgThresh);
+		IplImage* GetThresholdedImage(IplImage* imgHSV);
 
     public:
 
-		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL);
+		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL, bool playWithCamera = false);
         ~Scene();
         void executer();
 		inline int getScore(){ return this->controleur->getNbrPoints(); }

@@ -3,6 +3,7 @@
 
 #include "configuration.h"
 #include "SDL.h"
+#include <Windows.h>
 
 #include < glut.h >
 
@@ -19,6 +20,8 @@ class Jeu
         ~Jeu();
 		
         void executer(void);
+
+		bool playWithCamera;
 
 
 	private:

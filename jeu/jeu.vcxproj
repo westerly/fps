@@ -39,10 +39,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;D:\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;D:\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\include;D:\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;D:\libraries\glut-3.7.6-bin;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Projet\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;C:\Projet\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\src;C:\Projet\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\include;C:\Projet\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;C:\Projet\libraries\glut-3.7.6-bin;C:\Projet\libraries\opencv2-4-8\opencv\build\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>D:\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;D:\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;D:\libraries\glut-3.7.6-bin;D:\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\lib\x86;D:\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Projet\libraries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Projet\libraries\bullet-2.81-rev2613\bullet-2.81-rev2613\lib;C:\Projet\libraries\glut-3.7.6-bin;C:\Projet\libraries\SDL2-devel-2.0.1-VC\SDL2-2.0.1\lib\x86;C:\Projet\libraries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;C:\Projet\libraries\opencv2-4-8\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>C:\Projets\Jeux\fps\visual studio\jeu\jeu\SDL-1.2.15\lib\x86;$(LibraryPath)</LibraryPath>
@@ -53,11 +53,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;/NODEFAULTLIB:msvcrt.lib;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glut32.lib;opengl32.lib;SDL2_image.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glut32.lib;opengl32.lib;SDL2_image.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;SDL2_ttf.lib;opencv_calib3d248.lib;opencv_contrib248.lib;opencv_core248.lib;opencv_features2d248.lib;opencv_flann248.lib;opencv_gpu248.lib;opencv_highgui248.lib;opencv_imgproc248.lib;opencv_legacy248.lib;opencv_ml248.lib;opencv_nonfree248.lib;opencv_objdetect248.lib;opencv_photo248.lib;opencv_stitching248.lib;opencv_ts248.lib;opencv_video248.lib;opencv_videostab248.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>

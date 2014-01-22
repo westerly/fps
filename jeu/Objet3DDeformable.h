@@ -25,10 +25,6 @@ class Objet3DDeformable
 		btVector3 localInertia;
 		// Masse de l'objet
 		btScalar mass;
-        // Angle horizontal avec l'axe des x (pour tourner sur sois même)
-        float16 angleHorizontal;
-		// Angle vertical avec l'axe des z (pour regarder en haut en bas)
-		float16 angleVertical;
         std::string nom;
 		// Position, orientation.
 		btTransform transform;
@@ -41,6 +37,13 @@ class Objet3DDeformable
 		btRigidBody *body;
 
 	public:
+
+		// Angle horizontal avec l'axe des x (pour tourner sur sois même)
+		float16 angleHorizontal;
+		// Angle vertical avec l'axe des z (pour regarder en haut en bas)
+		float16 angleVertical;
+
+
 		Objet3DDeformable(float16 positionX = 0.0f, float16 positionY = 0.0f, float16 positionZ = 0.0f, float16 angleHorizontal = 0.0f, float16 angleVertical = 0.0f, btScalar mass = 0.0f);
 		// Le mot clé virtual devant le destructeur permet d'être sure qu'il sera appelé 
 		// lors de la destruction d'un objet d'une classe fille et même si on ne l'appel pas explicitement

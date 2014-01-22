@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "menu.h"
 
+
 Jeu::Jeu()
 {
     
@@ -54,7 +55,7 @@ void Jeu::executer(void)
 					case BOUTON_JOUER:
 					{
 						// Execution de la scene
-						Scene * scene = new Scene(this->screen, this->renderer, this->contexteOpenGL);
+						Scene * scene = new Scene(this->screen, this->renderer, this->contexteOpenGL,this->playWithCamera);
 						scene->executer();
 						// On récupère le dernier score
 						score = scene->getScore();
@@ -123,6 +124,9 @@ void Jeu::initSDL(void)
 		SDL_Quit();
 		exit(EXIT_FAILURE);
 	}
+
+	//Sow windows YES NO
+	this->playWithCamera = true;
 
 	this->renderer = SDL_CreateRenderer(this->screen, -1, 0);
  

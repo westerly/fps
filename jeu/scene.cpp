@@ -1,7 +1,9 @@
 #include "scene.h"
 
-Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteOpenGL)
+
+Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteOpenGL, bool playWithCamera)
 {
+	this->playWithCamera = playWithCamera;
 	this->screen = screen;
 	this->renderer = renderer;
 	this->contexteOpenGL = contexteOpenGL;
@@ -34,6 +36,12 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	// Ajout des rigides body pour les murs dans le monde physique
 	this->physicHandler->addRigidBodies(this->carte->getRigidBodiesWalls());
 
+	if (this->playWithCamera){
+		this->capture = cvCaptureFromCAM(0);
+		this->lastRedBallX = HAUTEUR_FENETRE / 2;
+		this->lastRedBallY = HAUTEUR_FENETRE / 2;
+	}
+
 }
 
 Scene::~Scene()
@@ -44,6 +52,7 @@ Scene::~Scene()
 	delete this->eventHandler;
 	delete this->animationHandler;
 	delete this->physicHandler;
+	cvReleaseCapture(&capture);
 }
 
 void Scene::executer()
@@ -73,6 +82,28 @@ void Scene::executer()
 
     while(this->continuer && this->controleur->persoIsAlive())
     {
+		if (this->playWithCamera){
+			IplImage*frame = cvQueryFrame(capture);
+			if (!frame) break;
+			frame = cvCloneImage(frame);
+
+			cvSmooth(frame, frame, CV_GAUSSIAN, 3, 3); //smooth the original image using Gaussian kernel
+
+			IplImage* imgHSV = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3);
+			cvCvtColor(frame, imgHSV, CV_BGR2HSV); //Change the color format from BGR to HSV
+			IplImage* imgThresh = GetThresholdedImage(imgHSV);
+
+			cvSmooth(imgThresh, imgThresh, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
+
+			//track the possition of the ball
+			trackObject(imgThresh);
+
+			//Clean up used images
+			cvReleaseImage(&imgHSV);
+			cvReleaseImage(&imgThresh);
+			cvReleaseImage(&frame);
+		}
+
         gererEvenements();
         animer();
 		
@@ -96,6 +127,44 @@ void Scene::executer()
     }
 
 	this->deverrouillerSouris();
+}
+
+//This function threshold the HSV image and create a binary image
+IplImage* Scene::GetThresholdedImage(IplImage* imgHSV){
+	IplImage* imgThresh = cvCreateImage(cvGetSize(imgHSV), IPL_DEPTH_8U, 1);
+	cvInRangeS(imgHSV, cvScalar(152, 120, 46), cvScalar(180, 168, 256), imgThresh);
+	return imgThresh;
+}
+
+void Scene::trackObject(IplImage* imgThresh){
+	// Calculate the moments of 'imgThresh'
+	CvMoments *moments = (CvMoments*)malloc(sizeof(CvMoments));
+	cvMoments(imgThresh, moments, 1);
+	double moment10 = cvGetSpatialMoment(moments, 1, 0);
+	double moment01 = cvGetSpatialMoment(moments, 0, 1);
+	double area = cvGetCentralMoment(moments, 0, 0);
+
+	// if the area<1000, I consider that the there are no object in the image and it's because of the noise, the area is not zero 
+	if (area>1000){
+		// calculate the position of the ball
+		float16 posX = moment10 / area;
+		float16 posY = moment01 / area;
+
+		if (this->lastRedBallX >= 0 && this->lastRedBallY >= 0 && posX >= 0 && posY >= 0)
+		{
+			// Draw a yellow line from the previous point to the current point
+			int ecartX = posX - this->lastRedBallX;
+			int ecartY = posY - this->lastRedBallY;
+			
+			this->personnage->angleHorizontal += ecartX * 0.5;
+			this->personnage->angleVertical += -ecartY * 0.5;
+		}
+
+		this->lastRedBallX = posX;
+		this->lastRedBallY = posY;
+	}
+
+	free(moments);
 }
 
 void Scene::animer(void)

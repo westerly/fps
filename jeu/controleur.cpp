@@ -202,7 +202,7 @@ void Controleur::handleTargets(){
 
 			// si la cible n'a pas été correctement shooté, le joueur perd une vie
 			if (!tr->isShot()){
-				this->nbrVies--;
+				//this->nbrVies--;
 			}
 
 			// supression de la cible dans le vecteur de cibles
