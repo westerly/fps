@@ -55,6 +55,8 @@ class Scene
 		// Les dernières positions connues de la balle rouge trakée par la camera
 		float16 lastRedBallX;
 		float16 lastRedBallY;
+		// Permet de savoir si l'element que l'on traque pour faire feu est dans le champ de la camera
+		bool fireElementInside;
 
         void gererEvenements(void);
         void animer(void);
@@ -64,8 +66,9 @@ class Scene
 		void drawFPS(void);
 		void verrouillerSouris(void);
 		void deverrouillerSouris(void);
-		void trackObject(IplImage* imgThresh);
-		IplImage* GetThresholdedImage(IplImage* imgHSV);
+		void handleGunWithCamera(IplImage* imgThreshRedForm);
+		void handleFireWithCamera(IplImage* imgThreshGreenForm);
+		IplImage* GetThresholdedImage(IplImage* imgHSV, CvScalar lowValues, CvScalar highValue);
 
     public:
 

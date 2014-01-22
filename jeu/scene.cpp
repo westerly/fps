@@ -37,6 +37,7 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	this->physicHandler->addRigidBodies(this->carte->getRigidBodiesWalls());
 
 	if (this->playWithCamera){
+		this->fireElementInside = false;
 		this->capture = cvCaptureFromCAM(0);
 		this->lastRedBallX = HAUTEUR_FENETRE / 2;
 		this->lastRedBallY = HAUTEUR_FENETRE / 2;
@@ -89,18 +90,28 @@ void Scene::executer()
 
 			cvSmooth(frame, frame, CV_GAUSSIAN, 3, 3); //smooth the original image using Gaussian kernel
 
-			IplImage* imgHSV = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3);
-			cvCvtColor(frame, imgHSV, CV_BGR2HSV); //Change the color format from BGR to HSV
-			IplImage* imgThresh = GetThresholdedImage(imgHSV);
+			IplImage* imgHSV1 = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3);
+			cvCvtColor(frame, imgHSV1, CV_BGR2HSV); //Change the color format from BGR to HSV
 
-			cvSmooth(imgThresh, imgThresh, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
+			IplImage* imgHSV2 = cvCreateImage(cvGetSize(frame), IPL_DEPTH_8U, 3);
+			cvCvtColor(frame, imgHSV2, CV_BGR2HSV); //Change the color format from BGR to HSV
+
+			// Image pour la forme rouge
+			IplImage* imgThreshRedForm = GetThresholdedImage(imgHSV1, cvScalar(152, 120, 46), cvScalar(180, 168, 256));
+			IplImage* imgThreshGreenForm = GetThresholdedImage(imgHSV2, cvScalar(80, 105, 92), cvScalar(100, 209, 200));
+
+			cvSmooth(imgThreshRedForm, imgThreshRedForm, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
+			cvSmooth(imgThreshGreenForm, imgThreshGreenForm, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
 
 			//track the possition of the ball
-			trackObject(imgThresh);
+			this->handleGunWithCamera(imgThreshRedForm);
+			this->handleFireWithCamera(imgThreshGreenForm);
 
 			//Clean up used images
-			cvReleaseImage(&imgHSV);
-			cvReleaseImage(&imgThresh);
+			cvReleaseImage(&imgHSV1);
+			cvReleaseImage(&imgHSV2);
+			cvReleaseImage(&imgThreshRedForm);
+			cvReleaseImage(&imgThreshGreenForm);
 			cvReleaseImage(&frame);
 		}
 
@@ -130,16 +141,16 @@ void Scene::executer()
 }
 
 //This function threshold the HSV image and create a binary image
-IplImage* Scene::GetThresholdedImage(IplImage* imgHSV){
+IplImage* Scene::GetThresholdedImage(IplImage* imgHSV, CvScalar lowValues, CvScalar highValue ){
 	IplImage* imgThresh = cvCreateImage(cvGetSize(imgHSV), IPL_DEPTH_8U, 1);
-	cvInRangeS(imgHSV, cvScalar(152, 120, 46), cvScalar(180, 168, 256), imgThresh);
+	cvInRangeS(imgHSV, lowValues, highValue, imgThresh);
 	return imgThresh;
 }
 
-void Scene::trackObject(IplImage* imgThresh){
+void Scene::handleGunWithCamera(IplImage* imgThreshRedForm){
 	// Calculate the moments of 'imgThresh'
 	CvMoments *moments = (CvMoments*)malloc(sizeof(CvMoments));
-	cvMoments(imgThresh, moments, 1);
+	cvMoments(imgThreshRedForm, moments, 1);
 	double moment10 = cvGetSpatialMoment(moments, 1, 0);
 	double moment01 = cvGetSpatialMoment(moments, 0, 1);
 	double area = cvGetCentralMoment(moments, 0, 0);
@@ -162,6 +173,33 @@ void Scene::trackObject(IplImage* imgThresh){
 
 		this->lastRedBallX = posX;
 		this->lastRedBallY = posY;
+	}
+
+	free(moments);
+}
+
+void Scene::handleFireWithCamera(IplImage* imgThreshGreenForm){
+
+	CvMoments *moments = (CvMoments*)malloc(sizeof(CvMoments));
+	cvMoments(imgThreshGreenForm, moments, 1);
+	double moment10 = cvGetSpatialMoment(moments, 1, 0);
+	double moment01 = cvGetSpatialMoment(moments, 0, 1);
+	double area = cvGetCentralMoment(moments, 0, 0);
+
+	// if the area<1000, I consider that the there are no object in the image and it's because of the noise, the area is not zero 
+	if (area < 1000 && this->fireElementInside == true){
+		this->animationHandler->beginAnimationArme();
+		this->controleur->shootBullet(this->personnage->getX() - cos(-this->personnage->getAngleHorizontal() * RADIANS_PAR_DEGRES),
+			this->personnage->getY() + sin(-this->personnage->getAngleHorizontal() * RADIANS_PAR_DEGRES),
+			HAUTEUR_OEIL_PERSONNAGE + tan(this->personnage->getAngleVertical() * RADIANS_PAR_DEGRES), this->personnage->getAngleHorizontal(), this->personnage->getAngleVertical());
+		this->fireElementInside = false;
+	}
+
+	if (area < 1000){
+		this->fireElementInside = false;
+	}
+	else{
+		this->fireElementInside = true;
 	}
 
 	free(moments);
