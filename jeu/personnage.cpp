@@ -59,192 +59,192 @@ void Personnage::deplacer(float16 distance, float16 direction, bool8 entourage[8
     float16 positionCibleY = this->positionY - distance * sin(direction * M_PI / 180.0);
     float16 positionCibleX = this->positionX - distance * cos(direction * M_PI / 180.0);
 
-    // GESTION DES COLLISIONS AVEC MUR EST
+     //GESTION DES COLLISIONS AVEC MUR EST
 
-    // S'il y a un mur à l'Est
-    // et que la droite du personnage arrive dans le mur
-    //if(  (1 == entourage[4])
-    //     && ((sint32)(positionCibleY + this->rayon) != (sint32)this->positionY)  )
-    //{
-    //    // On rectifie la translation en Y (3D)
-    //    positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //}
+     /*S'il y a un mur à l'Est
+     et que la droite du personnage arrive dans le mur*/
+    if(  (1 == entourage[4])
+         && ((sint32)(positionCibleY + this->rayon) != (sint32)this->positionY)  )
+    {
+        // On rectifie la translation en Y (3D)
+        positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+    }
 
-    //// GESTION DES COLLISIONS AVEC MUR SUD
+    // GESTION DES COLLISIONS AVEC MUR SUD
 
-    //// S'il y a un mur au Sud et que notre Sud arrive dans le mur
-    //if (1 == entourage[6]
-    //    && (sint32)(positionCibleX + this->rayon) != (sint32)this->positionX
-    //    )
-    //{
-    //    // On rectifie la translation en X (3D)
-    //    positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
-    //}
+    // S'il y a un mur au Sud et que notre Sud arrive dans le mur
+    if (1 == entourage[6]
+        && (sint32)(positionCibleX + this->rayon) != (sint32)this->positionX
+        )
+    {
+        // On rectifie la translation en X (3D)
+        positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
+    }
 
-    //// GESTION DES COLLISIONS AVEC MUR OUEST
+    // GESTION DES COLLISIONS AVEC MUR OUEST
 
-    //// S'il y a un mur a l'Ouest et que notre Ouest arrive dans le mur
-    //if (1 == entourage[3]
-    //    && (sint32)(positionCibleY - this->rayon) != (sint32)this->positionY
-    //    )
-    //{
-    //    // On rectifie la translation en Y (3D)
-    //    positionCibleY -= (positionCibleY - this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //}
+    // S'il y a un mur a l'Ouest et que notre Ouest arrive dans le mur
+    if (1 == entourage[3]
+        && (sint32)(positionCibleY - this->rayon) != (sint32)this->positionY
+        )
+    {
+        // On rectifie la translation en Y (3D)
+        positionCibleY -= (positionCibleY - this->rayon) - (sint32)(positionCibleY + this->rayon);
+    }
 
-    //// GESTION DES COLLISIONS AVEC MUR AU NORD
+    // GESTION DES COLLISIONS AVEC MUR AU NORD
 
-    //// S'il y a un mur au Nord et que notre Nord arrive dans le mur
-    //if (1 == entourage[1]
-    //    && (sint32)(positionCibleX - this->rayon) != (sint32)this->positionX
-    //    )
-    //{
-    //    // On rectifie la translation en X (3D)
-    //    positionCibleX -= (positionCibleX - this->rayon) - (sint32)(positionCibleX + this->rayon);
-    //}
+    // S'il y a un mur au Nord et que notre Nord arrive dans le mur
+    if (1 == entourage[1]
+        && (sint32)(positionCibleX - this->rayon) != (sint32)this->positionX
+        )
+    {
+        // On rectifie la translation en X (3D)
+        positionCibleX -= (positionCibleX - this->rayon) - (sint32)(positionCibleX + this->rayon);
+    }
 
 
-    //// GESTION DES COLLISIONS AVEC MUR AU SUD-EST
-    //if (1 == entourage[7]
-    //    && (sint32)(positionCibleX + this->rayon) != (sint32)this->positionX
-    //    && (sint32)(positionCibleY + this->rayon) != (sint32)this->positionY
-    //    )
-    //{
-    //    if (positionCibleX > this->positionX && positionCibleY > this->positionY) // Approche
-    //    {
-    //        // Evite la division par zero
-    //        if (((positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon)) == 0.0 || (positionCibleY - this->positionY) == 0.0)
-    //        {
-    //            positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //        }
-    //        else
-    //        {
-    //            // Si ce sont les bord en Y qui ont été en contact lors de la collision
-    //            if ( ((positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon)) / ((positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon)) > (positionCibleX - this->positionX) / (positionCibleY - this->positionY))
-    //            {
-    //                positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //            }
-    //            else
-    //            {
-    //                positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
-    //            }
-    //        }
-    //    }
-    //    else if (positionCibleX < this->positionX) // Eloigne en X
-    //    {
-    //        positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //    }
-    //    else if (positionCibleY < this->positionY) // Eloigne en Y
-    //    {
-    //        positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
-    //    }
-    //}
+    // GESTION DES COLLISIONS AVEC MUR AU SUD-EST
+    if (1 == entourage[7]
+        && (sint32)(positionCibleX + this->rayon) != (sint32)this->positionX
+        && (sint32)(positionCibleY + this->rayon) != (sint32)this->positionY
+        )
+    {
+        if (positionCibleX > this->positionX && positionCibleY > this->positionY) // Approche
+        {
+            // Evite la division par zero
+            if (((positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon)) == 0.0 || (positionCibleY - this->positionY) == 0.0)
+            {
+                positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+            }
+            else
+            {
+                // Si ce sont les bord en Y qui ont été en contact lors de la collision
+                if ( ((positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon)) / ((positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon)) > (positionCibleX - this->positionX) / (positionCibleY - this->positionY))
+                {
+                    positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+                }
+                else
+                {
+                    positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
+                }
+            }
+        }
+        else if (positionCibleX < this->positionX) // Eloigne en X
+        {
+            positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+        }
+        else if (positionCibleY < this->positionY) // Eloigne en Y
+        {
+            positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
+        }
+    }
 
-    //// GESTION DES COLLISIONS AVEC MUR AU SUD-OUEST
-    //if (1 == entourage[5]
-    //    && (sint32)(positionCibleX + this->rayon) != (sint32)this->positionX
-    //    && (sint32)(positionCibleY - this->rayon) != (sint32)this->positionY
-    //    )
-    //{
-    //    if (positionCibleX < this->positionX) // Eloigne en X
-    //    {
-    //        positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
-    //    }
-    //    else if (positionCibleY > this->positionY) // Eloigne en Y
-    //    {
-    //        positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
-    //    }
-    //    else if (positionCibleX > this->positionX && positionCibleY < this->positionY) // Approche
-    //    {
-    //        if(((sint32)(positionCibleY - this->rayon + 1) - (positionCibleY - this->rayon)) == 0.0 || (this->positionY - positionCibleY) == 0.0)
-    //        {
-    //            positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
-    //        }
-    //        else
-    //        {
-    //            // Si ce sont les bords en Y qui ont été en contact lors de la collision
-    //            if ( ((positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon)) / ((sint32)(positionCibleY - this->rayon + 1) - (positionCibleY - this->rayon)) > (positionCibleX - this->positionX) / (this->positionY - positionCibleY))
-    //            {
-    //                positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
-    //            }
-    //            else
-    //            {
-    //                positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
-    //            }
-    //        }
-    //    }
-    //}
+    // GESTION DES COLLISIONS AVEC MUR AU SUD-OUEST
+    if (1 == entourage[5]
+        && (sint32)(positionCibleX + this->rayon) != (sint32)this->positionX
+        && (sint32)(positionCibleY - this->rayon) != (sint32)this->positionY
+        )
+    {
+        if (positionCibleX < this->positionX) // Eloigne en X
+        {
+            positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
+        }
+        else if (positionCibleY > this->positionY) // Eloigne en Y
+        {
+            positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
+        }
+        else if (positionCibleX > this->positionX && positionCibleY < this->positionY) // Approche
+        {
+            if(((sint32)(positionCibleY - this->rayon + 1) - (positionCibleY - this->rayon)) == 0.0 || (this->positionY - positionCibleY) == 0.0)
+            {
+                positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
+            }
+            else
+            {
+                // Si ce sont les bords en Y qui ont été en contact lors de la collision
+                if ( ((positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon)) / ((sint32)(positionCibleY - this->rayon + 1) - (positionCibleY - this->rayon)) > (positionCibleX - this->positionX) / (this->positionY - positionCibleY))
+                {
+                    positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
+                }
+                else
+                {
+                    positionCibleX -= (positionCibleX + this->rayon) - (sint32)(positionCibleX + this->rayon);
+                }
+            }
+        }
+    }
 
-    //// GESTION DES COLLISIONS AVEC MUR AU NORD-OUEST
-    //if (1 == entourage[0]
-    //    && (sint32)(positionCibleX - this->rayon) != (sint32)this->positionX
-    //    && (sint32)(positionCibleY - this->rayon) != (sint32)this->positionY
-    //    )
-    //{
-    //    if (positionCibleX > this->positionX) // Eloigne en X
-    //    {
-    //        positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
-    //    }
-    //    else if (positionCibleY > this->positionY) // Eloigne en Y
-    //    {
-    //        positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
-    //    }
-    //    else if (positionCibleX < this->positionX && positionCibleY < this->positionY) // Approche
-    //    {
-    //        // Evite la division par zero
-    //        if (((sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon)) == 0.0 || (this->positionY - positionCibleY) == 0.0)
-    //        {
-    //            positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
-    //        }
-    //        else
-    //        {
-    //            // Si ce sont les bords en Y qui ont été en contact lors de la collision
-    //            if ( ((sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon)) / ((sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon)) > (this->positionX - positionCibleX) / (this->positionY - positionCibleY))
-    //            {
-    //                positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
-    //            }
-    //            else
-    //            {
-    //                positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
-    //            }
-    //        }
-    //    }
-    //}
+    // GESTION DES COLLISIONS AVEC MUR AU NORD-OUEST
+    if (1 == entourage[0]
+        && (sint32)(positionCibleX - this->rayon) != (sint32)this->positionX
+        && (sint32)(positionCibleY - this->rayon) != (sint32)this->positionY
+        )
+    {
+        if (positionCibleX > this->positionX) // Eloigne en X
+        {
+            positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
+        }
+        else if (positionCibleY > this->positionY) // Eloigne en Y
+        {
+            positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
+        }
+        else if (positionCibleX < this->positionX && positionCibleY < this->positionY) // Approche
+        {
+            // Evite la division par zero
+            if (((sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon)) == 0.0 || (this->positionY - positionCibleY) == 0.0)
+            {
+                positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
+            }
+            else
+            {
+                // Si ce sont les bords en Y qui ont été en contact lors de la collision
+                if ( ((sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon)) / ((sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon)) > (this->positionX - positionCibleX) / (this->positionY - positionCibleY))
+                {
+                    positionCibleY += (sint32)((positionCibleY - this->rayon) + 1) - (positionCibleY - this->rayon);
+                }
+                else
+                {
+                    positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
+                }
+            }
+        }
+    }
 
-    //// GESTION DES COLLISIONS AVEC MUR AU NORD-EST
-    //if (1 == entourage[2]
-    //    && (sint32)(positionCibleX - this->rayon) != (sint32)this->positionX
-    //    && (sint32)(positionCibleY + this->rayon) != (sint32)this->positionY
-    //    )
-    //{
-    //    if (positionCibleX > this->positionX) // Eloigne en X
-    //    {
-    //        positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //    }
-    //    else if (positionCibleY < this->positionY) // Eloigne en Y
-    //    {
-    //        positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
-    //    }
-    //    else if (positionCibleX < this->positionX && positionCibleY > this->positionY) // Approche
-    //    {
-    //        if ((((positionCibleY + this->rayon)) - (sint32)(positionCibleY + this->rayon)) == 0.0 || (this->positionY - positionCibleY) == 0.0)
-    //        {
-    //            positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //        }
-    //        else
-    //        {
-    //            // Si ce sont les bords en Y qui ont été en contact lors de la collision
-    //            if ( (((positionCibleX - this->rayon)) - (sint32)((positionCibleX - this->rayon) + 1)) / (((positionCibleY + this->rayon)) - (sint32)(positionCibleY + this->rayon)) < (this->positionX - positionCibleX) / (this->positionY - positionCibleY))
-    //            {
-    //                positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
-    //            }
-    //            else
-    //            {
-    //                positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
-    //            }
-    //        }
-    //    }
-    //}
+    // GESTION DES COLLISIONS AVEC MUR AU NORD-EST
+    if (1 == entourage[2]
+        && (sint32)(positionCibleX - this->rayon) != (sint32)this->positionX
+        && (sint32)(positionCibleY + this->rayon) != (sint32)this->positionY
+        )
+    {
+        if (positionCibleX > this->positionX) // Eloigne en X
+        {
+            positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+        }
+        else if (positionCibleY < this->positionY) // Eloigne en Y
+        {
+            positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
+        }
+        else if (positionCibleX < this->positionX && positionCibleY > this->positionY) // Approche
+        {
+            if ((((positionCibleY + this->rayon)) - (sint32)(positionCibleY + this->rayon)) == 0.0 || (this->positionY - positionCibleY) == 0.0)
+            {
+                positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+            }
+            else
+            {
+                // Si ce sont les bords en Y qui ont été en contact lors de la collision
+                if ( (((positionCibleX - this->rayon)) - (sint32)((positionCibleX - this->rayon) + 1)) / (((positionCibleY + this->rayon)) - (sint32)(positionCibleY + this->rayon)) < (this->positionX - positionCibleX) / (this->positionY - positionCibleY))
+                {
+                    positionCibleY -= (positionCibleY + this->rayon) - (sint32)(positionCibleY + this->rayon);
+                }
+                else
+                {
+                    positionCibleX += (sint32)((positionCibleX - this->rayon) + 1) - (positionCibleX - this->rayon);
+                }
+            }
+        }
+    }
 
     this->positionY = positionCibleY;
     this->positionX = positionCibleX;
@@ -302,6 +302,37 @@ void Personnage::regarder(void)
         0,0,1);
 }
 
+void Personnage::regarder3D(void)
+{
+
+	static float RELIEF = VR;
+	if (RELIEF > 0)
+	{
+		RELIEF = -VR;
+		glColorMask(GL_FALSE, GL_TRUE, GL_TRUE, GL_FALSE);
+	}
+	else
+	{
+		RELIEF = VR;
+		glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
+	}
+
+
+	gluLookAt(
+		// Position de l'oeil
+		positionX + (cos(-this->angleHorizontal * RADIANS_PAR_DEGRES) * RELIEF),
+		positionY + (sin(-this->angleHorizontal * RADIANS_PAR_DEGRES) * RELIEF),
+		HAUTEUR_OEIL_PERSONNAGE,
+
+		// Point vise
+		this->positionX - cos(-angleHorizontal * RADIANS_PAR_DEGRES),
+		this->positionY + sin(-this->angleHorizontal * RADIANS_PAR_DEGRES),
+		HAUTEUR_OEIL_PERSONNAGE + tan(this->angleVertical * RADIANS_PAR_DEGRES),
+
+		// La verticale est en Z
+		0, 0, 1);
+}
+
 
 
 void Personnage::dessiner()
@@ -316,7 +347,7 @@ void Personnage::drawTextInFrontOfCharacter(const char *text, int length, int x,
 	double matrix[16]; // 16 doubles in stack memory
 	glGetDoublev(GL_PROJECTION_MATRIX, matrix); // get the values from PROJECTION matrix to local variable
 	glLoadIdentity(); // reset PROJECTION matrix to identity matrix
-	glOrtho(0, LARGEUR_FENETRE, 0, HAUTEUR_FENETRE, -5, 5); // orthographic perspective
+	glOrtho(0, Helper::largeur_fenetre, 0, Helper::hauteur_fenetre, -5, 5); // orthographic perspective
 	glMatrixMode(GL_MODELVIEW); // change current matrix to MODELVIEW matrix again
 	glLoadIdentity(); // reset it to identity matrix
 	glPushMatrix(); // push current state of MODELVIEW matrix to stack

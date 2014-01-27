@@ -1,9 +1,10 @@
 #include "scene.h"
 
 
-Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteOpenGL, bool playWithCamera)
+Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteOpenGL, bool playWithCamera, bool playIn3D)
 {
 	this->playWithCamera = playWithCamera;
+	this->playIn3D = playIn3D;
 	this->screen = screen;
 	this->renderer = renderer;
 	this->contexteOpenGL = contexteOpenGL;
@@ -39,8 +40,8 @@ Scene::Scene(SDL_Window *screen, SDL_Renderer *renderer, SDL_GLContext contexteO
 	if (this->playWithCamera){
 		this->fireElementInside = false;
 		this->capture = cvCaptureFromCAM(0);
-		this->lastRedBallX = HAUTEUR_FENETRE / 2;
-		this->lastRedBallY = HAUTEUR_FENETRE / 2;
+		this->lastRedBallX = Helper::hauteur_fenetre / 2;
+		this->lastRedBallY = Helper::hauteur_fenetre / 2;
 	}
 
 }
@@ -53,7 +54,9 @@ Scene::~Scene()
 	delete this->eventHandler;
 	delete this->animationHandler;
 	delete this->physicHandler;
-	cvReleaseCapture(&capture);
+	if (this->playWithCamera){
+		cvReleaseCapture(&capture);
+	}
 }
 
 void Scene::executer()
@@ -97,8 +100,8 @@ void Scene::executer()
 			cvCvtColor(frame, imgHSV2, CV_BGR2HSV); //Change the color format from BGR to HSV
 
 			// Image pour la forme rouge
-			IplImage* imgThreshRedForm = GetThresholdedImage(imgHSV1, cvScalar(152, 120, 46), cvScalar(180, 168, 256));
-			IplImage* imgThreshGreenForm = GetThresholdedImage(imgHSV2, cvScalar(80, 105, 92), cvScalar(100, 209, 200));
+			IplImage* imgThreshRedForm = GetThresholdedImage(imgHSV1, cvScalar(129, 155, 129), cvScalar(180, 251, 221));
+			IplImage* imgThreshGreenForm = GetThresholdedImage(imgHSV2, cvScalar(72, 33, 61), cvScalar(98, 207, 169));
 
 			cvSmooth(imgThreshRedForm, imgThreshRedForm, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
 			cvSmooth(imgThreshGreenForm, imgThreshGreenForm, CV_GAUSSIAN, 3, 3); //smooth the binary image using Gaussian kernel
@@ -133,6 +136,11 @@ void Scene::executer()
 		}
 
 		dessiner();
+		// On doit redessiner les objets de la scene une deuxième fois pour le mode 3D (on ne redescine pqs le gun)
+		if (this->playIn3D){
+			dessiner(false);
+		}
+
 		afficher();
 
     }
@@ -306,16 +314,30 @@ void Scene::animer(void)
 	this->animationHandler->animer();
 }
 
-void Scene::dessiner(void)
+void Scene::dessiner(bool dessinerGun)
 {
-    // Vidage de l'écran
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if (this->playIn3D){
+		/*
+		ne doit plus vider l'écran si nous voulons garder l'image du premier œil(œil droite) avant de dessiner 
+		l'image du deuxième œil (œil gauche). Par contre, on maintient le vidage du buffer de profondeur pour
+		redessiner tout les objets une seconde fois.*/
+		glClear(/*GL_COLOR_BUFFER_BIT |*/ GL_DEPTH_BUFFER_BIT);
+	}else{
+		// Vidage de l'écran
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+    
 
     // Place la camera
     glMatrixMode( GL_MODELVIEW );
 	
 	//gluLookAt(0, 0, -10, 0, 0, 3, 0, 1, 0);
-    this->personnage->regarder();
+	if (this->playIn3D){
+		this->personnage->regarder3D();
+	}
+	else{
+		this->personnage->regarder();
+	}
 
     // Dessin de la skybox
     this->skybox->dessiner();
@@ -325,10 +347,12 @@ void Scene::dessiner(void)
 
 	this->controleur->drawTargets();
 
-	this->physicHandler->getWorld()->debugDrawWorld();
+	//this->physicHandler->getWorld()->debugDrawWorld();
 
 	//Dessin du personnage
-	this->personnage->dessiner();
+	if (dessinerGun){
+		this->personnage->dessiner();
+	}
 
 	this->drawFPS();
 
@@ -365,14 +389,14 @@ void Scene::gererEvenements(void)
 
             case SDL_MOUSEMOTION:
                 // Si le mouvement de la souris est physique (pas par SDL_WarpMouse)
-                if ((LARGEUR_FENETRE/2) != evenement.motion.x || (HAUTEUR_FENETRE/2) != evenement.motion.y)
+				if ((Helper::largeur_fenetre / 2) != evenement.motion.x || (Helper::hauteur_fenetre / 2) != evenement.motion.y)
                 {
                     // Fait tourner le personnage
                     this->personnage->tournerHorizontalement(-evenement.motion.xrel * 0.06);
                     this->personnage->tournerVerticalement(-evenement.motion.yrel * 0.06);
 
                     // Replace la souris au milieu de l'ecran
-                    SDL_WarpMouseInWindow(this->screen, (LARGEUR_FENETRE/2), (HAUTEUR_FENETRE/2) );
+					SDL_WarpMouseInWindow(this->screen, (Helper::largeur_fenetre / 2), (Helper::hauteur_fenetre / 2));
                 }
                 break;
 
@@ -415,12 +439,12 @@ void Scene::initOpenGL(void)
     glClearColor(0, 0, 0, 0);
 
     // Définition de la fenetre
-    glViewport(0, 0, LARGEUR_FENETRE, HAUTEUR_FENETRE);
+	glViewport(0, 0, Helper::largeur_fenetre, Helper::hauteur_fenetre);
 
     // Définition de la zone visible
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(ANGLE_VISION, (GLdouble) LARGEUR_FENETRE / (GLdouble)HAUTEUR_FENETRE, PRET, LOIN);
+	gluPerspective(ANGLE_VISION, (GLdouble)Helper::largeur_fenetre / (GLdouble)Helper::hauteur_fenetre, PRET, LOIN);
 
     // Activation du tampon de profondeur
     glEnable(GL_DEPTH_TEST);
@@ -437,7 +461,7 @@ void Scene::drawFPS(){
 	std::string nbrFPS = oss.str();
 	text = "FPS: " + nbrFPS;
 	glColor3f(0, 0, 255);
-	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), 0, HAUTEUR_FENETRE - 10);
+	this->personnage->drawTextInFrontOfCharacter(text.data(), text.size(), 0, Helper::hauteur_fenetre - 10);
 }
 
 
@@ -447,7 +471,7 @@ void Scene::verrouillerSouris(void)
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 
 	// La souris est au centre de l'ecran
-	SDL_WarpMouseInWindow(this->screen, (LARGEUR_FENETRE / 2), (HAUTEUR_FENETRE / 2));
+	SDL_WarpMouseInWindow(this->screen, (Helper::largeur_fenetre / 2), (Helper::hauteur_fenetre / 2));
 
 	// La souris est invisible
 	SDL_ShowCursor(FALSE);

@@ -193,13 +193,13 @@ void Bouton::dessinerFond(std::string image)
 
 	//Attention : L'origine du repère d'OpenGL est en bas à gauche. On doit donc soustraire la position verticale du bouton à la hauteur de la fenêtre.
 	glTexCoord2i(0, 0); glVertex2i(this->positionX - (largeurBouton / 2),
-		HAUTEUR_FENETRE - this->positionY + (hauteurBouton / 2));
+		Helper::hauteur_fenetre - this->positionY + (hauteurBouton / 2));
 	glTexCoord2i(0, 1); glVertex2i(this->positionX - (largeurBouton / 2),
-		HAUTEUR_FENETRE - this->positionY - (hauteurBouton / 2));
+		Helper::hauteur_fenetre - this->positionY - (hauteurBouton / 2));
 	glTexCoord2i(1, 1); glVertex2i(this->positionX + (largeurBouton / 2),
-		HAUTEUR_FENETRE - this->positionY - (hauteurBouton / 2));
+		Helper::hauteur_fenetre - this->positionY - (hauteurBouton / 2));
 	glTexCoord2i(1, 0); glVertex2i(this->positionX + (largeurBouton / 2),
-		HAUTEUR_FENETRE - this->positionY + (hauteurBouton / 2));
+		Helper::hauteur_fenetre - this->positionY + (hauteurBouton / 2));
 	glEnd();
 }
 
@@ -211,12 +211,12 @@ void Bouton::dessinerTexte(void)
 	// Application du texte
 	glBegin(GL_QUADS);
 	glTexCoord2i(0, 0); glVertex2i(this->positionX - (this->largeurTexte / 2),
-		HAUTEUR_FENETRE - this->positionY + (this->hauteurTexte / 2));
+		Helper::hauteur_fenetre - this->positionY + (this->hauteurTexte / 2));
 	glTexCoord2i(0, 1); glVertex2i(this->positionX - (this->largeurTexte / 2),
-		HAUTEUR_FENETRE - this->positionY - (this->hauteurTexte / 2));
+		Helper::hauteur_fenetre - this->positionY - (this->hauteurTexte / 2));
 	glTexCoord2i(1, 1); glVertex2i(this->positionX + (this->largeurTexte / 2),
-		HAUTEUR_FENETRE - this->positionY - (this->hauteurTexte / 2));
+		Helper::hauteur_fenetre - this->positionY - (this->hauteurTexte / 2));
 	glTexCoord2i(1, 0); glVertex2i(this->positionX + (this->largeurTexte / 2),
-		HAUTEUR_FENETRE - this->positionY + (this->hauteurTexte / 2));
+		Helper::hauteur_fenetre - this->positionY + (this->hauteurTexte / 2));
 	glEnd();
 }

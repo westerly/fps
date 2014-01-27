@@ -4,6 +4,7 @@
 #include "Objet3DDeformable.h"
 #include "arme.h"
 #include "configuration.h"
+#include "Helper.h"
 
 
 [event_source(native)]
@@ -31,6 +32,7 @@ class Personnage : public Objet3DDeformable
 
         void positionSurLaCarte(sint32* x, sint32* y);
         void regarder(void);
+		void regarder3D(void);
 
 		void dessiner();
 		void drawTextInFrontOfCharacter(const char *text, int length, int x, int y);

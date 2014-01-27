@@ -50,6 +50,7 @@ class Scene
 		PhysicEngine * physicHandler;
 		int currentFPS;
 		bool playWithCamera;
+		bool playIn3D;
 		CvCapture* capture;
 
 		// Les dernières positions connues de la balle rouge trakée par la camera
@@ -60,7 +61,8 @@ class Scene
 
         void gererEvenements(void);
         void animer(void);
-        void dessiner(void);
+		// Le paramètre permet de ne dessiner qu'une fois le gun en mode 3D reel (le gun n'est donc pas dessiné en 3D)
+        void dessiner(bool drawGun = true);
 		void afficher(void);
 		void initOpenGL(void);
 		void drawFPS(void);
@@ -72,7 +74,7 @@ class Scene
 
     public:
 
-		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL, bool playWithCamera = false);
+		Scene(SDL_Window *screen, SDL_Renderer * renderer, SDL_GLContext contexteOpenGL, bool playWithCamera = false, bool playIn3D = false);
         ~Scene();
         void executer();
 		inline int getScore(){ return this->controleur->getNbrPoints(); }

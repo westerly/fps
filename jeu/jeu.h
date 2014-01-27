@@ -22,6 +22,7 @@ class Jeu
         void executer(void);
 
 		bool playWithCamera;
+		bool playIn3D;
 
 
 	private:

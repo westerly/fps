@@ -34,7 +34,7 @@ void Menu::dessiner(int score)
     glMatrixMode(GL_PROJECTION);
  
     // Definition de la fenetre
-    gluOrtho2D(0.0, (GLdouble)LARGEUR_FENETRE, 0.0, (GLdouble)HAUTEUR_FENETRE);
+	gluOrtho2D(0.0, (GLdouble)Helper::largeur_fenetre, 0.0, (GLdouble)Helper::hauteur_fenetre);
  
     // Desactivation du test de prophondeur
     glDisable(GL_DEPTH_TEST);
@@ -70,19 +70,19 @@ void Menu::dessiner(int score)
 		// Selection de la texture du texte
 		glBindTexture(GL_TEXTURE_2D, this->textureTextScore.texture);
 
-		sint32 pX = LARGEUR_FENETRE / 2;
-		sint32 pY = HAUTEUR_FENETRE / 4;
+		sint32 pX = Helper::largeur_fenetre / 2;
+		sint32 pY = Helper::hauteur_fenetre / 4;
 
 		// Application du texte
 		glBegin(GL_QUADS);
 		glTexCoord2i(0, 0); glVertex2i(pX - (this->textureTextScore.largeur / 2),
-			HAUTEUR_FENETRE - pY + (this->textureTextScore.hauteur / 2));
+			Helper::hauteur_fenetre - pY + (this->textureTextScore.hauteur / 2));
 		glTexCoord2i(0, 1); glVertex2i(pX - (this->textureTextScore.largeur / 2),
-			HAUTEUR_FENETRE - pY - (this->textureTextScore.hauteur / 2));
+			Helper::hauteur_fenetre - pY - (this->textureTextScore.hauteur / 2));
 		glTexCoord2i(1, 1); glVertex2i(pX + (this->textureTextScore.largeur / 2),
-			HAUTEUR_FENETRE - pY - (this->textureTextScore.hauteur / 2));
+			Helper::hauteur_fenetre - pY - (this->textureTextScore.hauteur / 2));
 		glTexCoord2i(1, 0); glVertex2i(pX + (this->textureTextScore.largeur / 2),
-			HAUTEUR_FENETRE - pY + (this->textureTextScore.hauteur / 2));
+			Helper::hauteur_fenetre - pY + (this->textureTextScore.hauteur / 2));
 		glEnd();
 	}
  
@@ -103,10 +103,10 @@ void Menu::dessinerFond(void)
  
     // Application de l'image de fond
     glBegin(GL_QUADS);
-        glTexCoord2d(0, 0); glVertex2f(0, HAUTEUR_FENETRE);
+		glTexCoord2d(0, 0); glVertex2f(0, Helper::hauteur_fenetre);
 		glTexCoord2d(0, 1); glVertex2f(0, 0);
-		glTexCoord2d(1, 1); glVertex2f(LARGEUR_FENETRE, 0);
-		glTexCoord2d(1, 0); glVertex2f(LARGEUR_FENETRE, HAUTEUR_FENETRE);
+		glTexCoord2d(1, 1); glVertex2f(Helper::largeur_fenetre, 0);
+		glTexCoord2d(1, 0); glVertex2f(Helper::largeur_fenetre, Helper::hauteur_fenetre);
     glEnd();
 }
  

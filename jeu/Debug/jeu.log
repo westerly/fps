@@ -1,11 +1,42 @@
-﻿La génération a démarré 22/01/2014 21:09:36.
+﻿La génération a démarré 27/01/2014 14:32:27.
      1>Projet "C:\Projet\fps\jeu\jeu.vcxproj" sur le nœud 2 (Build cible(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt scene.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Bouton.cpp Helper.cpp animator.cpp bullet.cpp carte.cpp controleur.cpp gameEventHandler.cpp jeu.cpp main.cpp menu.cpp personnage.cpp physicEngine.cpp scene.cpp target.cpp
+         Bouton.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         Génération de code en cours...
+         Compilation en cours...
+         target.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+     1>c:\projet\fps\jeu\target.cpp(43): warning C4316: 'cylinder' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+     1>c:\projet\fps\jeu\target.cpp(47): warning C4316: 'cylinder' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+     1>c:\projet\fps\jeu\target.cpp(67): warning C4316: 'box' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+     1>c:\projet\fps\jeu\target.cpp(72): warning C4316: 'box' : l'objet alloué sur le tas n'est peut-être pas aligné 16
          scene.cpp
-     1>c:\projet\fps\jeu\helper.h(34): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
-     1>c:\projet\fps\jeu\scene.cpp(13): warning C4316: 'Carte' : l'objet alloué sur le tas n'est peut-être pas aligné 16
-     1>c:\projet\fps\jeu\scene.cpp(14): warning C4316: 'Personnage' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+     1>c:\projet\fps\jeu\scene.cpp(14): warning C4316: 'Carte' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+     1>c:\projet\fps\jeu\scene.cpp(15): warning C4316: 'Personnage' : l'objet alloué sur le tas n'est peut-être pas aligné 16
+         physicEngine.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         personnage.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         menu.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         main.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         jeu.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         gameEventHandler.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         controleur.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         carte.cpp
+     1>c:\projet\fps\jeu\carte.cpp(399): warning C4018: '<' : incompatibilité signed/unsigned
+         bullet.cpp
+         animator.cpp
+         Helper.cpp
+     1>c:\projet\fps\jeu\helper.h(41): warning C4091: 'static ' : ignoré à gauche de 'Helper' quand aucune variable n'est déclarée
+         Génération de code en cours...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Projet\fps\Debug\jeu.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib glu32.lib glut32.lib opengl32.lib SDL2_image.lib BulletDynamics_vs2010_debug.lib BulletCollision_vs2010_debug.lib LinearMath_vs2010_debug.lib SDL2_ttf.lib opencv_calib3d248.lib opencv_contrib248.lib opencv_core248.lib opencv_features2d248.lib opencv_flann248.lib opencv_gpu248.lib opencv_highgui248.lib opencv_imgproc248.lib opencv_legacy248.lib opencv_ml248.lib opencv_nonfree248.lib opencv_objdetect248.lib opencv_photo248.lib opencv_stitching248.lib opencv_ts248.lib opencv_video248.lib opencv_videostab248.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Projet\fps\Debug\jeu.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Projet\fps\Debug\jeu.lib" /MACHINE:X86 Debug\jeu.res
          Debug\animator.obj
@@ -31,9 +62,10 @@
          Debug\physicEngine.obj
          Debug\scene.obj
          Debug\target.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: conflit entre la bibliothÞque par dÚfaut 'msvcrt.lib' et les autres bibliothÞquesá; utilisez /NODEFAULTLIB:library
          jeu.vcxproj -> C:\Projet\fps\Debug\jeu.exe
      1>Génération du projet "C:\Projet\fps\jeu\jeu.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:02.08
+Temps écoulé 00:00:18.10

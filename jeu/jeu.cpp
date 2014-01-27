@@ -25,8 +25,8 @@ void Jeu::executer(void)
 	// Generation des codes de bouton
 	enum { BOUTON_JOUER, BOUTON_QUITTER };
 
-	menu.ajouterBouton("Jouer", LARGEUR_FENETRE / 2, 2.5 * HAUTEUR_FENETRE / 6, BOUTON_JOUER);
-	menu.ajouterBouton("Quitter", LARGEUR_FENETRE / 2, 3.5 * HAUTEUR_FENETRE / 6, BOUTON_QUITTER);
+	menu.ajouterBouton("Jouer", Helper::largeur_fenetre / 2, 2.5 * Helper::hauteur_fenetre / 6, BOUTON_JOUER);
+	menu.ajouterBouton("Quitter", Helper::largeur_fenetre / 2, 3.5 * Helper::hauteur_fenetre / 6, BOUTON_QUITTER);
 
 	int score = NULL;
 	
@@ -55,7 +55,7 @@ void Jeu::executer(void)
 					case BOUTON_JOUER:
 					{
 						// Execution de la scene
-						Scene * scene = new Scene(this->screen, this->renderer, this->contexteOpenGL,this->playWithCamera);
+						Scene * scene = new Scene(this->screen, this->renderer, this->contexteOpenGL,this->playWithCamera, this->playIn3D);
 						scene->executer();
 						// On récupère le dernier score
 						score = scene->getScore();
@@ -102,8 +102,43 @@ void Jeu::initSDL(void)
 	// Initialisation de SDL TTF
 	TTF_Init();
 
-	this->screen = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		LARGEUR_FENETRE, HAUTEUR_FENETRE, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	int result = MessageBox(NULL, "Do you to run the application with camera detection?", "Camera detection", MB_YESNO);
+	if (result == IDYES)
+	{
+		this->playWithCamera = true;
+	}
+	else if (result == IDNO)
+	{
+		this->playWithCamera = false;
+	}
+
+	result = MessageBox(NULL, "Do you to run the application in real 3D mode?", "3D mode", MB_YESNO);
+	if (result == IDYES)
+	{
+		this->playIn3D = true;
+	}
+	else if (result == IDNO)
+	{
+		this->playIn3D = false;
+	}
+
+	result = MessageBox(NULL, "Do you to run the application in full screen mode?", "Full screen mode", MB_YESNO);
+	if (result == IDYES)
+	{
+
+		Helper::GetDesktopResolution(Helper::largeur_fenetre, Helper::hauteur_fenetre);
+		this->screen = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			Helper::largeur_fenetre, Helper::hauteur_fenetre, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
+		
+	}
+	else if (result == IDNO)
+	{
+		Helper::largeur_fenetre = LARGEUR_FENETRE;
+		Helper::hauteur_fenetre = HAUTEUR_FENETRE;
+		this->screen = SDL_CreateWindow("My Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			Helper::largeur_fenetre, Helper::hauteur_fenetre, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	}
+
 
 	if (this->screen == 0)
 	{
@@ -124,9 +159,6 @@ void Jeu::initSDL(void)
 		SDL_Quit();
 		exit(EXIT_FAILURE);
 	}
-
-	//Sow windows YES NO
-	this->playWithCamera = true;
 
 	this->renderer = SDL_CreateRenderer(this->screen, -1, 0);
  

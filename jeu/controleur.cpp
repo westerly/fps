@@ -288,7 +288,7 @@ void Controleur::dessinerTextePoints(){
 		this->creerTextureTextPoints();
 	}
 
-	Helper::dessinerTexte(this->textureTextePoints, LARGEUR_FENETRE - 80, 40);
+	Helper::dessinerTexte(this->textureTextePoints, Helper::largeur_fenetre - 80, 40);
 }
 
 
@@ -304,7 +304,7 @@ void Controleur::dessinerVie(){
 	glLoadIdentity(); // reset PROJECTION matrix to identity matrix
 
 	// Definition de la fenetre
-	gluOrtho2D(0.0, (GLdouble)LARGEUR_FENETRE, 0.0, (GLdouble)HAUTEUR_FENETRE);
+	gluOrtho2D(0.0, (GLdouble)Helper::largeur_fenetre, 0.0, (GLdouble)Helper::hauteur_fenetre);
 
 	glMatrixMode(GL_MODELVIEW); // change current matrix to MODELVIEW matrix again
 	glLoadIdentity(); // reset it to identity matrix
@@ -336,13 +336,13 @@ void Controleur::dessinerVie(){
 		// Application du texte
 		glBegin(GL_QUADS);
 		glTexCoord2i(0, 0); glVertex2i(pX - (largeurTexture / 2),
-			HAUTEUR_FENETRE - pY + (hauteurTexture / 2));
+			Helper::hauteur_fenetre - pY + (hauteurTexture / 2));
 		glTexCoord2i(0, 1); glVertex2i(pX - (largeurTexture / 2),
-			HAUTEUR_FENETRE - pY - (hauteurTexture / 2));
+			Helper::hauteur_fenetre - pY - (hauteurTexture / 2));
 		glTexCoord2i(1, 1); glVertex2i(pX + (largeurTexture / 2),
-			HAUTEUR_FENETRE - pY - (hauteurTexture / 2));
+			Helper::hauteur_fenetre - pY - (hauteurTexture / 2));
 		glTexCoord2i(1, 0); glVertex2i(pX + (largeurTexture / 2),
-			HAUTEUR_FENETRE - pY + (hauteurTexture / 2));
+			Helper::hauteur_fenetre - pY + (hauteurTexture / 2));
 		glEnd();
 	}
 

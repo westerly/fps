@@ -1,5 +1,7 @@
 #include "Helper.h"
 
+int Helper::hauteur_fenetre;
+int Helper::largeur_fenetre;
 
 void Helper::creerTextureText(std::string texte, int size, SDL_Color couleur, Texture &texture){
 
@@ -74,7 +76,7 @@ void  Helper::dessinerTexte(Texture &texture, sint32 pX, sint32 pY)
 	glLoadIdentity(); // reset PROJECTION matrix to identity matrix
 
 	// Definition de la fenetre
-	gluOrtho2D(0.0, (GLdouble)LARGEUR_FENETRE, 0.0, (GLdouble)HAUTEUR_FENETRE);
+	gluOrtho2D(0.0, (GLdouble)Helper::largeur_fenetre, 0.0, (GLdouble)Helper::hauteur_fenetre);
 
 	glMatrixMode(GL_MODELVIEW); // change current matrix to MODELVIEW matrix again
 	glLoadIdentity(); // reset it to identity matrix
@@ -94,13 +96,13 @@ void  Helper::dessinerTexte(Texture &texture, sint32 pX, sint32 pY)
 	// Application du texte
 	glBegin(GL_QUADS);
 	glTexCoord2i(0, 0); glVertex2i(pX - (texture.largeur / 2),
-		HAUTEUR_FENETRE - pY + (texture.hauteur / 2));
+		Helper::hauteur_fenetre - pY + (texture.hauteur / 2));
 	glTexCoord2i(0, 1); glVertex2i(pX - (texture.largeur / 2),
-		HAUTEUR_FENETRE - pY - (texture.hauteur / 2));
+		Helper::hauteur_fenetre - pY - (texture.hauteur / 2));
 	glTexCoord2i(1, 1); glVertex2i(pX + (texture.largeur / 2),
-		HAUTEUR_FENETRE - pY - (texture.hauteur / 2));
+		Helper::hauteur_fenetre - pY - (texture.hauteur / 2));
 	glTexCoord2i(1, 0); glVertex2i(pX + (texture.largeur / 2),
-		HAUTEUR_FENETRE - pY + (texture.hauteur / 2));
+		Helper::hauteur_fenetre - pY + (texture.hauteur / 2));
 	glEnd();
 
 	glPopMatrix(); // get MODELVIEW matrix value from stack
@@ -111,4 +113,19 @@ void  Helper::dessinerTexte(Texture &texture, sint32 pX, sint32 pY)
 	// Activation du tampon de profondeur
 	glEnable(GL_DEPTH_TEST);
 
+}
+
+// Get the horizontal and vertical screen sizes in pixel
+void Helper::GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+	// The top left corner will have coordinates (0,0)
+	// and the bottom right corner will have coordinates
+	// (horizontal, vertical)
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
 }

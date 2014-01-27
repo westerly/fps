@@ -45,5 +45,8 @@
 // Le temps en millisecondes au bout duquel la cible correctement shooté disparait
 #define TIMES_BEFORE_TARGET_RIGHT_SHOT_DISAPPEARS 5000
 
+// Variable static pour le relief en mode 3D
+#define VR 0.05
+
 #endif // CONFIGURATION_H_INCLUDED
 

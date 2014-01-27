@@ -8,6 +8,7 @@
 #include "SDL.h"
 #include <SDL_ttf.h>
 #include "configuration.h"
+#include "Helper.h"
 
 #define BOUTON_CLIQUE SDL_USEREVENT
 
